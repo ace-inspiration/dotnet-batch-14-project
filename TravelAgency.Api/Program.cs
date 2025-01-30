@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TravelAgency.Database.AppDbContextModels;
+using TravelAgency.Domain.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 }, 
 ServiceLifetime.Transient, 
 ServiceLifetime.Transient);
+
+builder.AddFeatureServices();
 
 var app = builder.Build();
 
