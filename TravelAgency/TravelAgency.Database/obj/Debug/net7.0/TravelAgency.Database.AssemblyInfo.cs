@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TravelAgency.Database")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0c76bd551e960a4e64ba4e84fa4fb95d4e03a553")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5a525c53e115f1af9dcb100a89715191e38dd4b9")]
 [assembly: System.Reflection.AssemblyProductAttribute("TravelAgency.Database")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TravelAgency.Database")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
