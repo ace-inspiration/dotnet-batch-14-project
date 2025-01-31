@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Domain.Features.AddTraveler;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.BookingListByUserId;
@@ -19,12 +14,10 @@ public static class FeatureServiceExtension
 	{
 		builder.Services.AddScoped<AddTravelerService>();
 		builder.Services.AddScoped<BookingListByUserIdService>();
-<<<<<<< HEAD
+
+		builder.Services.AddScoped<BookingService>();
+
 		builder.Services.AddScoped<UserRegisterService>();
 		builder.Services.AddScoped<PaymentService>();
 	}
-=======
-		builder.Services.AddScoped<BookingService>();
-    }
->>>>>>> 9a3ddb40011e0b7a7d0fbfcac86db15c56045f1b
 }
