@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 namespace TravelAgency.Database.AppDbContextModels;
 
-
 public partial class Payment
 {
     public string Id { get; set; } = null!;
+
+    public string UserId { get; set; } = null!;
 
     public string BookingId { get; set; } = null!;
 
@@ -14,5 +15,5 @@ public partial class Payment
 
     public DateTime PaymentDate { get; set; }
 
-    public string PaymentStatus {   get; set; } = null!;
+    public string PaymentStatus { get; set; } = null!;
 }

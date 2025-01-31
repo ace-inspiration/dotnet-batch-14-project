@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelAgency.Database.AppDbContextModels;
-
 
 public partial class User
 {

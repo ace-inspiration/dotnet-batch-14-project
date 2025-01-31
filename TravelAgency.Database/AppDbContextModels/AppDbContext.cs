@@ -82,6 +82,10 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasDefaultValueSql("('pending')")
                 .HasColumnName("payment_status");
+            entity.Property(e => e.UserId)
+                .HasMaxLength(36)
+                .IsUnicode(false)
+                .HasColumnName("user_id");
         });
 
         modelBuilder.Entity<TravelPackage>(entity =>
