@@ -29,7 +29,7 @@ namespace TravelAgency.Domain.Features.UserRegister
                 
             }
             var existingUser = await _db.Users
-        .Where(u => u.Email == requestModel.Email /*&& u.PasswordHash == requestModel.PasswordHash*/)
+        .Where(u => u.Email == requestModel.Email)
         .FirstOrDefaultAsync();
 
             if (existingUser != null)
@@ -40,9 +40,7 @@ namespace TravelAgency.Domain.Features.UserRegister
                 return model;
             }
 
-            
-
-            string hashPassword = HashPassword(requestModel.PasswordHash);
+            string hashPassword = HashPassword(requestModel.Password);
 
             var user = new User()
             {
@@ -65,17 +63,13 @@ namespace TravelAgency.Domain.Features.UserRegister
             return model;
         }
 
-
-
-        private string HashPassword(string password)
+        private static string HashPassword(string password)
         {
             using SHA256 sha256 = SHA256.Create();
             var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
             string hashedPassword = Convert.ToBase64String(hashedBytes);
             return hashedPassword;
-
         }
-
 
     }
 }
