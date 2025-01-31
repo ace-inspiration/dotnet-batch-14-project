@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace TravelAgency.Database.AppDbContextModels;
 
+
 public partial class Payment
 {
     public string Id { get; set; } = null!;

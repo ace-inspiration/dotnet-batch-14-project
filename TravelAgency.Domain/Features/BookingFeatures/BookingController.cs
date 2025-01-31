@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TravelAgency.Domain.Features.BookingFeatures;
-[Route("api/[controller]")]
+[Route("api/[controller]")] 
 [ApiController]
 public class BookingsController : ControllerBase
 {
