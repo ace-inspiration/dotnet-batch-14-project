@@ -12,6 +12,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\TravelAgency.Database\TravelAgency.Database.csproj" />
+	  <ProjectReference Include="..\TravelAgency.Shared\TravelAgency.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

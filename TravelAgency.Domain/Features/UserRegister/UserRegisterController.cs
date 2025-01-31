@@ -18,7 +18,7 @@ namespace TravelAgency.Domain.Features.UserRegister
             _userRegisterService = userRegisterService;
         }
 
-        [HttpPost("user-register")]
+        [HttpPost("register")]
         public async Task<IActionResult> UserRegister([FromBody] UserRegisterRequestModel requestModel)
         {
            

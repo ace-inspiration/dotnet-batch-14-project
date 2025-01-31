@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Domain.Features.AddTraveler;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.BookingListByUserId;
+using TravelAgency.Domain.Features.Login;
 using TravelAgency.Domain.Features.PaymentFeature;
+using TravelAgency.Domain.Features.PaymentListByUserId;
+using TravelAgency.Domain.Features.TravelersListByBookingId;
+using TravelAgency.Domain.Features.TravelPackage;
+using TravelAgency.Domain.Features.UserLists;
 using TravelAgency.Domain.Features.UserRegister;
 
 namespace TravelAgency.Domain.Features;
@@ -19,15 +19,19 @@ public static class FeatureServiceExtension
 	{
 		builder.Services.AddScoped<AddTravelerService>();
 		builder.Services.AddScoped<BookingListByUserIdService>();
-<<<<<<< HEAD
+
+		builder.Services.AddScoped<BookingService>();
+
 		builder.Services.AddScoped<UserRegisterService>();
 		builder.Services.AddScoped<PaymentService>();
 
-		builder.Services.AddScoped<BookingService>();
-		
+		builder.Services.AddScoped<LoginService>();
+
+		builder.Services.AddScoped<TravelPackageService>();
+
+		builder.Services.AddScoped<TravelersListService>();
+
+        builder.Services.AddScoped<UserListService>();
+        builder.Services.AddScoped<PaymentListByUserIdService>();
     }
-=======
-		//builder.Services.AddScoped<BookingService>();
-    }
->>>>>>> 9a3ddb40011e0b7a7d0fbfcac86db15c56045f1b
 }
