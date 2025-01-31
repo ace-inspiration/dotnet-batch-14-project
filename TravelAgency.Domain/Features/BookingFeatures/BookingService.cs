@@ -48,7 +48,6 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                     NumberOfTravelers = requestModel.NumberOfTravelers,
                     TotalPrice = travelPackage.Price * requestModel.NumberOfTravelers,
                     BookingDate = DateTime.Now,
-                    Status = "Comfirmed"
                 };
 
                 // Save booking
