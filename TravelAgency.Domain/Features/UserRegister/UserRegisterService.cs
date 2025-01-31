@@ -42,7 +42,7 @@ namespace TravelAgency.Domain.Features.UserRegister
 
             
 
-            string hashPassword = HashPassword(requestModel.Email);
+            string hashPassword = HashPassword(requestModel.PasswordHash);
 
             var user = new User()
             {
