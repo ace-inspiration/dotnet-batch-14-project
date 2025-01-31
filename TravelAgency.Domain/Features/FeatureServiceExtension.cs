@@ -22,9 +22,12 @@ public static class FeatureServiceExtension
 <<<<<<< HEAD
 		builder.Services.AddScoped<UserRegisterService>();
 		builder.Services.AddScoped<PaymentService>();
-	}
-=======
+
 		builder.Services.AddScoped<BookingService>();
+		
+    }
+=======
+		//builder.Services.AddScoped<BookingService>();
     }
 >>>>>>> 9a3ddb40011e0b7a7d0fbfcac86db15c56045f1b
 }
