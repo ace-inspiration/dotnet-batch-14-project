@@ -69,20 +69,4 @@ public class BookingsController : ControllerBase
             });
         }
     }
-    [HttpGet("{id}/travelers")]
-    public async Task<IActionResult> GetTravelersByBookingId(string id)
-    {
-        try
-        {
-            var response = await _booking.GetTravelersByBookingIdAsync(id);
-            return Ok(response);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new BookingResponseModel
-            {
-                Message = ex.Message,
-            });
-        }
-    }
 }

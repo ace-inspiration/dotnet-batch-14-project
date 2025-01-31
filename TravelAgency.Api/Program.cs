@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     //options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
 	//options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionpkk"));
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionKZT"));
+	options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionPPS"));
 }, 
 ServiceLifetime.Transient, 
 ServiceLifetime.Transient);

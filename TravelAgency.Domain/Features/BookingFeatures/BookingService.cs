@@ -128,28 +128,5 @@ namespace TravelAgency.Domain.Features.BookingFeatures
 
             return model;
         }
-        public async Task<BookingResponseModel> GetTravelersByBookingIdAsync(string bookingId)
-        {
-            var travelers = await _db.Travelers
-                .Where(t => t.BookingId == bookingId)
-                .ToListAsync();
-
-            if (!travelers.Any())
-            {
-                return new BookingResponseModel
-                {
-                    Success = false,
-                    Message = "No travelers found for this booking.",
-                    Data = null!
-                };
-            }
-
-            return new BookingResponseModel
-            {
-                Success = true,
-                Message = "Travelers retrieved successfully.",
-                Data = travelers
-            };
-        }
     }
 }
