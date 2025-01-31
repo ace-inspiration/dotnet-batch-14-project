@@ -16,11 +16,18 @@ public class AddTravelerService
 		AddTravelerResponseModel response = new();
 		try
 		{
-			var booking = await _db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
+			var booking = await this._db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
 			if(booking is null)
 			{
 				response.Success = false;
 				response.Message = "Booking not found.";
+				return response;
+			}
+
+			if (booking.Status == "completed")
+			{
+				response.Success = false;
+				response.Message = "Booking already completed.";
 				return response;
 			}
 
@@ -37,6 +44,10 @@ public class AddTravelerService
 			}).ToList();
 
 			await _db.Travelers.AddRangeAsync(travelers);
+
+			booking.NumberOfTravelers += travelers.Count;
+			_db.Entry(booking).State = EntityState.Modified;
+
 			await _db.SaveChangesAsync();
 
 			response.Success = true;

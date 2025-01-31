@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Domain", "Trav
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Api", "TravelAgency.Api\TravelAgency.Api.csproj", "{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Shared", "TravelAgency.Shared\TravelAgency.Shared.csproj", "{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
