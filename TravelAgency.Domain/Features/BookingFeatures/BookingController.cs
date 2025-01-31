@@ -6,23 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace TravelAgency.Domain.Features.BookingFeatures;
-
-public class BookingController : ControllerBase
+[Route("api/[controller]")] 
+[ApiController]
+public class BookingsController : ControllerBase
 {
     private BookingService _booking;
-    public BookingController(BookingService bookingService)
+    public BookingsController(BookingService bookingService)
     {
         _booking = bookingService;
     }
-    [HttpPost("create-booking")]
+    [HttpPost]
     public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel requestModel        )
     {
         var response = await _booking.CreateBooking(requestModel);
-        return response.Success ? StatusCode(201, response) : StatusCode(500, response);
+        BookingResponseModel responseModel = new BookingResponseModel 
+        {
+            Success = response.Success,
+            Message = response.Message,
+            Data = response.Data
+        };
+        return response.Success ? StatusCode(201, responseModel) : StatusCode(500, responseModel);
     }
 
-    [HttpGet("get-booking")]
-    public async Task<IActionResult> GetBooking()
+    [HttpGet]
+    public async Task<IActionResult> GetBookings()
     {
         var response = await _booking.GetBookings();
         return response.Count > 0 ? StatusCode(200, response) : StatusCode(404, response);

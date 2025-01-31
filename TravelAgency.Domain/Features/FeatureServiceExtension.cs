@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelAgency.Domain.Features.AddTraveler;
+using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.BookingListByUserId;
 using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.UserRegister;
@@ -18,7 +19,12 @@ public static class FeatureServiceExtension
 	{
 		builder.Services.AddScoped<AddTravelerService>();
 		builder.Services.AddScoped<BookingListByUserIdService>();
+<<<<<<< HEAD
 		builder.Services.AddScoped<UserRegisterService>();
 		builder.Services.AddScoped<PaymentService>();
 	}
+=======
+		builder.Services.AddScoped<BookingService>();
+    }
+>>>>>>> 9a3ddb40011e0b7a7d0fbfcac86db15c56045f1b
 }
