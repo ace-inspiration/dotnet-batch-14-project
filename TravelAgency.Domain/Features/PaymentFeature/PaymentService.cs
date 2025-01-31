@@ -34,6 +34,7 @@ namespace TravelAgency.Domain.Features.PaymentFeature
 
             if (booking.Status != "Confirmed")
             {
+                
                 model.Message = "Payment can only be made for Confirmed bookings.";
 
                 return model;
@@ -63,7 +64,8 @@ namespace TravelAgency.Domain.Features.PaymentFeature
             {
                 payment.PaymentStatus = "Completed";
                 booking.Status = "Completed";
-
+                _db.Bookings.Update(booking);
+                
                 await _db.SaveChangesAsync();
                 //string message = result > 0 ? "Payment successful, booking completed." : "Payment Failed";
                 model.IsSuccess = true;

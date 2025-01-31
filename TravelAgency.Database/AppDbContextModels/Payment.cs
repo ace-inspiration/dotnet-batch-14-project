@@ -14,5 +14,5 @@ public partial class Payment
 
     public DateTime PaymentDate { get; set; }
 
-    public string PaymentStatus { get; set; } = null!;
+    public string PaymentStatus {   get; set; } = null!;
 }

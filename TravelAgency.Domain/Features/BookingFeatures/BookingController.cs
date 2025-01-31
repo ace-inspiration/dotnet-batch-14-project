@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,4 +36,37 @@ public class BookingsController : ControllerBase
         return response.Count > 0 ? StatusCode(200, response) : StatusCode(404, response);
     }
 
+    [HttpPost("{id}/remove-traveler/{traveler_id}")]
+    public async Task<IActionResult> RemoveTraveler(string id, string traveler_id)
+    {
+        try
+        {
+            var response = await _booking.RemoveTraveler(id, traveler_id);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new BookingResponseModel
+            {
+                Message = ex.Message,
+            });
+        }
+    }
+
+    [HttpGet("{id}/invoice")]
+    public async Task<IActionResult> GetInvoice(string id)
+    {
+        try
+        {
+            var response = await _booking.GetInvoice(id);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new BookingResponseModel
+            {
+                Message = ex.Message,
+            });
+        }
+    }
 }

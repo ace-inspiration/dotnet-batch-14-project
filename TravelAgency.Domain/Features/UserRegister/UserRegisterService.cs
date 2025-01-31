@@ -40,7 +40,7 @@ namespace TravelAgency.Domain.Features.UserRegister
                 return model;
             }
 
-            string hashPassword = HashPassword(requestModel.PasswordHash);
+            string hashPassword = HashPassword(requestModel.Password);
 
             var user = new User()
             {
