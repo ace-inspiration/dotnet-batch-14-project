@@ -5,8 +5,10 @@ using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.BookingListByUserId;
 using TravelAgency.Domain.Features.Login;
 using TravelAgency.Domain.Features.PaymentFeature;
+using TravelAgency.Domain.Features.PaymentListByUserId;
 using TravelAgency.Domain.Features.TravelersListByBookingId;
 using TravelAgency.Domain.Features.TravelPackage;
+using TravelAgency.Domain.Features.UserLists;
 using TravelAgency.Domain.Features.UserRegister;
 
 namespace TravelAgency.Domain.Features;
@@ -28,5 +30,8 @@ public static class FeatureServiceExtension
 		builder.Services.AddScoped<TravelPackageService>();
 
 		builder.Services.AddScoped<TravelersListService>();
-	}
+
+        builder.Services.AddScoped<UserListService>();
+        builder.Services.AddScoped<PaymentListByUserIdService>();
+    }
 }

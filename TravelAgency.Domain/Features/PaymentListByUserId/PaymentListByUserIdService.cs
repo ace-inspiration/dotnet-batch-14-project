@@ -22,7 +22,7 @@ namespace TravelAgency.Domain.Features.PaymentListByUserId
             PaymentListByUserIdResponseModel responseModel = new();
             try
             {
-                var payments = await _db.Payments.Where(x => x.userId == userId).ToListAsync();
+                var payments = await _db.Payments.Where(x => x.UserId == userId).ToListAsync();
                 responseModel.Success = true;
                 responseModel.Message = "Operation successful.";
                 responseModel.Data = payments;
