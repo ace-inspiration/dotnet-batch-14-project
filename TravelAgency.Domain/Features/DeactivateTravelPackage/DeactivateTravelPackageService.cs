@@ -1,33 +1,32 @@
 using Microsoft.EntityFrameworkCore;
 using TravelAgency.Database.AppDbContextModels;
+using TravelAgency.Domain.Features.ActivateTravelPackage;
 
 namespace TravelAgency.Domain.Features.DeactivateTravelPackage;
-public class DeactivateTravelPackageService : IDeactivateTravelPackageService
+public class DeactivateTravelPackageService 
 {
-    private readonly IAppDbContext _appDbContext;
+    private readonly AppDbContext _db;
 
-    public DeactivateTravelPackageService(IAppDbContext db)
+    public DeactivateTravelPackageService(AppDbContext db)
     {
-        //_appDbContext = db;
-        _appDbContext = db;
+        _db = db;
     }
-    public async Task<DeactivateTravelPackageResponseModel> DeactivateTravelPackage(DeactivateTravelPackageRequestModel request)
+
+    public async Task<DeactivateTravelPackageResponseModel> Execute(string id)
     {
-        var travelPackage = await _appDbContext.TravelPackages.FirstOrDefaultAsync(x => x.Id == request.TravelPackageId);
+        var travelPackage = await _db.TravelPackages.FirstOrDefaultAsync(x => x.Id == id);
 
         if (travelPackage == null)
         {
             return new DeactivateTravelPackageResponseModel { Success = false, Message = "Travel Package not found" };
         }
-        if (travelPackage.status == "Deactivate")
+        if (travelPackage.Status == "Deactivate")
         {
             return new DeactivateTravelPackageResponseModel { Success = false, Message = "Travel Package is already Deactivate" };
         }
-        travelPackage.status = "Deactivate";
+        travelPackage.Status = "Deactivate";
 
-        travelPackage.IsActive = false;
-
-        await _appDbContext.SaveChangesAsync();
+        await _db.SaveChangesAsync();
 
         return new DeactivateTravelPackageResponseModel { Success = true, Message = "Travel Package deactivated" };
     }

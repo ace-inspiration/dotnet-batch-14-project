@@ -17,8 +17,6 @@ public class DeactivateTravelPackageController : ControllerBase
     public async Task<IActionResult> Execute(
         string id
         )
-
-
     {
         var response = await _service.Execute(id);
 

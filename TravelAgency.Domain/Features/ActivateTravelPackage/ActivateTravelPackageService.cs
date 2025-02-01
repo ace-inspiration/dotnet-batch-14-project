@@ -3,34 +3,30 @@ using TravelAgency.Database.AppDbContextModels;
 
 namespace TravelAgency.Domain.Features.ActivateTravelPackage;
 
-public class ActivateTravelPackageService : IActivateTravelPackageService
+public class ActivateTravelPackageService
 {
-    private readonly IAppDbContext _appDbContext;
+    private readonly AppDbContext _db;
 
-    public ActivateTravelPackageService(IAppDbContext b)
+    public ActivateTravelPackageService(AppDbContext db)
     {
-        //_appDbContext = db;
-        _appDbContext = db;
+        _db = db;
     }
 
-
-    public async Task<ActivateTravelPackageResponseModel> ActivateTravelPackage(ActivateTravelPackageRequestModel request)
+    public async Task<ActivateTravelPackageResponseModel> Execute(string id)
     {
-        var travelPackage = await _appDbContext.TravelPackages.FirstOrDefaultAsync(x => x.Id == request.TravelPackageId);
+        var travelPackage = await _db.TravelPackages.FirstOrDefaultAsync(x => x.Id == id);
 
         if (travelPackage == null)
         {
             return new ActivateTravelPackageResponseModel { Success = false, Message = "Travel Package not found" };
         }
-        if(travelPackage.status == "Activate")
+        if (travelPackage.Status == "Activate")
         {
             return new ActivateTravelPackageResponseModel { Success = false, Message = "Travel Package is already activate" };
         }
-        travelPackage.status = "Activate";
+        travelPackage.Status = "Activate";
 
-        travelPackage.IsActive = true;
-
-        await _appDbContext.SaveChangesAsync();
+        await _db.SaveChangesAsync();
 
         return new ActivateTravelPackageResponseModel { Success = true, Message = "Travel Package activated" };
     }
