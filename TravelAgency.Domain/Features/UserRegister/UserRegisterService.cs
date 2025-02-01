@@ -17,7 +17,7 @@ namespace TravelAgency.Domain.Features.UserRegister
             _db = db;
         }
 
-        public async Task<UserRegisterResponseModel> UserRegister(UserRegisterRequestModel requestModel)
+        public async Task<UserRegisterResponseModel> Execute(UserRegisterRequestModel requestModel)
         {
             UserRegisterResponseModel model = new UserRegisterResponseModel();
 

@@ -20,11 +20,11 @@ namespace TravelAgency.Domain.Features.PaymentFeature
 
 
         [HttpPost("create-payment")]
-        public async Task<IActionResult> CreatePayment([FromBody] PaymentRequestModel requestModel)
+        public async Task<IActionResult> Execute([FromBody] PaymentRequestModel requestModel)
         {
             try
             {
-                var payment = await _paymentService.CreatePayment(requestModel);
+                var payment = await _paymentService.Execute(requestModel);
                 if (!payment.IsSuccess)
                 {
                     return BadRequest(payment);

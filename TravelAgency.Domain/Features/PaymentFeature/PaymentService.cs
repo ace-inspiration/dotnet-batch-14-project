@@ -155,7 +155,7 @@ namespace TravelAgency.Domain.Features.PaymentFeature
         //}
 
 
-        public async Task<PaymentResponseModel> CreatePayment(PaymentRequestModel requestModel)
+        public async Task<PaymentResponseModel> Execute(PaymentRequestModel requestModel)
         {
             PaymentResponseModel model = new PaymentResponseModel();
 
