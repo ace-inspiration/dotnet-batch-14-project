@@ -14,6 +14,7 @@ public static class DevCode
 	{
 		return JsonConvert.SerializeObject(obj);
 	}
+
 	public static T ToObject<T>(this string str)
 	{
 		return JsonConvert.DeserializeObject<T>(str)!;
