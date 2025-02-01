@@ -18,7 +18,7 @@ namespace TravelAgency.Domain.Features.TravelPackage
         }
 
         // Get All Travel Packages
-        public async Task<List<TravelPackageRequestModel>> GetAllTravelPackagesAsync()
+        public async Task<List<TravelPackageRequestModel>> Execute()
         {
             return await _db.TravelPackages
                 .Select(tp => new TravelPackageRequestModel
