@@ -19,7 +19,7 @@ public class BookingsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel requestModel        )
     {
-        var response = await _booking.CreateBooking(requestModel);
+        var response = await _booking.Execute(requestModel);
         BookingResponseModel responseModel = new BookingResponseModel 
         {
             Success = response.Success,
@@ -41,7 +41,7 @@ public class BookingsController : ControllerBase
     {
         try
         {
-            var response = await _booking.RemoveTraveler(id, traveler_id);
+            var response = await _booking.Execute(id, traveler_id);
             return Ok(response);
         }
         catch (Exception ex)
@@ -58,7 +58,7 @@ public class BookingsController : ControllerBase
     {
         try
         {
-            var response = await _booking.GetInvoice(id);
+            var response = await _booking.Execute(id);
             return Ok(response);
         }
         catch (Exception ex)
