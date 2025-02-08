@@ -21,7 +21,7 @@ namespace TravelAgency.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetTravelPackages()
         {
-            var response = await _travelPackageService.GetAllTravelPackagesAsync();
+            var response = await _travelPackageService.Execute();
 
             if (response == null || response.Count == 0)
             {
