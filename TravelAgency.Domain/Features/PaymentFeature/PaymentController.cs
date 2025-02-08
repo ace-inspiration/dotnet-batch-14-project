@@ -39,6 +39,27 @@ namespace TravelAgency.Domain.Features.PaymentFeature
                 });
             }
         }
+        [HttpPost("confirm-payment")]
+        public async Task<IActionResult> ConfirmPayment(string id)
+        {
+            try
+            {
+                var payment = await _paymentService.ConfirmPayment(id);
+                if (!payment.IsSuccess)
+                {
+                    return BadRequest(payment);
+                }
+                return Ok(payment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new PaymentResponseModel()
+                {
+                    Message = ex.ToString()
+                });
+            }
+        }
+
 
     }
 }

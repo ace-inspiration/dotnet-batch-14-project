@@ -15,32 +15,40 @@ namespace TravelAgency.Domain.Features.PaymentFeature
         public PaymentService(AppDbContext db)
         {
             _db = db;
-        }
-
-     
+        }    
 
         public async Task<PaymentResponseModel> Execute(PaymentRequestModel requestModel)
-        {
-            PaymentResponseModel model = new PaymentResponseModel();
+        {           
 
-            var booking = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == requestModel.BookingId);
+            var booking = await _db.Bookings.AsNoTracking().FirstOrDefaultAsync(b => b.Id == requestModel.BookingId);
 
             if (booking == null)
             {
-                model.Message = "Booking ID not found.";
-                return model;
+                return new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Booking not found",
+                    Data = null
+                };   
             }
 
             if (booking.Status != "Confirmed")
             {
-                model.Message = "Payment can only be made for Confirmed bookings.";
-                return model;
+                return new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Payment can only be made for Confirmed bookings.",
+                    Data = null
+                };
             }
 
             if (requestModel.Amount != booking.TotalPrice)
             {
-                model.Message = $"Payment amount must be exactly {booking.TotalPrice}.";
-                return model;
+                return new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = $"Payment amount must be exactly {booking.TotalPrice}."
+                };
             }
 
             var payment = new Payment()
@@ -54,49 +62,50 @@ namespace TravelAgency.Domain.Features.PaymentFeature
             };
 
             await _db.Payments.AddAsync(payment);
-            await _db.SaveChangesAsync();
-
-            // Process Payment
-            bool isPaymentSuccessful = ProcessPayment(payment.Id);
-
-            if (isPaymentSuccessful)
-            {
-                payment.PaymentStatus = "Completed";
-                booking.Status = "Completed";
-                _db.Bookings.Update(booking);
-                await _db.SaveChangesAsync();
-
-                model.IsSuccess = true;
-                model.Message = "Payment successful, booking completed.";
-                model.Data = payment;
-            }
-            else
-            {
-                payment.PaymentStatus = "Failed";
-                await _db.SaveChangesAsync();
-
-                model.IsSuccess = false;
-                model.Message = "Payment failed. Please try again.";
-                model.Data = payment;
-            }
-
-            return model;
+            var result = await _db.SaveChangesAsync();
+            return result == 2 ?
+                new PaymentResponseModel
+                {
+                    IsSuccess = true,
+                    Message = "Payment created successfully",
+                    Data = payment
+                } :
+                new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Payment creation failed",
+                    Data = null
+                };
         }
-
-        public bool ProcessPayment(string paymentId)
+        public async Task<PaymentResponseModel> ConfirmPayment(string paymentId)
         {
-            var payment = _db.Payments.FirstOrDefault(p => p.Id == paymentId);
-
-            if (payment == null || payment.PaymentStatus != "Pending")
-                return false;      // Payment cannot be processed
-
-            payment.PaymentStatus = "Completed";    
-            _db.SaveChanges();
-
-            return true;
+            var payment = await _db.Payments.FirstOrDefaultAsync(p => p.Id == paymentId);
+            if (payment == null)
+            {
+                return new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Payment not found",
+                    Data = null
+                };
+            }
+            payment.PaymentStatus = "Confirmed";
+            _db.Payments.Update(payment);
+            var result = await _db.SaveChangesAsync();
+            return result == 1 ?
+                new PaymentResponseModel
+                {
+                    IsSuccess = true,
+                    Message = "Payment confirmed successfully",
+                    Data = payment
+                } :
+                new PaymentResponseModel
+                {
+                    IsSuccess = false,
+                    Message = "Payment confirmation failed",
+                    Data = null
+                };
         }
-
-       
     }
 }
 

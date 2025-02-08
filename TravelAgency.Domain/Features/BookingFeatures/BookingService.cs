@@ -11,7 +11,7 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             _db = db;
         }
 
-        public async Task<BookingResponseModel> CreateBooking(BookingRequestModel booking)
+        public async Task<BookingResponseModel> Execute(BookingRequestModel booking)
         {
             var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == booking.UserId);
             if (user == null)
@@ -88,6 +88,8 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             }
 
             booking.NumberOfTravelers -= 1;
+            var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(tp => tp.Id == booking.TravelPackageId);
+            booking.TotalPrice -= travelPackage.Price;
 
             _db.Travelers.Remove(traveler);
             _db.Bookings.Update(booking);
@@ -106,7 +108,7 @@ namespace TravelAgency.Domain.Features.BookingFeatures
         {
             BookingResponseModel model = new BookingResponseModel();
             var invoice = await _db.Bookings.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if(invoice is null)
+            if (invoice is null)
             {
                 model.Message = "Invoice not found!";
                 return model;
@@ -117,6 +119,26 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             model.Data = invoice;
 
             return model;
+        }
+
+        public async Task<BookingResponseModel> ConfirmBooking(string id)
+        {
+            BookingResponseModel model = new BookingResponseModel();
+            var booking = await _db.Bookings.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (booking is null)
+            {
+                model.Message = "Booking not found!";
+                return model;
+            }
+            booking.Status = "Confirmed";
+            _db.Bookings.Update(booking);
+            var result = await _db.SaveChangesAsync();
+            return new BookingResponseModel
+            {
+                Success = result > 0,
+                Message = result > 0 ? "Booking confirmed successfully." : "Booking confirmation failed.",
+                Data = booking
+            };
         }
     }
 }

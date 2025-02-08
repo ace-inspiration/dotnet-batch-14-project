@@ -69,4 +69,21 @@ public class BookingsController : ControllerBase
             });
         }
     }
+
+    [HttpPost("{id}/confirm")]
+    public async Task<IActionResult> ConfirmBooking(string id)
+    {
+        try
+        {
+            var response = await _booking.ConfirmBooking(id);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new BookingResponseModel
+            {
+                Message = ex.Message,
+            });
+        }
+    }
 }

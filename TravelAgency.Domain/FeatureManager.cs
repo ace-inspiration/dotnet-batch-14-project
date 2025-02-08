@@ -3,9 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelAgency.Database.AppDbContextModels;
+using TravelAgency.Domain.Features.ActivateTravelPackage;
 using TravelAgency.Domain.Features.AddTraveler;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.BookingListByUserId;
+using TravelAgency.Domain.Features.DeactivateTravelPackage;
 using TravelAgency.Domain.Features.Login;
 using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.PaymentListByUserId;
@@ -23,8 +25,8 @@ public static class FeatureManager
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionpkk"));
+            //options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionpkk"));
             //options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionKZT"));
         },
         ServiceLifetime.Transient,
@@ -35,6 +37,8 @@ public static class FeatureManager
         builder.Services.AddScoped<BookingListByUserIdService>();
 
         builder.Services.AddScoped<BookingService>();
+        builder.Services.AddScoped<DeactivateTravelPackageService>();
+        builder.Services.AddScoped<ActivateTravelPackageService>();
 
         builder.Services.AddScoped<UserRegisterService>();
         builder.Services.AddScoped<PaymentService>();

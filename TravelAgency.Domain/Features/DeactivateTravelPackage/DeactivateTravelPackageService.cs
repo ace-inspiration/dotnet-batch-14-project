@@ -14,7 +14,7 @@ public class DeactivateTravelPackageService
 
     public async Task<DeactivateTravelPackageResponseModel> Execute(string id)
     {
-        var travelPackage = await _db.TravelPackages.FirstOrDefaultAsync(x => x.Id == id);
+        var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
         if (travelPackage == null)
         {
@@ -25,7 +25,7 @@ public class DeactivateTravelPackageService
             return new DeactivateTravelPackageResponseModel { Success = false, Message = "Travel Package is already Deactivate" };
         }
         travelPackage.Status = "Deactivate";
-
+        _db.TravelPackages.Update(travelPackage);
         await _db.SaveChangesAsync();
 
         return new DeactivateTravelPackageResponseModel { Success = true, Message = "Travel Package deactivated" };
