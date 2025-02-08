@@ -25,6 +25,7 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
@@ -34,6 +35,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.Id)
                 .HasMaxLength(36)
                 .IsUnicode(false)
+                .HasDefaultValueSql("(newid())")
                 .HasColumnName("id");
             entity.Property(e => e.BookingDate)
                 .HasDefaultValueSql("(getdate())")
@@ -106,18 +108,13 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("destination");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
+            entity.Property(e => e.Duration).HasColumnName("duration");
             entity.Property(e => e.Inclusions)
                 .HasColumnType("text")
                 .HasColumnName("inclusions");
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
             entity.Property(e => e.Status)
                 .HasMaxLength(30)
                 .IsUnicode(false)

@@ -28,8 +28,7 @@ namespace TravelAgency.Domain.Features.TravelPackage
                     Destination = tp.Destination,
                     Description = tp.Description,
                     Price = tp.Price,
-                    StartDate = tp.StartDate,
-                    EndDate = tp.EndDate,
+                    Duration = tp.Duration,
                     Inclusions = tp.Inclusions,
                     CancellationPolicy = tp.CancellationPolicy,
                     Status = tp.Status
