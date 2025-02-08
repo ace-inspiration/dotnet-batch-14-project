@@ -12,5 +12,10 @@ namespace TravelAgency.Domain.Features.PaymentFeature
         public bool IsSuccess { get; set; }
         public string Message { get; set; }
         public Payment Data { get; set; }
+    } public class PaymentListResponseModel
+    {
+        public bool IsSuccess { get; set; }
+        public string Message { get; set; }
+        public List<Payment> Data { get; set; }
     }
 }
