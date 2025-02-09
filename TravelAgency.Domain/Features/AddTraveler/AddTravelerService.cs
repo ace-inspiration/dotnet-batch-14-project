@@ -16,7 +16,7 @@ public class AddTravelerService
 		AddTravelerResponseModel response = new();
 		try
 		{
-			var booking = await this._db.Bookings.FirstOrDefaultAsync(x => x.Id == bookingId);
+			var booking = await this._db.Bookings.AsNoTracking().FirstOrDefaultAsync(x => x.Id == bookingId);
 			if(booking is null)
 			{
 				response.Success = false;
@@ -43,13 +43,12 @@ public class AddTravelerService
 				};
 			}).ToList();
 
-			await _db.Travelers.AddRangeAsync(travelers);
-
+            var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(tp => tp.Id == booking.TravelPackageId);
+            booking.TotalPrice += travelPackage.Price;
+            await _db.Travelers.AddRangeAsync(travelers);
 			booking.NumberOfTravelers += travelers.Count;
 			_db.Entry(booking).State = EntityState.Modified;
-
 			await _db.SaveChangesAsync();
-
 			response.Success = true;
 			response.Message = "Operation successful.";
 			response.Data = travelers;

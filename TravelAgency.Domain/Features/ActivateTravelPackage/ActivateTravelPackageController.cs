@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TravelAgency.Domain.Features.ActivateTravelPackage;
 
-[Route("api/admin/travel-packages")]
+[Route("api/Admin/[controller]")]
 [ApiController]
 
 public class ActivateTravelPackageController : ControllerBase

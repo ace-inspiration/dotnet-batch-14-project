@@ -23,7 +23,7 @@ namespace TravelAgency.Domain.Features.TravelersListByBookingId
         {
             try
             {
-                var response = await _traveler.GetTravelersByBookingIdAsync(id);
+                var response = await _traveler.Execute(id);
                 return Ok(response);
             }
             catch (Exception ex)

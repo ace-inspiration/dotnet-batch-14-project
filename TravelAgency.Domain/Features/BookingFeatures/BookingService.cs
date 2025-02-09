@@ -11,62 +11,52 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             _db = db;
         }
 
-        public async Task<BookingResponseModel> CreateBooking(BookingRequestModel requestModel)
+        public async Task<BookingResponseModel> Execute(BookingRequestModel booking)
         {
-            BookingResponseModel response = new();
-            try
+            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == booking.UserId);
+            if (user == null)
             {
-                // Check if User exists
-                var userExists = await _db.Users.AnyAsync(u => u.Id == requestModel.UserId);
-                if (!userExists)
-                {
-                    return new BookingResponseModel
-                    {
-                        Success = false,
-                        Message = "User not found!",
-                        Data = null!
-                    };
-                }
+                return new BookingResponseModel { Success = false, Message = "User not found", Data = null };
+            }
+            var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(tp => tp.Id == booking.TravelPackageId);
+            if (travelPackage == null)
+            {
+                return new BookingResponseModel { Success = false, Message = "Travel package not found", Data = null };
+            }
+            var Travelerlst = booking.Travelers;
 
-                // Check if Travel Package exists
-                var travelPackage = await _db.TravelPackages.FirstOrDefaultAsync(tp => tp.Id == requestModel.TravelPackageId);
-                if (travelPackage == null)
-                {
-                    return new BookingResponseModel
-                    {
-                        Success = false,
-                        Message = "Travel package not found!",
-                        Data = null!
-                    };
-                }
-
-                var booking = new Booking
+            var Book = new Booking
+            {
+                Id = Guid.NewGuid().ToString(),
+                UserId = booking.UserId,
+                TravelPackageId = booking.TravelPackageId,
+                NumberOfTravelers = Travelerlst.Count,
+                TotalPrice = travelPackage.Price * Travelerlst.Count,
+                BookingDate = DateTime.Now,
+                Status = "Pending"
+            };
+            _db.Bookings.Add(Book);
+            var result = await _db.SaveChangesAsync();
+            foreach (var traveler in Travelerlst)
+            {
+                var Traveler = new Traveler
                 {
                     Id = Guid.NewGuid().ToString(),
-                    UserId = requestModel.UserId,
-                    TravelPackageId = requestModel.TravelPackageId,
-                    NumberOfTravelers = requestModel.NumberOfTravelers,
-                    TotalPrice = travelPackage.Price * requestModel.NumberOfTravelers,
-                    BookingDate = DateTime.Now,
+                    BookingId = Book.Id,
+                    Name = traveler.Name,
+                    Age = traveler.Age,
+                    Gender = traveler.Gender
                 };
-
-                // Save booking
-                await _db.Bookings.AddAsync(booking);
-                var result = await _db.SaveChangesAsync();
-
-                return new BookingResponseModel
+                _db.Travelers.Add(Traveler);
+                var res = await _db.SaveChangesAsync();
+                if (res != 1)
                 {
-                    Success = result > 0,
-                    Message = result > 0 ? "Booking created successfully." : "Booking creation failed.",
-                    Data = booking
-                };
+                    return new BookingResponseModel { Success = false, Message = "Traveler addition failed", Data = null };
+                }
             }
-            catch (Exception ex)
-            {
-                response.Success = false;
-                response.Message = ex.ToString();
-                return response;
-            }
+            return result == 1 ?
+                new BookingResponseModel { Success = true, Message = "Booking created successfully", Data = Book } :
+                new BookingResponseModel { Success = false, Message = "Booking creation failed", Data = null };
         }
 
         public async Task<List<Booking>> GetBookings()
@@ -74,7 +64,7 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             return await _db.Bookings.ToListAsync();
         }
 
-        public async Task<BookingResponseModel> RemoveTraveler(string bookingId, string travelerId)
+        public async Task<BookingResponseModel> Execute(string bookingId, string travelerId)
         {
             BookingResponseModel model = new BookingResponseModel();
             var booking = await _db.Bookings.Where(x => x.Id == bookingId).FirstOrDefaultAsync();
@@ -98,6 +88,8 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             }
 
             booking.NumberOfTravelers -= 1;
+            var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(tp => tp.Id == booking.TravelPackageId);
+            booking.TotalPrice -= travelPackage.Price;
 
             _db.Travelers.Remove(traveler);
             _db.Bookings.Update(booking);
@@ -112,11 +104,11 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             };
         }
 
-        public async Task<BookingResponseModel> GetInvoice(string id)
+        public async Task<BookingResponseModel> Execute(string id)
         {
             BookingResponseModel model = new BookingResponseModel();
             var invoice = await _db.Bookings.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if(invoice is null)
+            if (invoice is null)
             {
                 model.Message = "Invoice not found!";
                 return model;
@@ -127,6 +119,26 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             model.Data = invoice;
 
             return model;
+        }
+
+        public async Task<BookingResponseModel> ConfirmBooking(string id)
+        {
+            BookingResponseModel model = new BookingResponseModel();
+            var booking = await _db.Bookings.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (booking is null)
+            {
+                model.Message = "Booking not found!";
+                return model;
+            }
+            booking.Status = "Confirmed";
+            _db.Bookings.Update(booking);
+            var result = await _db.SaveChangesAsync();
+            return new BookingResponseModel
+            {
+                Success = result > 0,
+                Message = result > 0 ? "Booking confirmed successfully." : "Booking confirmation failed.",
+                Data = booking
+            };
         }
     }
 }

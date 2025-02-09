@@ -14,7 +14,7 @@ public class ActivateTravelPackageService
 
     public async Task<ActivateTravelPackageResponseModel> Execute(string id)
     {
-        var travelPackage = await _db.TravelPackages.FirstOrDefaultAsync(x => x.Id == id);
+        var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
         if (travelPackage == null)
         {
@@ -25,7 +25,7 @@ public class ActivateTravelPackageService
             return new ActivateTravelPackageResponseModel { Success = false, Message = "Travel Package is already activate" };
         }
         travelPackage.Status = "Activate";
-
+        _db.TravelPackages.Update(travelPackage);
         await _db.SaveChangesAsync();
 
         return new ActivateTravelPackageResponseModel { Success = true, Message = "Travel Package activated" };

@@ -16,7 +16,7 @@ namespace TravelAgency.Domain.Features.TravelersListByBookingId
         {
             _db = db;
         }
-        public async Task<BookingResponseModel> GetTravelersByBookingIdAsync(string bookingId)
+        public async Task<BookingResponseModel> Execute(string bookingId)
         {
             var travelers = await _db.Travelers
                 .Where(t => t.BookingId == bookingId)

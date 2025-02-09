@@ -27,7 +27,7 @@ public class LoginService
 			}
 
 			var passwordHash = DevCode.HashPassword(requestModel.Password);
-			if (!string.Equals(passwordHash, requestModel.Password))
+			if (!string.Equals(passwordHash, user.PasswordHash))
 			{
 				responseModel.Success = false;
 				responseModel.Message = "Wrong credentials";
@@ -46,7 +46,7 @@ public class LoginService
 			var token = loginTokenModel.ToJson().ToEncrypt();
 
 			responseModel.Success = true;
-			responseModel.Message = "";
+			responseModel.Message = "Success";
 			responseModel.Token = token;
 			return responseModel;
 

@@ -15,9 +15,7 @@ public partial class TravelPackage
 
     public decimal Price { get; set; }
 
-    public DateTime StartDate { get; set; }
-
-    public DateTime EndDate { get; set; }
+    public int Duration { get; set; }
 
     public string? Inclusions { get; set; }
 

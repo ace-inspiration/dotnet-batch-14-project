@@ -19,12 +19,12 @@ namespace TravelAgency.Domain.Features.UserRegister
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> UserRegister([FromBody] UserRegisterRequestModel requestModel)
+        public async Task<IActionResult> Execute([FromBody] UserRegisterRequestModel requestModel)
         {
            
             try
             {
-                var model = await _userRegisterService.UserRegister(requestModel);
+                var model = await _userRegisterService.Execute(requestModel);
                 if (!model.IsSuccess)
                 {
                     return BadRequest(model);

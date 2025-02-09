@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TravelAgency.Domain.Features.DeactivateTravelPackage;
 
-[Route("api/admin/travel-packages")]
+[Route("api/Admin/[controller]")]
 [ApiController]
 
 public class DeactivateTravelPackageController : ControllerBase
@@ -13,10 +13,8 @@ public class DeactivateTravelPackageController : ControllerBase
         _service = deactivateTravelPackageService;
     }
 
-    [HttpPost("{id}/deactivate")]
-    public async Task<IActionResult> Execute(
-        string id
-        )
+    [HttpPost("deactivate")]
+    public async Task<IActionResult> Execute(string id)
     {
         var response = await _service.Execute(id);
 
