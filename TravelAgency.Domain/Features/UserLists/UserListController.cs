@@ -19,9 +19,9 @@ namespace TravelAgency.Domain.Features.UserLists
         }
 
         [HttpGet]
-        public async Task<IActionResult> Userlist()
+        public async Task<IActionResult> Execute()
         {
-            var response = await _service.GetUserList();
+            var response = await _service.Execute();
 
             return response.Success ? Ok(response) : StatusCode(500, response);
         }

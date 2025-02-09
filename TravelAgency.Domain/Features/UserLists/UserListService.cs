@@ -17,7 +17,7 @@ namespace TravelAgency.Domain.Features.UserLists
             _db = db;
         }
 
-        public async Task<UserListResponseModel> GetUserList()
+        public async Task<UserListResponseModel> Execute()
         {
             UserListResponseModel responseModel = new();
             try
