@@ -1,7 +1,10 @@
+using TravelAgency.Domain;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.AddTravelAgencyFeatures();
 
 var app = builder.Build();
 
