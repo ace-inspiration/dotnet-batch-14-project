@@ -21,5 +21,7 @@ public partial class TravelPackage
 
     public string? CancellationPolicy { get; set; }
 
+    public string? Image { get; set; }
+
     public string Status { get; set; } = null!;
 }
