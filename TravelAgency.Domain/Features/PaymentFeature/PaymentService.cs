@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TravelAgency.Database.AppDbContextModels;
+using TravelAgency.Domain.Features.BookingFeatures;
 
 namespace TravelAgency.Domain.Features.PaymentFeature;
 
@@ -61,7 +62,8 @@ public class PaymentService
             PaymentType = requestModel.paymentType,
             PaymentStatus = "Confirmed"
         };
-
+        booking.Status = "Completed";
+        _db.Bookings.Update(booking);
         await _db.Payments.AddAsync(payment);
         var result = await _db.SaveChangesAsync();
         return result == 2 ?
@@ -117,6 +119,37 @@ public class PaymentService
     public async Task<Payment> GetPaymentById(string id)
     {
         return await _db.Payments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    public async Task<List<PaymentData>> GetPaymentData()
+    {
+        var bookings = await _db.Bookings.AsNoTracking().ToListAsync();
+        var users = await _db.Users.AsNoTracking().ToListAsync();
+        var travelPackages = await _db.TravelPackages.AsNoTracking().ToListAsync();
+        var bookingData = new List<bookdata>();
+        var payments = await _db.Payments.AsNoTracking().ToListAsync();
+        var paymentData = new List<PaymentData>();
+        foreach (var booking in bookings)
+        {
+            var user = users.FirstOrDefault(u => u.Id == booking.UserId);
+            var travelPackage = travelPackages.FirstOrDefault(tp => tp.Id == booking.TravelPackageId);
+            var payment = payments.FirstOrDefault(p => p.BookingId == booking.Id);
+            if (user != null && travelPackage != null && payment != null)
+            {
+                paymentData.Add(new PaymentData
+                {
+                    Id = payment.Id,
+                    User = user,
+                    TravelPackage = travelPackage,
+                    Booking = booking,
+                    Amount = payment.Amount,
+                    PaymentDate = payment.PaymentDate,
+                    PaymentType = payment.PaymentType,
+                    PaymentStatus = payment.PaymentStatus
+                });
+            }
+        }
+        return paymentData;
     }
 
 }

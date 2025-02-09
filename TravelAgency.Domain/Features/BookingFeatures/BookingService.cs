@@ -65,6 +65,31 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             return await _db.Bookings.ToListAsync();
         }
 
+        public async Task<List<bookdata>> GetBookingData()
+        {
+            var bookings = await _db.Bookings.AsNoTracking().ToListAsync();
+            var users = await _db.Users.AsNoTracking().ToListAsync();
+            var travelPackages = await _db.TravelPackages.AsNoTracking().ToListAsync();
+            var bookingData = new List<bookdata>();
+            foreach (var booking in bookings)
+            {
+                var user = users.FirstOrDefault(user => user.Id == booking.UserId);
+                var travelPackage = travelPackages.FirstOrDefault(package => package.Id == booking.TravelPackageId);
+                bookingData.Add(new bookdata
+                {
+                    Id = booking.Id,
+                    User = user,
+                    TravelPackage = travelPackage,
+                    NumberOfTravelers = booking.NumberOfTravelers,
+                    TotalPrice = booking.TotalPrice,
+                    BookingDate = booking.BookingDate,
+                    TravelStartdate = booking.TravelStartdate,
+                    TravelEnddate = booking.TravelEnddate,
+                    Status = booking.Status
+                });
+            }
+            return bookingData;
+        }
         public async Task<BookingResponseModel> Execute(string bookingId, string travelerId)
         {
             BookingResponseModel model = new BookingResponseModel();
@@ -140,6 +165,11 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                 Message = result > 0 ? "Booking confirmed successfully." : "Booking confirmation failed.",
                 Data = booking
             };
+        }
+
+        internal async Task GetBookingdata()
+        {
+            throw new NotImplementedException();
         }
     }
 }

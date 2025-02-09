@@ -1,0 +1,219 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-2 sidebar" style="background: linear-gradient(180deg, #52668f, #007bff); min-height: 40vh; padding: 20px; color: white; margin-top: 18px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);">
+            <h4 class="text-white">Admin Dashboard</h4>
+            <ul class="nav flex-column mt-4" id="adminTabs" role="tablist">
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center text-white active" id="bookings-tab" data-bs-toggle="tab" href="#bookings" role="tab">
+                        <i class="icon-book-open me-2"></i> Bookings
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center text-white" id="payments-tab" data-bs-toggle="tab" href="#payments" role="tab">
+                        <i class="icon-wallet me-2"></i> Payments
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center text-white" id="travelers-tab" data-bs-toggle="tab" href="#travelers" role="tab">
+                        <i class="icon-users me-2"></i> Travelers
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center text-white" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">
+                        <i class="icon-user me-2"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link d-flex align-items-center text-white" id="packages-tab" data-bs-toggle="tab" href="#packages" role="tab">
+                        <i class="icon-briefcase me-2"></i> Travel Packages
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <style>
+            .sidebar {
+                background: linear-gradient(180deg, #0044cc, #007bff);
+                padding: 20px;
+                min-height: 60vh;
+                color: white;
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-item .nav-link {
+                display: flex;
+                align-items: center;
+                color: white;
+                padding: 10px 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+
+                .nav-item .nav-link.active,
+                .nav-item .nav-link:hover {
+                    background-color: rgba(255, 255, 255, 0.2);
+                    transform: translateX(5px);
+                }
+
+            .nav-item i {
+                font-size: 18px;
+            }
+        </style>
+
+
+        <!-- Main Content -->
+        <div class="col-md-10">
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="bookings" role="tabpanel">
+                    <h4>Bookings</h4>
+                    <table class="table table-bordered table-hover table-striped" style="background-color: #f8f9fa;">
+                        <thead class="table-primary">
+                            <tr>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Package Title</th>
+                                <th>Travelers</th>
+                                <th>Total Price</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in Model.Bookings)
+                            {
+                                <tr>
+                                    <td>@booking.Id</td>
+                                    <td>@booking.User.Name</td>
+                                    <td>@booking.TravelPackage.Title</td>
+                                    <td>@booking.NumberOfTravelers</td>
+                                    <td>@booking.TotalPrice</td>
+                                    <td>@booking.Status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="payments" role="tabpanel">
+                    <h4>Payments</h4>
+                    <table class="table table-bordered table-hover table-striped" style="background-color: #f8f9fa;">
+                        <thead class="table-success">
+                            <tr>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Booking Date</th>
+                                <th>Travel Title</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <td>@payment.Id</td>
+                                    <td>@payment.User.Name</td>
+                                    <td>@payment.Booking.BookingDate</td>
+                                    <td>@payment.TravelPackage.Title</td>
+                                    <td>@payment.Amount</td>
+                                    <td>@payment.PaymentDate</td>
+                                    <td>@payment.PaymentStatus</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="travelers" role="tabpanel">
+                    <h4>Travelers</h4>
+                    <table class="table table-bordered table-hover table-striped" style="background-color: #f8f9fa;">
+                        <thead class="table-warning">
+                            <tr>
+                                <th>ID</th>
+                                <th>Booking ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var traveler in Model.Travelers)
+                            {
+                                <tr>
+                                    <td>@traveler.Id</td>
+                                    <td>@traveler.BookingId</td>
+                                    <td>@traveler.Name</td>
+                                    <td>@traveler.Age</td>
+                                    <td>@traveler.Gender</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="users" role="tabpanel">
+                    <h4>Users</h4>
+                    <table class="table table-bordered table-hover table-striped" style="background-color: #f8f9fa;">
+                        <thead class="table-danger">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td>@user.Id</td>
+                                    <td>@user.Name</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Phone</td>
+                                    <td>@user.Role</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="packages" role="tabpanel">
+                    <h4>Travel Packages</h4>
+                    <table class="table table-bordered table-hover table-striped" style="background-color: #f8f9fa;">
+                        <thead class="table-info">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Destination</th>
+                                <th>Price</th>
+                                <th>Duration</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var package in Model.TravelPackages)
+                            {
+                                <tr>
+                                    <td>@package.Id</td>
+                                    <td>@package.Title</td>
+                                    <td>@package.Destination</td>
+                                    <td>@package.Price</td>
+                                    <td>@package.Duration</td>
+                                    <td>@package.Status</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
