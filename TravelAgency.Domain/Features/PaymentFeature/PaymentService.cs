@@ -58,7 +58,8 @@ public class PaymentService
             BookingId = requestModel.BookingId,
             Amount = requestModel.Amount,
             PaymentDate = DateTime.UtcNow,
-            PaymentStatus = "Pending"
+            PaymentType = requestModel.paymentType,
+            PaymentStatus = "Confirmed"
         };
 
         await _db.Payments.AddAsync(payment);
@@ -89,20 +90,20 @@ public class PaymentService
                 Data = null
             };
         }
-        payment.PaymentStatus = "Confirmed";
+        payment.PaymentStatus = "Complete";
         _db.Payments.Update(payment);
         var result = await _db.SaveChangesAsync();
         return result == 1 ?
             new PaymentResponseModel
             {
                 IsSuccess = true,
-                Message = "Payment confirmed successfully",
+                Message = "Payment Completed successfully",
                 Data = payment
             } :
             new PaymentResponseModel
             {
                 IsSuccess = false,
-                Message = "Payment confirmation failed",
+                Message = "Payment Completed failed",
                 Data = null
             };
     }
@@ -117,8 +118,6 @@ public class PaymentService
     {
         return await _db.Payments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
     }
-
-
 
 }
 

@@ -1,0 +1,83 @@
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TravelAgency.Database.AppDbContextModels;
+
+namespace TravelAgency.Domain.Features.TravelPackages
+{
+    public class TravelPackageService
+    {
+        private readonly AppDbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public TravelPackageService(AppDbContext context, IWebHostEnvironment webHostEnvironment)
+        {
+            _db = context;
+            _webHostEnvironment = webHostEnvironment ?? throw new ArgumentNullException(nameof(webHostEnvironment));
+        }
+
+        // Get All Travel Packages
+        public async Task<List<TravelPackageRequestModel>> Execute()
+        {
+            return await _db.TravelPackages
+                .Select(tp => new TravelPackageRequestModel
+                {
+                    Id = tp.Id,
+                    Title = tp.Title,
+                    Destination = tp.Destination,
+                    Description = tp.Description,
+                    Price = tp.Price,
+                    Duration = tp.Duration,
+                    Inclusions = tp.Inclusions,
+                    CancellationPolicy = tp.CancellationPolicy,
+                    Status = tp.Status
+                })
+                .ToListAsync();
+        }
+
+        public async Task<TravelPackageResponseModel> CreateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
+        {
+            string? photoPath = null;
+
+            if (_webHostEnvironment.WebRootPath == null)
+            {
+                _webHostEnvironment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+            }
+
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            Directory.CreateDirectory(uploadsFolder);
+            string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await photo.CopyToAsync(fileStream);
+            }
+
+            photoPath = "/images/" + uniqueFileName;
+
+            var trvelpackage = new TravelPackage
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = model.Title,
+                Inclusions = model.Inclusions,
+                CancellationPolicy = model.CancellationPolicy,
+                Description = model.Description,
+                Price = model.Price,
+                Destination = model.Destination,
+                Status = "Inactive",
+                Image = photoPath
+            };
+
+            _db.TravelPackages.Add(trvelpackage);
+            var result = await _db.SaveChangesAsync();
+            return result == 1
+                ? new TravelPackageResponseModel { Success = true, Message = "Travel package created successfully", Data = trvelpackage }
+                : new TravelPackageResponseModel { Success = false, Message = "Travel package creation failed", Data = null };
+        }
+    }
+}

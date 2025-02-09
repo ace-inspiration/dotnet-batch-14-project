@@ -10,7 +10,6 @@ namespace TravelAgency.Domain.Features.BookingFeatures
         {
             _db = db;
         }
-
         public async Task<BookingResponseModel> Execute(BookingRequestModel booking)
         {
             var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == booking.UserId);
@@ -24,7 +23,6 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                 return new BookingResponseModel { Success = false, Message = "Travel package not found", Data = null };
             }
             var Travelerlst = booking.Travelers;
-
             var Book = new Booking
             {
                 Id = Guid.NewGuid().ToString(),
@@ -33,8 +31,11 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                 NumberOfTravelers = Travelerlst.Count,
                 TotalPrice = travelPackage.Price * Travelerlst.Count,
                 BookingDate = DateTime.Now,
+                TravelStartdate = booking.TravelStartdate,
+                TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration), // Fixed duration addition
                 Status = "Pending"
             };
+
             _db.Bookings.Add(Book);
             var result = await _db.SaveChangesAsync();
             foreach (var traveler in Travelerlst)

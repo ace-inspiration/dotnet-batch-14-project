@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers
 {
+    [LoginCheck]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +17,8 @@ namespace TravelAgencyMVC.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.UserName = HttpContext.Items["UserName"];
+            ViewBag.IsAdmin = HttpContext.Items["IsAdmin"];
             return View();
         }
 
