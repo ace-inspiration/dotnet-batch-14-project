@@ -17,5 +17,9 @@ public partial class Booking
 
     public DateTime BookingDate { get; set; }
 
+    public DateTime? TravelStartdate { get; set; }
+
+    public DateTime? TravelEnddate { get; set; }
+
     public string Status { get; set; } = null!;
 }

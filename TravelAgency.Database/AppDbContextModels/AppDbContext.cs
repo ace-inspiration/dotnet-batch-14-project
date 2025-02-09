@@ -25,6 +25,10 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.;Database=TravelAgencyDb;User Id=sa;Password = mtzoo@123;TrustServercertificate= true;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
@@ -49,10 +53,16 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.TotalPrice)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("total_price");
+            entity.Property(e => e.TravelEnddate)
+                .HasColumnType("datetime")
+                .HasColumnName("travel_enddate");
             entity.Property(e => e.TravelPackageId)
                 .HasMaxLength(36)
                 .IsUnicode(false)
                 .HasColumnName("travel_package_id");
+            entity.Property(e => e.TravelStartdate)
+                .HasColumnType("datetime")
+                .HasColumnName("travel_startdate");
             entity.Property(e => e.UserId)
                 .HasMaxLength(36)
                 .IsUnicode(false)
@@ -83,6 +93,10 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasDefaultValueSql("('pending')")
                 .HasColumnName("payment_status");
+            entity.Property(e => e.PaymentType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("payment_type");
             entity.Property(e => e.UserId)
                 .HasMaxLength(36)
                 .IsUnicode(false)
@@ -108,6 +122,10 @@ public partial class AppDbContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("destination");
             entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.Image)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("image");
             entity.Property(e => e.Inclusions)
                 .HasColumnType("text")
                 .HasColumnName("inclusions");
