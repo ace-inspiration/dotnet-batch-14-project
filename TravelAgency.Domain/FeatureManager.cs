@@ -26,7 +26,6 @@ public static class FeatureManager
         {
             options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"));
-            //options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnectionpkk"));
         },
         ServiceLifetime.Transient,
         ServiceLifetime.Transient);

@@ -292,75 +292,25 @@
         </div><!-- container -->
     </header>
 
-   
-    @RenderBody()
+    <section id="hero" class="kenburns_slider">
+        <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+            <div class="intro_title">
+                <div class="container">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div>
+        </div>
+        <!-- End opacity-mask-->
+    </section>
 
    
-    <footer class="revealed">
+    <footer class="border-top footer text-muted">
         <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h3>Need help?</h3>
-                    <a href="tel://004542344599" id="phone">+45 423 445 99</a>
-                    <a href="mailto:help@citytours.com" id="email_footer">help@citytours.com</a>
-                </div>
-                <div class="col-md-3">
-                    <h3>About</h3>
-                    <ul>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Login</a></li>
-                        <li><a href="#">Register</a></li>
-                        <li><a href="#">Terms and condition</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h3>Discover</h3>
-                    <ul>
-                        <li><a href="#">Community blog</a></li>
-                        <li><a href="#">Tour guide</a></li>
-                        <li><a href="#">Wishlist</a></li>
-                        <li><a href="#">Gallery</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2">
-                    <h3>Settings</h3>
-                    <div class="styled-select">
-                        <select name="lang" id="lang">
-                            <option value="English" selected>English</option>
-                            <option value="French">French</option>
-                            <option value="Spanish">Spanish</option>
-                            <option value="Russian">Russian</option>
-                        </select>
-                    </div>
-                    <div class="styled-select">
-                        <select name="currency" id="currency">
-                            <option value="USD" selected>USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="GBP">GBP</option>
-                            <option value="RUB">RUB</option>
-                        </select>
-                    </div>
-                </div>
-            </div><!-- End row -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div id="social_footer">
-                        <ul>
-                            <li><a href="#0"><i class="bi bi-instagram"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-whatsapp"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-facebook"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-twitter-x"></i></a></li>
-                            <li><a href="#0"><i class="bi bi-youtube"></i></a></li>
-                        </ul>
-                        <p>© Citytours 2024</p>
-                    </div>
-                </div>
-            </div><!-- End row -->
-        </div><!-- End container -->
-    </footer><!-- End footer -->
-
-    <div id="toTop"></div>
+            &copy; 2025 - TravelAgencyMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/common_scripts_min.js"></script>
@@ -387,6 +337,6 @@
         });
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
