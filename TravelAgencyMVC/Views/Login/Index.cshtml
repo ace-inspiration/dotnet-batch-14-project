@@ -13,7 +13,7 @@
                 <div class="alert alert-danger">@ViewBag.Error</div>
             }
 
-            <form method="post" action="@Url.Action("Login", "Login")">
+            <form method="post" action="@Url.Action("Index", "Login")">
                 @Html.AntiForgeryToken()
 
                 <div class="mb-3">

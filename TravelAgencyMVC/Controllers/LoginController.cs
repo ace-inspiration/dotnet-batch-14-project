@@ -13,13 +13,14 @@ namespace TravelAgencyMVC.Controllers
             _loginService = loginService;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginRequestModel requestModel)
+        public async Task<IActionResult> Index(LoginRequestModel requestModel)
         {
             if (!ModelState.IsValid)
             {
@@ -30,6 +31,7 @@ namespace TravelAgencyMVC.Controllers
 
             if (!response.Success)
             {
+                Console.WriteLine("Login failed: " + response.Message);
                 ViewBag.Error = response.Message;
                 return View("Index", requestModel);
             }
