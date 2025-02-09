@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TravelAgency.Domain.Features.TravelPackage;
+using TravelAgency.Domain.Features.TravelPackages;
 
 namespace TravelAgency.API.Controllers
 {
@@ -39,6 +40,20 @@ namespace TravelAgency.API.Controllers
                 Message = "Travel packages retrieved successfully.",
                 Data = response
             });
+        }
+
+        [HttpPost("travel-packages")]
+        public async Task<IActionResult> AddTravelPackage([FromForm] TravelPackageRequestModel travelPackage, IFormFile? photo)
+        {
+            try
+            {
+                var response = await _travelPackageService.CreateTravelPackage(travelPackage,photo);
+                return response.Success == true ? Ok(response) : BadRequest(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Success = "false", Message = ex.Message });
+            }
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TravelAgency.Domain.Features.TravelPackage
+namespace TravelAgency.Domain.Features.TravelPackages
 {
     public class TravelPackageResponseModel
     {

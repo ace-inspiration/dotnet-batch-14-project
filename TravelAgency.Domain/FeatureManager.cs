@@ -12,7 +12,7 @@ using TravelAgency.Domain.Features.Login;
 using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.PaymentListByUserId;
 using TravelAgency.Domain.Features.TravelersListByBookingId;
-using TravelAgency.Domain.Features.TravelPackage;
+using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgency.Domain.Features.UserLists;
 using TravelAgency.Domain.Features.UserRegister;
 
