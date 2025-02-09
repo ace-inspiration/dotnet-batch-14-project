@@ -121,5 +121,25 @@ public class PaymentController : ControllerBase
         }
     }
 
+    [HttpGet("GetPaymentData")]
+    public async Task<IActionResult> GetPaymentData()
+    {
+        try
+        {
+            var paymentData = await _paymentService.GetPaymentData();
+            return Ok(paymentData);
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new PaymentResponseModel
+            {
+                IsSuccess = false,
+                Message = ex.ToString(),
+                Data = null
+            });
+        }
+    }
+
 
 }

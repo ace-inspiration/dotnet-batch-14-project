@@ -22,8 +22,7 @@ namespace TravelAgency.Domain.Features.UserLists
         public async Task<IActionResult> Execute()
         {
             var response = await _service.Execute();
-
-            return response.Success ? Ok(response) : StatusCode(500, response);
+            return Ok(response);
         }
     }
 }

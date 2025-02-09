@@ -17,23 +17,10 @@ namespace TravelAgency.Domain.Features.UserLists
             _db = db;
         }
 
-        public async Task<UserListResponseModel> Execute()
+        public async Task<List<User>> Execute()
         {
-            UserListResponseModel responseModel = new();
-            try
-            {
-                var userList = await _db.Users.AsNoTracking().ToListAsync();
-                responseModel.Success = true;
-                responseModel.Message = "Users fetched successfully.";
-                responseModel.Data = userList;
-            }
-            catch (Exception ex)
-            {
-                responseModel.Success = false;
-                responseModel.Message = ex.Message;
-                responseModel.Data = null;
-            }
-            return responseModel;
+            var userList = await _db.Users.AsNoTracking().ToListAsync();
+            return userList;
         }
     }
 }
