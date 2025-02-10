@@ -25,7 +25,7 @@ namespace TravelAgencyMVC.Filters
 
             // Pass user information to the view
             context.HttpContext.Items["UserName"] = user.Name;
-            context.HttpContext.Items["IsAdmin"] = user.Role == "admin";
+            context.HttpContext.Items["Role"] = user.Role;
 
             base.OnActionExecuting(context);
         }
