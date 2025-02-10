@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.ActivateTravelPackage;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.DeactivateTravelPackage;
 using TravelAgency.Domain.Features.PaymentFeature;
+using TravelAgency.Domain.Features.TravelersListByBookingId;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgency.Domain.Features.UserLists;
 using TravelAgencyMVC.Models;
@@ -17,6 +17,7 @@ public class AdminController : Controller
     private readonly PaymentService _paymentService;
     private readonly ActivateTravelPackageService _activateTravelPackageService;
     private readonly DeactivateTravelPackageService _deactivateTravelPackageService;
+    private readonly TravelersListService _travelersListService;
     private readonly TravelPackageService _travelPackageService;
     private readonly UserListService _userListService;
     private readonly AppDbContext _db;
@@ -27,6 +28,7 @@ public class AdminController : Controller
         ActivateTravelPackageService activateTravelPackageService,
         DeactivateTravelPackageService deactivateTravelPackageService,
         TravelPackageService travelPackageService,
+        TravelersListService travelersListService,
         UserListService userListService,
         AppDbContext db)
     {
@@ -34,6 +36,7 @@ public class AdminController : Controller
         _paymentService = paymentService;
         _activateTravelPackageService = activateTravelPackageService;
         _deactivateTravelPackageService = deactivateTravelPackageService;
+        _travelersListService = travelersListService;
         _travelPackageService = travelPackageService;
         _userListService = userListService;
         _db = db;
@@ -45,7 +48,7 @@ public class AdminController : Controller
         var payment = await _paymentService.GetPayments();
         var travelPackages = await _travelPackageService.Execute();
         var userResponse = await _userListService.Execute();
-        var travelers = await _db.Travelers.AsNoTracking().ToListAsync();
+        var travelers = await _travelersListService.GetTravelers();
         var booking = await _bookingService.GetBookings();
         var confirmedBookings = booking.Where(b => b.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase)).ToList();
         var confirmedPayments = payment.Where(p => p.PaymentStatus.Equals("Complete", StringComparison.OrdinalIgnoreCase)).ToList();
