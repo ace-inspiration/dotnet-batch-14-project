@@ -1,97 +1,97 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TravelAgencyMVC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/TravelAgencyMVC.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - TravelAgencyMVC</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/TravelAgencyMVC.styles.css" asp-append-version="true" />
 
-    <link href="~/css/style.css" rel="stylesheet">
-    
-    <link href="~/css/vendors.css" rel="stylesheet">
+	<link href="~/css/style.css" rel="stylesheet">
 
-    <!-- SPECIFIC CSS -->
-    <link href="~/css/vegas.min.css" rel="stylesheet">
-    <link href="~/css/login_registerStyle.css" rel="stylesheet">
-    <!-- Favicons-->
-    <link rel="shortcut icon" href="~/img/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" type="image/x-icon" href="~/img/apple-touch-icon-57x57-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="~/img/apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="~/img/apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="~/img/apple-touch-icon-144x144-precomposed.png">
+	<link href="~/css/vendors.css" rel="stylesheet">
+
+	<!-- SPECIFIC CSS -->
+	<link href="~/css/vegas.min.css" rel="stylesheet">
+	<link href="~/css/login_registerStyle.css" rel="stylesheet">
+	<!-- Favicons-->
+	<link rel="shortcut icon" href="~/img/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" type="image/x-icon" href="~/img/apple-touch-icon-57x57-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="72x72" href="~/img/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="114x114" href="~/img/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon" type="image/x-icon" sizes="144x144" href="~/img/apple-touch-icon-144x144-precomposed.png">
 </head>
-<body>
-   
-    <header>
-        <!-- End top line-->
+<body class="mb-0">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-3">
-                    <div id="logo_home">
-                        <h1><a href="index.html" title="City tours travel template">City Tours travel template</a></h1>
-                    </div>
-                </div>
-                <nav class="col-9">
-                   
-                    <div class="main-menu">
-                        <div id="header_menu">
-                            <img src="~/img/logo_sticky.png" width="160" height="34" alt="City tours">
-                        </div>
-                        <a href="#" class="open_close" id="close_in"><i class="icon_set_1_icon-77"></i></a>
-                       
-                    </div><!-- End main-menu -->
-                    
-                </nav>
-            </div>
-        </div><!-- container -->
-    </header>
+	<header>
+		<!-- End top line-->
 
-    <section id="hero" class="kenburns_slider">
-        <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
-            <div class="intro_title">
-                
-                        @RenderBody()
-                    
-            </div>
-        </div>
-        <!-- End opacity-mask-->
-    </section>
+		<div class="container">
+			<div class="row">
+				<div class="col-3">
+					<div id="logo_home">
+						<h1><a href="index.html" title="City tours travel template">City Tours travel template</a></h1>
+					</div>
+				</div>
+				<nav class="col-9">
 
-   
-    @* <footer class="border-top footer text-muted"> *@
+					<div class="main-menu">
+						<div id="header_menu">
+							<img src="~/img/logo_sticky.png" width="160" height="34" alt="City tours">
+						</div>
+						<a href="#" class="open_close" id="close_in"><i class="icon_set_1_icon-77"></i></a>
+
+					</div><!-- End main-menu -->
+
+				</nav>
+			</div>
+		</div><!-- container -->
+	</header>
+
+	<section id="hero" class="kenburns_slider">
+		<div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+			<div class="intro_title">
+
+				@RenderBody()
+
+			</div>
+		</div>
+		<!-- End opacity-mask-->
+	</section>
+
+
+	@* <footer class="border-top footer text-muted">
     @*     <div class="container"> *@
-    @*         &copy; 2025 - TravelAgencyMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
-    @*     </div> *@
-    @* </footer> *@
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/common_scripts_min.js"></script>
-    <script src="~/js/functions.js"></script>
+	@*         &copy; 2025 - TravelAgencyMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+	@*     </div> *@
+	@* </footer> *@
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/common_scripts_min.js"></script>
+	<script src="~/js/functions.js"></script>
 
-    <!-- Kenburns Slider -->
-    <script src="~/js/vegas.min.js"></script>
-    <script>
-            $(document).ready(() => {
-            $('.kenburns_slider').vegas({
-                slides: [
-                    { src: '/img/slides/slide_1.jpg' },
-                    { src: '/img/slides/slide_2.jpg' },
-                    { src: '/img/slides/slide_3.jpg' },
-                    { src: '/img/slides/slide_4.jpg' }
-                ],
-                overlay: false,
-                    transition: 'fade2',
-                    animation: 'kenburnsUpRight',
-                    transitionDuration: 1000,
-                    delay: 5000,
-                    animationDuration: 30000
-            });
-        });
-    </script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<!-- Kenburns Slider -->
+	<script src="~/js/vegas.min.js"></script>
+	<script>
+			$(document).ready(() => {
+			$('.kenburns_slider').vegas({
+				slides: [
+					{ src: '/img/slides/slide_1.jpg' },
+					{ src: '/img/slides/slide_2.jpg' },
+					{ src: '/img/slides/slide_3.jpg' },
+					{ src: '/img/slides/slide_4.jpg' }
+				],
+				overlay: false,
+					transition: 'fade2',
+					animation: 'kenburnsUpRight',
+					transitionDuration: 1000,
+					delay: 5000,
+					animationDuration: 30000
+			});
+		});
+	</script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

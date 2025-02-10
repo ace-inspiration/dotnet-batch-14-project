@@ -45,7 +45,14 @@ namespace TravelAgencyMVC.Controllers
                 HttpOnly = true
             });
 
-            return RedirectToAction("Index", "Home");
+            if (model.Role == "admin")
+            {
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         public IActionResult Logout()
