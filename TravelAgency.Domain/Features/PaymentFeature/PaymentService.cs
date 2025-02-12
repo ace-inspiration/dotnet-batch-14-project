@@ -62,10 +62,12 @@ public class PaymentService
             PaymentType = requestModel.paymentType,
             PaymentStatus = "Confirmed"
         };
+
         booking.Status = "Completed";
         _db.Bookings.Update(booking);
         await _db.Payments.AddAsync(payment);
         var result = await _db.SaveChangesAsync();
+
         return result == 2 ?
             new PaymentResponseModel
             {
@@ -118,7 +120,7 @@ public class PaymentService
 
     public async Task<Payment> GetPaymentById(string id)
     {
-        return await _db.Payments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+        return (await _db.Payments.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id))!;
     }
 
     public async Task<List<PaymentData>> GetPaymentData()
