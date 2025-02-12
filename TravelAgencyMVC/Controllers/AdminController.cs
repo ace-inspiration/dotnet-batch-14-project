@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.ActivateTravelPackage;
 using TravelAgency.Domain.Features.BookingFeatures;
@@ -7,10 +8,12 @@ using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.TravelersListByBookingId;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgency.Domain.Features.UserLists;
+using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers;
 
+[Authorize(Roles = "admin")]
 public class AdminController : Controller
 {
     private readonly BookingService _bookingService;

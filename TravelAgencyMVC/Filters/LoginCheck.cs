@@ -1,32 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using TravelAgency.Shared;
-using TravelAgency.Domain.Features.Login;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Linq;
 
 namespace TravelAgencyMVC.Filters
 {
-    public class LoginCheck : ActionFilterAttribute
+    public class LoginCheckAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            var token = context.HttpContext.Request.Cookies["AuthToken"];
-            if (string.IsNullOrEmpty(token))
+            var user = context.HttpContext.User;
+            if (!user.Identity.IsAuthenticated)
             {
                 context.Result = new RedirectToActionResult("Index", "Login", null);
-                return;
             }
-
-            var user = token.ToDecrypt().ToObject<LoginTokenModel>();
-            if (user == null || user.ExpireTime < DateTime.Now)
-            {
-                context.Result = new RedirectToActionResult("Index", "Login", null);
-                return;
-            }
-
-            // Pass user information to the view
-            context.HttpContext.Items["UserName"] = user.Name;
-            context.HttpContext.Items["Role"] = user.Role;
-
             base.OnActionExecuting(context);
         }
     }
