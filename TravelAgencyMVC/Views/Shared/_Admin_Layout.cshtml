@@ -1,1 +1,81 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #007bff;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            height: 70px;
+            top: 0;
+            left: 0;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+
+        .main-content {
+            margin-top: 25px; /* Adjusted for fixed header */
+            margin-bottom: 10px; /* Adjusted for fixed footer */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <h1 class="m-0">Admin Panel</h1>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link text-white" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#">Users</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="#">Settings</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid main-content">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <p>&copy; 2025 TravelAgencyMVC - Admin Panel</p>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+</html>
