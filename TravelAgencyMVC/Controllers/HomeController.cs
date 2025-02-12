@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers
 {
-    [LoginCheck]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,12 +17,21 @@ namespace TravelAgencyMVC.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.UserName = HttpContext.Items["UserName"];
-            ViewBag.IsAdmin = HttpContext.Items["IsAdmin"];
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+
+            ViewBag.UserName = User.Identity.Name;
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AccessDenied()
         {
             return View();
         }
