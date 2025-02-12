@@ -22,8 +22,9 @@ public class PaymentService
     {           
 
         var booking = await _db.Bookings.AsNoTracking().FirstOrDefaultAsync(b => b.Id == requestModel.BookingId);
+        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync( u => u.Id == requestModel.UserId);
 
-        if (booking == null)
+        if (booking == null || user == null)
         {
             return new PaymentResponseModel
             {
