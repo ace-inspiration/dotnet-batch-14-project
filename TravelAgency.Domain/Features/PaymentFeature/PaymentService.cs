@@ -83,6 +83,7 @@ public class PaymentService
     public async Task<PaymentResponseModel> ConfirmPayment(string paymentId)
     {
         var payment = await _db.Payments.FirstOrDefaultAsync(p => p.Id == paymentId);
+        var booking = await _db.Bookings.FirstOrDefaultAsync(b => b.Id == payment.BookingId);
         if (payment == null)
         {
             return new PaymentResponseModel
@@ -93,9 +94,11 @@ public class PaymentService
             };
         }
         payment.PaymentStatus = "Complete";
+        booking.Status = "Completed";
+        _db.Bookings.Update(booking);
         _db.Payments.Update(payment);
         var result = await _db.SaveChangesAsync();
-        return result == 1 ?
+        return result == 2 ?
             new PaymentResponseModel
             {
                 IsSuccess = true,
@@ -126,26 +129,25 @@ public class PaymentService
         var bookings = await _db.Bookings.AsNoTracking().ToListAsync();
         var users = await _db.Users.AsNoTracking().ToListAsync();
         var travelPackages = await _db.TravelPackages.AsNoTracking().ToListAsync();
-        var bookingData = new List<bookdata>();
         var payments = await _db.Payments.AsNoTracking().ToListAsync();
         var paymentData = new List<PaymentData>();
-        foreach (var booking in bookings)
+        foreach (var payment1 in payments)
         {
-            var user = users.FirstOrDefault(u => u.Id == booking.UserId);
-            var travelPackage = travelPackages.FirstOrDefault(tp => tp.Id == booking.TravelPackageId);
-            var payment = payments.FirstOrDefault(p => p.BookingId == booking.Id);
-            if (user != null && travelPackage != null && payment != null)
+            var user = users.FirstOrDefault(u => u.Id == payment1.UserId);
+            var booking = bookings.FirstOrDefault(b => b.Id == payment1.BookingId);
+            var travelPackage = travelPackages.FirstOrDefault(t => t.Id == booking.TravelPackageId);
+            if (travelPackage != null && user!=null && booking!=null) 
             {
                 paymentData.Add(new PaymentData
                 {
-                    Id = payment.Id,
+                    Id = payment1.Id,
                     User = user,
-                    TravelPackage = travelPackage,
                     Booking = booking,
-                    Amount = payment.Amount,
-                    PaymentDate = payment.PaymentDate,
-                    PaymentType = payment.PaymentType,
-                    PaymentStatus = payment.PaymentStatus
+                    TravelPackage = travelPackage,
+                    Amount = payment1.Amount,
+                    PaymentDate = payment1.PaymentDate,
+                    PaymentType = payment1.PaymentType,
+                    PaymentStatus = payment1.PaymentStatus
                 });
             }
         }

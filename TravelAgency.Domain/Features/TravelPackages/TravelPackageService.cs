@@ -69,7 +69,7 @@ namespace TravelAgency.Domain.Features.TravelPackages
                 Description = model.Description,
                 Price = model.Price,
                 Destination = model.Destination,
-                Status = "Inactive",
+                Status = "Activate",
                 Image = photoPath
             };
 

@@ -50,8 +50,6 @@ public class AdminController : Controller
         var userResponse = await _userListService.Execute();
         var travelers = await _travelersListService.GetTravelers();
         var booking = await _bookingService.GetBookings();
-        var confirmedBookings = booking.Where(b => b.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase)).ToList();
-        var confirmedPayments = payment.Where(p => p.PaymentStatus.Equals("Complete", StringComparison.OrdinalIgnoreCase)).ToList();
 
         var Model = new AdminDashboardViewModel
         {
@@ -60,64 +58,54 @@ public class AdminController : Controller
             Travelers = travelers,
             Users = userResponse,
             TravelPackages = travelPackages,
-            ConfirmedBookings = confirmedBookings,
-            ConfirmedPayments = confirmedPayments
         };
         return View("AdminDashboard", Model);
     }
 
-    [ActionName("CreateTravelPackage")]
-    public IActionResult CreateTravelPackage()
-    {
-        return View("CreateTravelPackage");
-    }
-
-    // POST: Admin/SaveTravelPackage
     [HttpPost]
     [ActionName("SaveTravelPackage")]
     public async Task<IActionResult> SaveTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
     {
-        // Call the service to create a travel package.
         var result = await _travelPackageService.CreateTravelPackage(model, photo);
-        TempData["Message"] = result.Message;
-        TempData["IsSuccess"] = result.Success;
-        return RedirectToAction("TravelPackages");
+
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
+        });
     }
 
-    // GET: Admin/ActivateTravelPackage?id={id}
+
     [ActionName("ActivateTravelPackage")]
     public async Task<IActionResult> ActivateTravelPackage(string id)
     {
         var result = await _activateTravelPackageService.Execute(id);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("TravelPackages");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
     }
 
-    // GET: Admin/DeactivateTravelPackage?id={id}
     [ActionName("DeactivateTravelPackage")]
     public async Task<IActionResult> DeactivateTravelPackage(string id)
     {
         var result = await _deactivateTravelPackageService.Execute(id);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("TravelPackages");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
     }
 
-    // GET: Admin/ConfirmBooking?bookingId={bookingId}
     [ActionName("ConfirmBooking")]
     public async Task<IActionResult> ConfirmBooking(string bookingId)
     {
         var result = await _bookingService.ConfirmBooking(bookingId);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("Bookings");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "bookings" }) });
     }
 
-    // GET: Admin/ConfirmPayment?paymentId={paymentId}
     [ActionName("ConfirmPayment")]
     public async Task<IActionResult> ConfirmPayment(string paymentId)
     {
         var result = await _paymentService.ConfirmPayment(paymentId);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("Payments");
+        return Json(new { success = result.IsSuccess, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "payments" }) });
     }
+
+
+
 }
 
