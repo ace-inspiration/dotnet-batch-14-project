@@ -2,14 +2,12 @@
     ViewBag.Title = "Access Denied";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h2 class="text-center">Access Denied</h2>
-            <p class="text-center">You do not have permission to access this page.</p>
-            <div class="text-center">
-                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Go to Home</a>
-            </div>
+<section id="hero" class="background-image" data-background="url(~img/header_bg.jpg)">
+    <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+        <div class="intro_title error">
+            <h1 class="animated fadeInDown">401</h1>
+            <p class="animated fadeInDown">Oops!! You do not have permission to access this page.</p>
+            <a href="@Url.Action("Index", "Home")" class="animated fadeInUp button_intro">Back to home</a>
         </div>
     </div>
-</div>
+</section>
