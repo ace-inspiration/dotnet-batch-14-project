@@ -28,6 +28,7 @@
 		color: white;
 		box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 		border-radius: 8px;
+		position: fixed;
 
 	}
 
@@ -36,6 +37,7 @@
 			margin-bottom: 20px;
 			font-weight: bold;
 			color: white;
+			
 		}
 
 	.nav .nav-item {
@@ -96,6 +98,14 @@
 			font-size: 20px;
 			color: #333;
 		}
+
+		.body {
+			
+			margin-left: 230px;
+		position: sticky;
+		min-height: calc(100vh - 80px);
+		}
+		
 </style>
 
 
@@ -138,7 +148,7 @@
 		</div>
 
 		<!-- Main Content -->
-		<div class="col-md-10">
+		<div class="col-md-10 body">
 			<div class="tab-content mt-3">
 				<!-- Bookings Tab -->
 				<div class="tab-pane fade show active" id="bookings" role="tabpanel">
