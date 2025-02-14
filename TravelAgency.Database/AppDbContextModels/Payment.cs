@@ -18,4 +18,6 @@ public partial class Payment
     public string? PaymentType { get; set; }
 
     public string PaymentStatus { get; set; } = null!;
+
+	
 }
