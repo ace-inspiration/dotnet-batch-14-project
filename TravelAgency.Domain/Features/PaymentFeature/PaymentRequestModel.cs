@@ -11,7 +11,6 @@ namespace TravelAgency.Domain.Features.PaymentFeature
         public string BookingId { get; set; } = null!;
         public decimal Amount { get; set; }
         public string UserId { get; set; } = null!;
-
         public string paymentType { get; set; } = null!;
 
     }

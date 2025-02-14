@@ -13,8 +13,6 @@ public class AdminDashboardViewModel
     public List<Traveler> Travelers { get; set; }
     public List<User> Users { get; set; }
     public List<TravelPackageRequestModel> TravelPackages { get; set; }
-    public List<Booking> ConfirmedBookings { get; set; }
-    public List<Payment> ConfirmedPayments { get; set; }
 }
 
 

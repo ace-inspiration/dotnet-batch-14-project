@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Access Denied";
+}
+
+<section id="hero" class="background-image" data-background="url(~img/header_bg.jpg)">
+    <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+        <div class="intro_title error">
+            <h1 class="animated fadeInDown">401</h1>
+            <p class="animated fadeInDown">Oops!! You do not have permission to access this page.</p>
+            <a href="@Url.Action("Index", "Home")" class="animated fadeInUp button_intro">Back to home</a>
+        </div>
+    </div>
+</section>

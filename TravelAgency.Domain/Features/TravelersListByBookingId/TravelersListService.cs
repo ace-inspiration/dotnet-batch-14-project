@@ -39,6 +39,10 @@ namespace TravelAgency.Domain.Features.TravelersListByBookingId
                 Data = travelers
             };
         }
+        public async Task<List<Traveler>> GetTravelers()
+        {
+            return await _db.Travelers.AsNoTracking().ToListAsync();
+        }
 
     }
 }

@@ -1,22 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.ActivateTravelPackage;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.DeactivateTravelPackage;
 using TravelAgency.Domain.Features.PaymentFeature;
+using TravelAgency.Domain.Features.TravelersListByBookingId;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgency.Domain.Features.UserLists;
+using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers;
 
+[Authorize(Roles = "admin")]
 public class AdminController : Controller
 {
     private readonly BookingService _bookingService;
     private readonly PaymentService _paymentService;
     private readonly ActivateTravelPackageService _activateTravelPackageService;
     private readonly DeactivateTravelPackageService _deactivateTravelPackageService;
+    private readonly TravelersListService _travelersListService;
     private readonly TravelPackageService _travelPackageService;
     private readonly UserListService _userListService;
     private readonly AppDbContext _db;
@@ -27,6 +31,7 @@ public class AdminController : Controller
         ActivateTravelPackageService activateTravelPackageService,
         DeactivateTravelPackageService deactivateTravelPackageService,
         TravelPackageService travelPackageService,
+        TravelersListService travelersListService,
         UserListService userListService,
         AppDbContext db)
     {
@@ -34,6 +39,7 @@ public class AdminController : Controller
         _paymentService = paymentService;
         _activateTravelPackageService = activateTravelPackageService;
         _deactivateTravelPackageService = deactivateTravelPackageService;
+        _travelersListService = travelersListService;
         _travelPackageService = travelPackageService;
         _userListService = userListService;
         _db = db;
@@ -45,10 +51,8 @@ public class AdminController : Controller
         var payment = await _paymentService.GetPayments();
         var travelPackages = await _travelPackageService.Execute();
         var userResponse = await _userListService.Execute();
-        var travelers = await _db.Travelers.AsNoTracking().ToListAsync();
+        var travelers = await _travelersListService.GetTravelers();
         var booking = await _bookingService.GetBookings();
-        var confirmedBookings = booking.Where(b => b.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase)).ToList();
-        var confirmedPayments = payment.Where(p => p.PaymentStatus.Equals("Complete", StringComparison.OrdinalIgnoreCase)).ToList();
 
         var Model = new AdminDashboardViewModel
         {
@@ -57,64 +61,54 @@ public class AdminController : Controller
             Travelers = travelers,
             Users = userResponse,
             TravelPackages = travelPackages,
-            ConfirmedBookings = confirmedBookings,
-            ConfirmedPayments = confirmedPayments
         };
         return View("AdminDashboard", Model);
     }
 
-    [ActionName("CreateTravelPackage")]
-    public IActionResult CreateTravelPackage()
-    {
-        return View("CreateTravelPackage");
-    }
-
-    // POST: Admin/SaveTravelPackage
     [HttpPost]
     [ActionName("SaveTravelPackage")]
     public async Task<IActionResult> SaveTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
     {
-        // Call the service to create a travel package.
         var result = await _travelPackageService.CreateTravelPackage(model, photo);
-        TempData["Message"] = result.Message;
-        TempData["IsSuccess"] = result.Success;
-        return RedirectToAction("TravelPackages");
+
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
+        });
     }
 
-    // GET: Admin/ActivateTravelPackage?id={id}
+
     [ActionName("ActivateTravelPackage")]
     public async Task<IActionResult> ActivateTravelPackage(string id)
     {
         var result = await _activateTravelPackageService.Execute(id);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("TravelPackages");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
     }
 
-    // GET: Admin/DeactivateTravelPackage?id={id}
     [ActionName("DeactivateTravelPackage")]
     public async Task<IActionResult> DeactivateTravelPackage(string id)
     {
         var result = await _deactivateTravelPackageService.Execute(id);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("TravelPackages");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
     }
 
-    // GET: Admin/ConfirmBooking?bookingId={bookingId}
     [ActionName("ConfirmBooking")]
     public async Task<IActionResult> ConfirmBooking(string bookingId)
     {
         var result = await _bookingService.ConfirmBooking(bookingId);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("Bookings");
+        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "bookings" }) });
     }
 
-    // GET: Admin/ConfirmPayment?paymentId={paymentId}
     [ActionName("ConfirmPayment")]
     public async Task<IActionResult> ConfirmPayment(string paymentId)
     {
         var result = await _paymentService.ConfirmPayment(paymentId);
-        TempData["Message"] = result.Message;
-        return RedirectToAction("Payments");
+        return Json(new { success = result.IsSuccess, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "payments" }) });
     }
+
+
+
 }
 

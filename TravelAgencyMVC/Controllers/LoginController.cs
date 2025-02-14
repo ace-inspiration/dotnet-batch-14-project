@@ -1,6 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TravelAgency.Shared;
 using TravelAgency.Domain.Features.Login;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using TravelAgencyMVC.Filters;
 
 namespace TravelAgencyMVC.Controllers
 {
@@ -16,6 +21,10 @@ namespace TravelAgencyMVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -24,19 +33,39 @@ namespace TravelAgencyMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Index", requestModel);
+                return View(requestModel);
             }
 
             var response = await _loginService.Execute(requestModel);
 
             if (!response.Success)
             {
-                Console.WriteLine("Login failed: " + response.Message);
                 ViewBag.Error = response.Message;
-                return View("Index", requestModel);
+                return View(requestModel);
             }
 
             LoginTokenModel model = response.Token.ToDecrypt().ToObject<LoginTokenModel>();
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.Name),
+                new Claim(ClaimTypes.Email, model.Email),
+                new Claim(ClaimTypes.Role, model.Role) // Add the user's role
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Create the authentication cookie
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = model.ExpireTime,
+                IsPersistent = true
+            };
+
+            await HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   new ClaimsPrincipal(claimsIdentity),
+                   authProperties);
 
             // Set the token as a cookie
             Response.Cookies.Append("AuthToken", response.Token, new CookieOptions
@@ -53,13 +82,6 @@ namespace TravelAgencyMVC.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        public IActionResult Logout()
-        {
-            Response.Cookies.Delete("AuthToken");
-
-            return RedirectToAction("Index");
         }
     }
 }
