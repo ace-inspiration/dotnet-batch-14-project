@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "User Register";
+    Layout = "_Login_Layout";
+}
+
+<div class="login_container d-flex justify-content-center align-items-center">
+    <div class="loginDiv">
+        <h2 class="login_text">Register</h2>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form method="post" action="@Url.Action("Register", "Register")">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="Name" class="form-control" placeholder="Enter your name" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="Email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="Password" class="form-control" placeholder="Enter your password" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="PhoneNumber" class="form-control" placeholder="Enter your phone number" required>
+            </div>
+
+            <!-- Role is hidden, default to 'User' -->
+            <input type="hidden" name="Role" value="User">
+
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+
+            <div class="mt-2 text-center">
+                <span>
+                    Already have an account? <a class="text-primary" href="@Url.Action("Index", "Login")">Login</a> here!
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
