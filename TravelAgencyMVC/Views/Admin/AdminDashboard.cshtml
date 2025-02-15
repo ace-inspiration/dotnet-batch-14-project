@@ -6,60 +6,67 @@
 @{
 	int no = 0;
 }
-
-<!-- Include Font Awesome for the icon -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 <style>
-	/* .nav-link:hover { */
-	/* background: rgba(15, 35, 247, 0.3); */
-	/* color: #0f0d0d; */
-	/* border-radius: 5px; */
-	/* } */
+    .table-section {
+        margin-bottom: 40px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-	/* .nav-link.active { */
-	/* background: rgba(15, 35, 247, 0.3); */
-	/* color: #0f0d0d; */
-	/* border-radius: 5px; */
-	/* } */
-	.sidebar {
-		background: #1a4778;
-		min-height: 100vh;
-		padding: 20px;
-		color: white;
-		box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-		border-radius: 8px;
+    .search-bar {
+        margin-bottom: 20px;
+    }
 
-	}
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+            margin-right: 10px;
+        }
 
-		.sidebar h4 {
-			text-align: center;
-			margin-bottom: 20px;
-			font-weight: bold;
-			color: white;
-		}
+        .search-bar button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-	.nav .nav-item {
-		margin-bottom: 10px;
-	}
+            .search-bar button:hover {
+                background: #0056b3;
+            }
 
-	.nav-link {
-		color: white;
-		display: flex;
-		align-items: center;
-		padding: 10px;
-		border-radius: 5px;
-		transition: background 0.3s;
-	}
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #212529;
+    }
 
-		.nav-link i {
-			margin-right: 10px;
-			font-size: 18px;
-		}
+        .table th,
+        .table td {
+            padding: 12px;
+            vertical-align: middle;
+            border-top: 1px solid #dee2e6;
+        }
 
-		.nav-link:hover, .nav-link.active {
-			background: rgba(255, 255, 255, 0.2);
-			color: white;
-		}
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
 
 	.search-bar {
 		display: flex;
@@ -95,338 +102,317 @@
 		button i {
 			font-size: 20px;
 			color: #333;
-		}
+		}	
+		
 </style>
+<!-- Tables -->
+<div class="col-md-12 body">
+    <!-- Bookings Table -->
+    <div id="bookingsTable" class="table-section" style="@(ViewBag.ActiveTab == "bookings" ? "display: block;" : "display: none;")">
+        <h4>Bookings</h4>
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="bookingSearchInput">
+            <button type="button" onclick="searchFunction('bookingsTable', 'bookingSearchInput')">🔍</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th>No</th>
+                    <th>User Name</th>
+                    <th>Package Title</th>
+                    <th>Travelers</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in Model.Bookings)
+                {
+                    <tr>
+                        <td>@(++no)</td>
+                        <td>@booking.User.Name</td>
+                        <td>@booking.TravelPackage.Title</td>
+                        <td>@booking.NumberOfTravelers</td>
+                        <td>@booking.TotalPrice</td>
+                        <td>@booking.Status</td>
+                        <td>
+                            @if (booking.Status.Equals("Pending", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <a href="javascript:void(0);" class="btn btn-success"
+                                   onclick="confirmAction('@Url.Action("ConfirmBooking", "Admin", new { bookingId = booking.Id })', 'verify', '@booking.Id', 'booking')">
+                                    Verify
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" style="width:100px;" disabled>Verified</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
+    <!-- Payments Table -->
+    <div id="paymentsTable" class="table-section" style="@(ViewBag.ActiveTab == "payments" ? "display: block;" : "display: none;")">
+        <h4>Payments</h4>
+        @{
+            no = 0;
+        }
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="paymentSearchInput">
+            <button type="button" onclick="searchFunction('paymentsTable', 'paymentSearchInput')">🔍</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-success">
+                <tr>
+                    <th>No</th>
+                    <th>User Name</th>
+                    <th>Booking Date</th>
+                    <th>Travel Title</th>
+                    <th>Amount</th>
+                    <th>Payment Date</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var payment in Model.Payments)
+                {
+                    <tr>
+                        <td>@(++no)</td>
+                        <td>@payment.User.Name</td>
+                        <td>@payment.Booking.BookingDate.ToString("yyyy-MM-dd")</td>
+                        <td>@payment.TravelPackage.Title</td>
+                        <td>@payment.Amount</td>
+                        <td>@payment.PaymentDate?.ToString("yyyy-MM-dd")</td>
+                        <td>@payment.PaymentType</td>
+                        <td>@payment.PaymentStatus</td>
+                        <td>
+                            @if (payment.PaymentStatus.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <a href="javascript:void(0);" class="btn btn-success"
+                                   onclick="confirmAction('@Url.Action("ConfirmPayment", "Admin", new { paymentId = payment.Id })', 'verify', '@payment.Id', 'payment')">
+                                    Verify
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary" style="width:100px;" disabled>Verified</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<div class="container-fluid mt-5">
-	<div class="row">
-		<div class="col-md-2 sidebar">
-			<h4>Admin Dashboard</h4>
-			<ul class="nav flex-column mt-3" id="adminTabs" role="tablist">
-				<li class="nav-item">
-					<a class="nav-link active" id="bookings-tab" data-bs-toggle="tab" href="#bookings" role="tab">
-						<i class="fa-solid fa-book-open"></i> <span>Bookings</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="payments-tab" data-bs-toggle="tab" href="#payments" role="tab">
-						<i class="fa-solid fa-wallet"></i> <span>Payments</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="travelers-tab" data-bs-toggle="tab" href="#travelers" role="tab">
-						<i class="fa-solid fa-users"></i> <span>Travelers</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">
-						<i class="fa-solid fa-user"></i> <span>Users</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="packages-tab" data-bs-toggle="tab" href="#packages" role="tab">
-						<i class="fa-solid fa-briefcase"></i> <span>Travel Packages</span>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="packages-tab" data-bs-toggle="tab" href="#insertpackages" role="tab">
-						<i class="fa-solid fa-briefcase"></i> <span>Insert Travel Packages</span>
-					</a>
-				</li>
-			</ul>
-		</div>
+    <!-- Travelers Table -->
+    <div id="travelersTable" class="table-section" style="@(ViewBag.ActiveTab == "travelers" ? "display: block;" : "display: none;")">
+        <h4>Travelers</h4>
+        @{
+            no = 0;
+        }
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="travelersSearchInput">
+            <button type="button" onclick="searchFunction('travelersTable', 'travelersSearchInput')">🔍</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-warning">
+                <tr>
+                    <th>No.</th>
+                    <th>Booking ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var traveler in Model.Travelers)
+                {
+                    <tr>
+                        <td>@(++no)</td>
+                        <td>@traveler.BookingId</td>
+                        <td>@traveler.Name</td>
+                        <td>@traveler.Age</td>
+                        <td>@traveler.Gender</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-		<!-- Main Content -->
-		<div class="col-md-10">
-			<div class="tab-content mt-3">
-				<!-- Bookings Tab -->
-				<div class="tab-pane fade show active" id="bookings" role="tabpanel">
-					<h4>Bookings</h4>
-					<div class="search-bar">
-						<input type="text" placeholder="Search..." id="bookingSearchInput">
-						<button type="button" onclick="searchFunction('bookingsTable', 'bookingSearchInput')">🔍</button>
-					</div>
-					<table class="table table-bordered table-hover table-striped" id="bookingsTable" style="background-color: #f8f9fa;">
-						<thead class="table-primary">
-							<tr>
-								<th>No</th>
-								<th>User Name</th>
-								<th>Package Title</th>
-								<th>Travelers</th>
-								<th>Total Price</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var booking in Model.Bookings)
-							{
-								<tr>
-									<td>@(++no)</td>
-									<td>@booking.User.Name</td>
-									<td>@booking.TravelPackage.Title</td>
-									<td>@booking.NumberOfTravelers</td>
-									<td>@booking.TotalPrice</td>
-									<td>@booking.Status</td>
-									<td>
-										@if (booking.Status.Equals("Pending", StringComparison.OrdinalIgnoreCase))
-										{
-											<a href="javascript:void(0);" class="btn btn-success"
-											   onclick="confirmAction('@Url.Action("ConfirmBooking", "Admin", new { bookingId = booking.Id })', 'verify', '@booking.Id', 'booking')">
-												Verify
-											</a>
-										}
-										else
-										{
-											<button class="btn btn-secondary" style="width:100px;" disabled>Verified</button>
-										}
-									</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
+    <!-- Users Table -->
+    <div id="usersTable" class="table-section" style="@(ViewBag.ActiveTab == "users" ? "display: block;" : "display: none;")">
+        <h4>Users</h4>
+        @{
+            no = 0;
+        }
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="usersSearchInput">
+            <button type="button" onclick="searchFunction('usersTable', 'usersSearchInput')">🔍</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-danger">
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@(++no)</td>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>@user.Role</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-				<!-- Payments Tab -->
-				<div class="tab-pane fade" id="payments" role="tabpanel">
-					<h4>Payments</h4>
-					@{
-						no = 0;
-					}
-					<div class="search-bar">
-						<input type="text" placeholder="Search..." id="paymentSearchInput">
-						<button type="button" onclick="searchFunction('paymentsTable', 'paymentSearchInput')">🔍</button>
-					</div>
-					<table class="table table-bordered table-hover table-striped" id="paymentsTable" style="background-color: #f8f9fa;">
-						<thead class="table-success">
-							<tr>
-								<th>No</th>
-								<th>User Name</th>
-								<th>Booking Date</th>
-								<th>Travel Title</th>
-								<th>Amount</th>
-								<th>Payment Date</th>
-								<th>Payment Method</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							@{
-								int paymentNo = 1;
-							}
-							@foreach (var payment in Model.Payments)
-							{
-								<tr>
-									<td>@(++no)</td>
-									<td>@payment.User.Name</td>
-									<td>@payment.Booking.BookingDate.ToString("yyyy-MM-dd")</td>
-									<td>@payment.TravelPackage.Title</td>
-									<td>@payment.Amount</td>
-									<td>@payment.PaymentDate?.ToString("yyyy-MM-dd")</td>
-									<td>@payment.PaymentType</td>
-									<td>@payment.PaymentStatus</td>
-									<td>
-										@if (payment.PaymentStatus.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
-										{
-											<a href="javascript:void(0);" class="btn btn-success"
-											   onclick="confirmAction('@Url.Action("ConfirmPayment", "Admin", new { paymentId = payment.Id })', 'verify', '@payment.Id', 'payment')">
-												Verify
-											</a>
-										}
-										else
-										{
-											<button class="btn btn-secondary" style="width:100px;" disabled>Verified</button>
-										}
-									</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
+    <!-- Packages Table -->
+    <div id="packagesTable" class="table-section" style="@(ViewBag.ActiveTab == "packages" ? "display: block;" : "display: none;")">
+        <h4>Travel Packages</h4>
+        @{
+            no = 0;
+        }
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." id="packagesSearchInput">
+            <button type="button" onclick="searchFunction('packagesTable', 'packagesSearchInput')">🔍</button>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="table-info">
+                <tr>
+                    <th>No.</th>
+                    <th>Title</th>
+                    <th>Destination</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var package in Model.TravelPackages)
+                {
+                    <tr>
+                        <td>@(++no)</td>
+                        <td>@package.Title</td>
+                        <td>@package.Destination</td>
+                        <td>@package.Price</td>
+                        <td>@package.Duration <span>days</span></td>
+                        <td>@package.Status </td>
+                        <td>
+                            @if (package.Status == "Activate")
+                            {
+                                <a href="javascript:void(0);" class="btn btn-danger btn-sm"
+                                   onclick="confirmAction('@Url.Action("DeactivateTravelPackage", "Admin", new { id = package.Id })', 'deactivate', '@package.Title', 'package')">
+                                    Deactivate-Package
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:void(0);" class="btn btn-success btn-sm"
+                                   onclick="confirmAction('@Url.Action("ActivateTravelPackage", "Admin", new { id = package.Id })', 'activate', '@package.Title', 'package')">
+                                    Activate-Package
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-				<div class="tab-pane fade" id="travelers" role="tabpanel">
-					<h4>Travelers</h4>
-					@{
-						no = 0;
-					}
-					<div class="search-bar">
-						<input type="text" placeholder="Search..." id="travelersSearchInput">
-						<button type="button" onclick="searchFunction('travelersTable', 'travelersSearchInput')">🔍</button>
-					</div>
-					<table class="table table-bordered table-hover table-striped" id="travelersTable" style="background-color: #f8f9fa;">
-						<thead class="table-warning">
-							<tr>
-								<th>No.</th>
-								<th>Booking ID</th>
-								<th>Name</th>
-								<th>Age</th>
-								<th>Gender</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var traveler in Model.Travelers)
-							{
-								<tr>
-									<td>@(++no)</td>
-									<td>@traveler.BookingId</td>
-									<td>@traveler.Name</td>
-									<td>@traveler.Age</td>
-									<td>@traveler.Gender</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-				<div class="tab-pane fade" id="users" role="tabpanel">
-					<h4>Users</h4>
-					@{
-						no = 0;
-					}
-					<div class="search-bar">
-						<input type="text" placeholder="Search..." id="usersSearchInput">
-						<button type="button" onclick="searchFunction('usersTable', 'usersSearchInput')">🔍</button>
-					</div>
-					<table class="table table-bordered table-hover table-striped" id="usersTable" style="background-color: #f8f9fa;">
-						<thead class="table-danger">
-							<tr>
-								<th>No.</th>
-								<th>Name</th>
-								<th>Email</th>
-								<th>Phone</th>
-								<th>Role</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var user in Model.Users)
-							{
-								<tr>
-									<td>@(++no)</td>
-									<td>@user.Name</td>
-									<td>@user.Email</td>
-									<td>@user.Phone</td>
-									<td>@user.Role</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-				<div class="tab-pane fade" id="packages" role="tabpanel">
-					<h4>Travel Packages</h4>
-					@{
-						no = 0;
-					}
-					<div class="search-bar">
-						<input type="text" placeholder="Search..." id="packagesSearchInput">
-						<button type="button" onclick="searchFunction('packagesTable', 'packagesSearchInput')">🔍</button>
-					</div>
-					<table class="table table-bordered table-hover table-striped" id="packagesTable" style="background-color: #f8f9fa;">
-						<thead class="table-info">
-							<tr>
-								<th>No.</th>
-								<th>Title</th>
-								<th>Destination</th>
-								<th>Price</th>
-								<th>Duration</th>
-								<th>Status</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							@foreach (var package in Model.TravelPackages)
-							{
-								<tr>
-									<td>@(++no)</td>
-									<td>@package.Title</td>
-									<td>@package.Destination</td>
-									<td>@package.Price</td>
-									<td>@package.Duration <span>days</span></td>
-									<td>@package.Status </td>
-									<td>
-										@if (package.Status == "Activate")
-										{
-											<a href="javascript:void(0);" class="btn btn-danger btn-sm"
-											   onclick="confirmAction('@Url.Action("DeactivateTravelPackage", "Admin", new { id = package.Id })', 'deactivate', '@package.Title', 'package')">
-												Deactivate-Package
-											</a>
-										}
-										else
-										{
-											<a href="javascript:void(0);" class="btn btn-success btn-sm"
-											   onclick="confirmAction('@Url.Action("ActivateTravelPackage", "Admin", new { id = package.Id })', 'activate', '@package.Title', 'package')">
-												Activate-Package
-											</a>
-										}
-									</td>
-								</tr>
-							}
-						</tbody>
-					</table>
-				</div>
-				<div class="tab-pane fade" id="insertpackages" role="tabpanel">
-					<h4 class="text-primary">Insert Travel Package</h4>
-					<form id="insertPackageForm" asp-action="SaveTravelPackage" method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-lg bg-light">
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="title" class="form-label fw-bold text-secondary">Title</label>
-							<input type="text" class="form-control" id="title" name="Title" required style="width: 700px; margin-right:260px;">
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="destination" class="form-label fw-bold text-secondary">Destination</label>
-							<input type="text" class="form-control" id="destination" name="Destination" required style="width: 700px;margin-right:260px; ">
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="price" class="form-label fw-bold text-secondary">Price</label>
-							<input type="number" step="0.01" class="form-control" id="price" name="Price" required style="width: 700px; margin-right:260px;">
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="inclusions" class="form-label fw-bold text-secondary">Inclusions</label>
-							<textarea class="form-control" id="inclusions" name="Inclusions" rows="2" required style="width: 700px; margin-right:260px;"></textarea>
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="cancellationPolicy" class="form-label fw-bold text-secondary">Cancellation Policy</label>
-							<textarea class="form-control" id="cancellationPolicy" name="CancellationPolicy" rows="2" required style="width: 700px;margin-right:260px;"></textarea>
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="description" class="form-label fw-bold text-secondary">Description</label>
-							<textarea class="form-control" id="description" name="Description" rows="3" required style="width: 700px;margin-right:260px;"></textarea>
-						</div>
-						<div class="mb-3 d-flex align-items-center justify-content-between">
-							<label for="photo" class="form-label fw-bold text-secondary">Package Image</label>
-							<input type="file" class="form-control" id="photo" name="photo" accept="image/*" required style="width: 700px;margin-right:260px;">
-						</div>
-						<div class="d-flex justify-content-end">
-							<button type="submit" class="btn btn-primary me-2" >Insert</button>
-							<button type="button" class="btn btn-secondary" id="cancelButton" style="margin-right:260px; width:100px;">Cancel</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+    <!-- Insert Packages Form -->
+    <div id="insertpackagesForm" class="table-section" style="@(ViewBag.ActiveTab == "insertpackages" ? "display: block;" : "display: none;")">
+        <h4>Insert Travel Package</h4>
+        <form id="insertPackageForm" asp-action="SaveTravelPackage" method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-lg bg-light">
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="title" class="form-label fw-bold text-secondary">Title</label>
+                <input type="text" class="form-control" id="title" name="Title" required style="width: 700px; margin-right:260px;">
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="destination" class="form-label fw-bold text-secondary">Destination</label>
+                <input type="text" class="form-control" id="destination" name="Destination" required style="width: 700px;margin-right:260px; ">
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="price" class="form-label fw-bold text-secondary">Price</label>
+                <input type="number" step="0.01" class="form-control" id="price" name="Price" required style="width: 700px; margin-right:260px;">
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="inclusions" class="form-label fw-bold text-secondary">Inclusions</label>
+                <textarea class="form-control" id="inclusions" name="Inclusions" rows="2" required style="width: 700px; margin-right:260px;"></textarea>
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="cancellationPolicy" class="form-label fw-bold text-secondary">Cancellation Policy</label>
+                <textarea class="form-control" id="cancellationPolicy" name="CancellationPolicy" rows="2" required style="width: 700px;margin-right:260px;"></textarea>
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="description" class="form-label fw-bold text-secondary">Description</label>
+                <textarea class="form-control" id="description" name="Description" rows="3" required style="width: 700px;margin-right:260px;"></textarea>
+            </div>
+            <div class="mb-3 d-flex align-items-center justify-content-between">
+                <label for="photo" class="form-label fw-bold text-secondary">Package Image</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required style="width: 700px;margin-right:260px;">
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary me-2">Insert</button>
+                <button type="button" class="btn btn-secondary" id="cancelButton" style="margin-right:260px; width:100px;">Cancel</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 @section scripts {
 	<script>
-		document.addEventListener("DOMContentLoaded", function () {
-			const urlParams = new URLSearchParams(window.location.search);
-			const activeTab = urlParams.get('tab');
+                document.addEventListener("DOMContentLoaded", function () {
+            // Get all menu links with data-target attributes
+            const menuLinks = document.querySelectorAll('.menu-link[data-target]');
 
-			if (activeTab) {
-				// Remove active class from all tabs
-				document.querySelectorAll('.nav-link').forEach(tab => tab.classList.remove('active'));
-				document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('show', 'active'));
+            // Add click event listeners to each menu link
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
 
-				// Activate the selected tab
-				const selectedTab = document.getElementById(activeTab + "-tab");
-				const selectedPane = document.getElementById(activeTab);
+                    // Get the target table ID from the data-target attribute
+                    const targetId = this.getAttribute('data-target');
 
-				if (selectedTab && selectedPane) {
-					selectedTab.classList.add("active");
-					selectedPane.classList.add("show", "active");
-				}
-			}
-		});
+                    // Hide all tables
+                    document.querySelectorAll('.table-section').forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    // Show the target table
+                    const targetTable = document.getElementById(targetId);
+                    if (targetTable) {
+                        targetTable.style.display = 'block';
+                    }
+
+                    // Update active menu item
+                    menuLinks.forEach(link => link.parentElement.classList.remove('active'));
+                    this.parentElement.classList.add('active');
+                });
+            });
+
+            // Show the default table based on the active tab
+            const activeTab = '@ViewBag.ActiveTab';
+            const defaultTable = document.getElementById(activeTab + 'Table');
+            if (defaultTable) {
+                defaultTable.style.display = 'block';
+            }
+        });
+
 		function searchFunction(tableId, inputId) {
 			let input = document.getElementById(inputId).value.toLowerCase();
 			let table = document.getElementById(tableId);
@@ -521,9 +507,6 @@
 			});
 			   Swal.getCancelButton().style.width = '100px';
 		}
-
-
-
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

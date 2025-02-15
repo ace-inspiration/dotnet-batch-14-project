@@ -156,6 +156,11 @@ public class PaymentService
         }
         return paymentData;
     }
+    public async Task<List<PaymentData>> GetPaymentDataByUserId(string userId)
+    {
+        var payments = await GetPaymentData();
+        return payments.Where(x => x.User.Id == userId).ToList();
+    }
 
 }
 
