@@ -90,6 +90,12 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             }
             return bookingData;
         }
+        public async Task<List<bookdata>> GetBookDatabyUserId(string userId)
+        {
+            var bookdata = await GetBookingData();
+            return bookdata.Where(x => x.User.Id == userId).ToList();
+
+        }
         public async Task<BookingResponseModel> Execute(string bookingId, string travelerId)
         {
             BookingResponseModel model = new BookingResponseModel();

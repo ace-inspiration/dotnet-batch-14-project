@@ -44,7 +44,7 @@ public class AdminController : Controller
         _userListService = userListService;
         _db = db;
     }
-    public async Task<IActionResult> AdminDashboard()
+    public async Task<IActionResult> AdminDashboard(string tab = "bookings")
     {
         var bookings = await _bookingService.GetBookingData();
         var payments = await _paymentService.GetPaymentData();
@@ -62,7 +62,9 @@ public class AdminController : Controller
             Users = userResponse,
             TravelPackages = travelPackages,
         };
-        return View("AdminDashboard", Model);
+        ViewBag.ActiveTab = tab;
+
+        return View(Model);
     }
 
     [HttpPost]
@@ -84,28 +86,48 @@ public class AdminController : Controller
     public async Task<IActionResult> ActivateTravelPackage(string id)
     {
         var result = await _activateTravelPackageService.Execute(id);
-        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", "Admin", new { tab = "packages" })
+        });
     }
 
     [ActionName("DeactivateTravelPackage")]
     public async Task<IActionResult> DeactivateTravelPackage(string id)
     {
         var result = await _deactivateTravelPackageService.Execute(id);
-        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" }) });
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", "Admin", new { tab = "packages" })
+        });
     }
 
     [ActionName("ConfirmBooking")]
     public async Task<IActionResult> ConfirmBooking(string bookingId)
     {
         var result = await _bookingService.ConfirmBooking(bookingId);
-        return Json(new { success = result.Success, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "bookings" }) });
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", "Admin", new { tab = "bookings" })
+        });
     }
 
     [ActionName("ConfirmPayment")]
     public async Task<IActionResult> ConfirmPayment(string paymentId)
     {
         var result = await _paymentService.ConfirmPayment(paymentId);
-        return Json(new { success = result.IsSuccess, message = result.Message, redirectUrl = Url.Action("AdminDashboard", new { tab = "payments" }) });
+        return Json(new
+        {
+            success = result.IsSuccess,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", "Admin", new { tab = "payments" })
+        });
     }
 
 
