@@ -26,4 +26,5 @@ namespace TravelAgency.Domain.Features.TravelPackages
 
         public string Status { get; set; } = null!;
     }
+    
 }

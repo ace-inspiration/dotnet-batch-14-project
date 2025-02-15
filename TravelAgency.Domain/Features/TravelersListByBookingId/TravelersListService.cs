@@ -43,5 +43,29 @@ public class TravelersListService
     {
         return await _db.Travelers.AsNoTracking().ToListAsync();
     }
+    public async Task<List<Travelerdata>> Travelerdatas()
+    {
+        var bookings = await _db.Bookings.ToListAsync();
+        var travelPackages = await _db.TravelPackages.ToListAsync();
+        var travelers = await _db.Travelers.ToListAsync();
+        var Travelerdata = new List<Travelerdata>();
+        foreach (var booking in bookings)
+        {
+            var travelpackage = travelPackages.FirstOrDefault(tp => tp.Id == booking.TravelPackageId);
+            var traveler = travelers.Where(t => t.BookingId == booking.Id).ToList();
+            foreach (var t in traveler)
+            {
+                Travelerdata.Add(new Travelerdata
+                {
+                    booking = booking,
+                    TravelPackage = travelpackage,
+                    Name = t.Name,
+                    Age = t.Age,
+                    Gender = t.Gender,
+                });
+            }
+        }
+        return Travelerdata;
+    }
 
 }

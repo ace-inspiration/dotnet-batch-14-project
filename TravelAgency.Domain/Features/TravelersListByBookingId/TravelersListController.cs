@@ -35,5 +35,22 @@ namespace TravelAgency.Domain.Features.TravelersListByBookingId
             }
         }
 
+        [HttpGet("travelerdata")]
+        public async Task<IActionResult> GetTravelerdata()
+        {
+            try
+            {
+                var response = await _traveler.Travelerdatas();
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new BookingResponseModel
+                {
+                    Message = ex.Message,
+                });
+            }
+        }
+
     }
 }
