@@ -21,22 +21,10 @@ namespace TravelAgency.Domain.Features.TravelPackages
         }
 
         // Get All Travel Packages
-        public async Task<List<TravelPackageRequestModel>> Execute()
+        public async Task<List<TravelPackage>> Execute()
         {
-            return await _db.TravelPackages
-                .Select(tp => new TravelPackageRequestModel
-                {
-                    Id = tp.Id,
-                    Title = tp.Title,
-                    Destination = tp.Destination,
-                    Description = tp.Description,
-                    Price = tp.Price,
-                    Duration = tp.Duration,
-                    Inclusions = tp.Inclusions,
-                    CancellationPolicy = tp.CancellationPolicy,
-                    Status = tp.Status
-                })
-                .ToListAsync();
+            var travelPackages = await _db.TravelPackages.ToListAsync();
+            return travelPackages;
         }
 
         public async Task<TravelPackageResponseModel> CreateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)

@@ -50,7 +50,7 @@ namespace TravelAgencyMVC.Controllers
             {
                 new Claim(ClaimTypes.Name, model.Name),
                 new Claim(ClaimTypes.Email, model.Email),
-                new Claim(ClaimTypes.Role, model.Role) // Add the user's role
+                new Claim(ClaimTypes.Role, model.Role) 
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

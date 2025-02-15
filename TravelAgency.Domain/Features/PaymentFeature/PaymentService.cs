@@ -115,8 +115,6 @@ public class PaymentService
                 Data = null
             };
     }
-
-
     public async Task<List<Payment>> GetPayments()
     {
         return await _db.Payments.AsNoTracking().ToListAsync();
