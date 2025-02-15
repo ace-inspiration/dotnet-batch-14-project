@@ -102,10 +102,7 @@
 		button i {
 			font-size: 20px;
 			color: #333;
-		}
-
-
-		
+		}	
 		
 </style>
 <!-- Tables -->
@@ -161,6 +158,9 @@
     <!-- Payments Table -->
     <div id="paymentsTable" class="table-section" style="@(ViewBag.ActiveTab == "payments" ? "display: block;" : "display: none;")">
         <h4>Payments</h4>
+        @{
+            no = 0;
+        }
         <div class="search-bar">
             <input type="text" placeholder="Search..." id="paymentSearchInput">
             <button type="button" onclick="searchFunction('paymentsTable', 'paymentSearchInput')">🔍</button>
@@ -213,6 +213,9 @@
     <!-- Travelers Table -->
     <div id="travelersTable" class="table-section" style="@(ViewBag.ActiveTab == "travelers" ? "display: block;" : "display: none;")">
         <h4>Travelers</h4>
+        @{
+            no = 0;
+        }
         <div class="search-bar">
             <input type="text" placeholder="Search..." id="travelersSearchInput">
             <button type="button" onclick="searchFunction('travelersTable', 'travelersSearchInput')">🔍</button>
@@ -245,6 +248,9 @@
     <!-- Users Table -->
     <div id="usersTable" class="table-section" style="@(ViewBag.ActiveTab == "users" ? "display: block;" : "display: none;")">
         <h4>Users</h4>
+        @{
+            no = 0;
+        }
         <div class="search-bar">
             <input type="text" placeholder="Search..." id="usersSearchInput">
             <button type="button" onclick="searchFunction('usersTable', 'usersSearchInput')">🔍</button>
@@ -277,6 +283,9 @@
     <!-- Packages Table -->
     <div id="packagesTable" class="table-section" style="@(ViewBag.ActiveTab == "packages" ? "display: block;" : "display: none;")">
         <h4>Travel Packages</h4>
+        @{
+            no = 0;
+        }
         <div class="search-bar">
             <input type="text" placeholder="Search..." id="packagesSearchInput">
             <button type="button" onclick="searchFunction('packagesTable', 'packagesSearchInput')">🔍</button>
