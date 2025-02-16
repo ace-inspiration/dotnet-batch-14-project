@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using System.Diagnostics;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgencyMVC.Models;
@@ -11,6 +12,7 @@ namespace TravelAgencyMVC.Controllers;
 public class HomeController : Controller
 {
     private readonly TravelPackageService _travelPackageService;
+    
 
     public HomeController(TravelPackageService travelPackageService)
     {
@@ -57,6 +59,16 @@ public class HomeController : Controller
         return View("PackageDetail", item);
     }
     
+    public async Task<IActionResult> BookingHistory()
+    {
+        var lst = await _travelPackageService.Execute();
+        return View("BookingHistory",lst);
+    }
+
+    public async Task<IActionResult> Payment()
+    {
+        return View("Payment");
+    }
 
     }
 
