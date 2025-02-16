@@ -21,13 +21,6 @@ namespace TravelAgency.Domain.Features.UserRegister
         {
             UserRegisterResponseModel model = new UserRegisterResponseModel();
 
-            if (requestModel.Role == "Admin")
-            {
-
-                model.Message = "Admin registration is not allowed";
-                return model;
-                
-            }
             var existingUser = await _db.Users
         .Where(u => u.Email == requestModel.Email)
         .FirstOrDefaultAsync();
@@ -49,7 +42,7 @@ namespace TravelAgency.Domain.Features.UserRegister
                 Email = requestModel.Email,
                 PasswordHash = hashPassword,
                 Phone = requestModel.Phone,
-                Role = requestModel.Role
+                Role = "user"
             };
 
             await _db.Users.AddAsync(user);

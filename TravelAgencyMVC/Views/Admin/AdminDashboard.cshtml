@@ -16,11 +16,9 @@
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-
     .search-bar {
         margin-bottom: 20px;
     }
-
         .search-bar input {
             padding: 10px;
             border: 1px solid #ddd;
@@ -118,6 +116,7 @@
             <thead class="table-primary">
                 <tr>
                     <th>No</th>
+                    <th>Booking Invoice</th>
                     <th>User Name</th>
                     <th>Package Title</th>
                     <th>Travelers</th>
@@ -131,6 +130,7 @@
                 {
                     <tr>
                         <td>@(++no)</td>
+						<td>@booking.InvoiceNumber</td>
                         <td>@booking.User.Name</td>
                         <td>@booking.TravelPackage.Title</td>
                         <td>@booking.NumberOfTravelers</td>
@@ -169,6 +169,7 @@
             <thead class="table-success">
                 <tr>
                     <th>No</th>
+                    <th>Booking Invoice</th>
                     <th>User Name</th>
                     <th>Booking Date</th>
                     <th>Travel Title</th>
@@ -184,6 +185,7 @@
                 {
                     <tr>
                         <td>@(++no)</td>
+                        <td>@payment.Booking.InvoiceNumber</td>
                         <td>@payment.User.Name</td>
                         <td>@payment.Booking.BookingDate.ToString("yyyy-MM-dd")</td>
                         <td>@payment.TravelPackage.Title</td>
@@ -224,7 +226,7 @@
             <thead class="table-warning">
                 <tr>
                     <th>No.</th>
-                    <th>Booking ID</th>
+                    <th>Booking Invoice</th>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Gender</th>
@@ -235,7 +237,7 @@
                 {
                     <tr>
                         <td>@(++no)</td>
-                        <td>@traveler.BookingId</td>
+                        <td>@traveler.booking.InvoiceNumber</td>
                         <td>@traveler.Name</td>
                         <td>@traveler.Age</td>
                         <td>@traveler.Gender</td>

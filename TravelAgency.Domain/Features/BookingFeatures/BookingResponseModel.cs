@@ -22,6 +22,8 @@ public class bookdata
 
     public User User { get; set; } = null!;
 
+    public string InvoiceNumber { get; set; } = null!;
+
     public TravelPackage TravelPackage { get; set; } = null!;
 
     public int NumberOfTravelers { get; set; }

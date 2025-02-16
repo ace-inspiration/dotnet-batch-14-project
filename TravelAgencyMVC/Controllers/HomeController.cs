@@ -16,17 +16,30 @@ public class HomeController : Controller
     {
         _travelPackageService = travelPackageService;
     }
-
-    public IActionResult Index()
+namespace TravelAgencyMVC.Controllers
+{
+    [Authorize]
+    public class HomeController : Controller
     {
-        if (User.IsInRole("admin"))
+        private readonly TravelPackageService _travelPackageService;
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger, TravelPackageService travelPackageService)
         {
-            return RedirectToAction("AdminDashboard", "Admin");
+            _logger = logger;
+            _travelPackageService = travelPackageService;
         }
 
-        ViewBag.UserName = User.Identity.Name;
-        return View();
-    }
+        public IActionResult Index()
+        {
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+
+            ViewBag.UserName = User.Identity.Name;
+            return View();
+        }
 
     public IActionResult Privacy()
     {

@@ -12,16 +12,34 @@ namespace TravelAgency.Domain.Features.BookingFeatures
         }
         public async Task<BookingResponseModel> Execute(BookingRequestModel booking)
         {
+            // Check if the user exists
             var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == booking.UserId);
             if (user == null)
             {
                 return new BookingResponseModel { Success = false, Message = "User not found", Data = null };
             }
+
+            // Check if the travel package exists
             var travelPackage = await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(tp => tp.Id == booking.TravelPackageId);
             if (travelPackage == null)
             {
                 return new BookingResponseModel { Success = false, Message = "Travel package not found", Data = null };
             }
+
+            // Generate the invoice number
+            var lastBooking = await _db.Bookings
+                .OrderByDescending(b => b.InvoiceNumber)
+                .FirstOrDefaultAsync();
+
+            int lastInvoiceNumber = 0;
+            if (lastBooking != null && int.TryParse(lastBooking.InvoiceNumber, out int parsedNumber))
+            {
+                lastInvoiceNumber = parsedNumber;
+            }
+
+            string invoiceNumber = (lastInvoiceNumber + 1).ToString("D3"); // Format as 3 digits (e.g., 001, 002, etc.)
+
+            // Create the booking
             var Travelerlst = booking.Travelers;
             var Book = new Booking
             {
@@ -32,12 +50,16 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                 TotalPrice = travelPackage.Price * Travelerlst.Count,
                 BookingDate = DateTime.Now,
                 TravelStartdate = booking.TravelStartdate,
-                TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration), // Fixed duration addition
+                TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
+                InvoiceNumber = invoiceNumber, // Assign the generated invoice number
                 Status = "Pending"
             };
 
+            // Add the booking to the database
             _db.Bookings.Add(Book);
             var result = await _db.SaveChangesAsync();
+
+            // Add travelers to the database
             foreach (var traveler in Travelerlst)
             {
                 var Traveler = new Traveler
@@ -55,6 +77,8 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                     return new BookingResponseModel { Success = false, Message = "Traveler addition failed", Data = null };
                 }
             }
+
+            // Return the response
             return result == 1 ?
                 new BookingResponseModel { Success = true, Message = "Booking created successfully", Data = Book } :
                 new BookingResponseModel { Success = false, Message = "Booking creation failed", Data = null };
@@ -85,7 +109,8 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                     BookingDate = booking.BookingDate,
                     TravelStartdate = booking.TravelStartdate,
                     TravelEnddate = booking.TravelEnddate,
-                    Status = booking.Status
+                    Status = booking.Status,
+                    InvoiceNumber = booking.InvoiceNumber
                 });
             }
             return bookingData;
@@ -149,7 +174,6 @@ namespace TravelAgency.Domain.Features.BookingFeatures
             model.Success = true;
             model.Message = "Success.";
             model.Data = invoice;
-
             return model;
         }
 

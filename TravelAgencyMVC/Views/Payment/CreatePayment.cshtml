@@ -1,44 +1,52 @@
-﻿
+﻿<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
+
 	.table-container {
 		position: relative;
 		width: 100%;
-		max-height: 600px; /* Set height for scrolling */
-		overflow-y: auto; /* Enable vertical scrollbar */
-		border: 1px solid #ccc; /* Border for the entire table */
+		max-height: 600px; 
+		overflow-y: auto;
+		border: 1px solid red;
+		
 	}
 
-	/* Styling for the table */
+	
 	.table {
 		width: 100%;
-		border-collapse: collapse; /* Ensures borders don't double */
-		table-layout: fixed; /* Ensures columns have equal width */
+		border-collapse: collapse; 
+		table-layout: fixed;
 	}
 
-		/* Fix the header at the top */
-		.table thead {
+		
+	.table thead {
 			position: sticky;
 			top: 0;
 			z-index: 2;
-		}
+	}
+	
+	.table tbody{
 
-		/* Styling for table header */
-		.table th {
+	}
+
+		
+	.table th {
 			background-color: rgba(0, 0, 0, 0.6);
 			color: white;
 			padding: 10px;
-			border: 1px solid #ddd; /* Border for headers */
+			border: 1px solid #ddd; 
 			text-align: center;
-		}
+	}
 
-		/* Styling for table data cells */
-		.table td {
+		
+	.table td {
 			padding: 8px;
-			border: 1px solid #ddd; /* Border for cells */
 			text-align: center;
+			border: 1px solid #ddd;
 		}
 
-	/* Styling for the View button */
+	.table tbody{
+	}
+
 	.btn_1 {
 		padding: 5px 10px;
 		background-color: #0d6665;
@@ -47,26 +55,29 @@
 		cursor: pointer;
 	}
 
-		.btn_1:hover {
-			background-color: #03060a;
-		}
+	.btn_1:hover {
+		background-color: #03060a;
+	}
 
-	/* Custom scrollbar */
+	
 	.table-container::-webkit-scrollbar {
 		width: 8px;
+		height:10px;
 	}
 
 	.table-container::-webkit-scrollbar-thumb {
 		background: #555;
 		border-radius: 4px;
+		
 	}
 
-		.table-container::-webkit-scrollbar-thumb:hover {
+	.table-container::-webkit-scrollbar-thumb:hover {
 			background: #888;
-		}
+	}
 
 </style>
-<section id="hero_2" class="background-image" data-background="url(img/slide_hero_2.jpg)">
+
+<section id="hero_2"  style="background-image: url(../img/slides/slide_2.jpg);">
     <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
         <div class="intro_title">
             <h1>Place your order</h1>
@@ -121,59 +132,9 @@
 
 <div class="container margin_60">
 	<div class="row">
-		<div class="col-lg-8 add_bottom_15">
-
-			<div class="table-container">
-				<table class="table">
-					<thead>
-					<th colspan="9" style="text-align:center; background-color:rgba(0, 0, 0, 0.6);">Payment Details</th>
-					<tr>
-						<th>No</th>
-						<th>User Name</th>
-						<th>Booking Date</th>
-						<th>Travel Package Title</th>
-						<th>Payment Date</th>
-						<th>Payment Type</th>
-						<th>Amount</th>
-						<th>Status</th>
-						<th>Action</th>
-					</tr>
-					</thead>
-					<tbody>
-						<!-- Empty 10 rows for now -->
-						<tr><td>1</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>3</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>4</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>5</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>6</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>7</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>8</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>9</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-						<tr><td>10</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn_1">View</button></td></tr>
-					</tbody>
-				</table>
-
-			</div>
-
-			<!--End step -->
-
-
-			<br /><br /><br/>
-
-			<div id="policy">
-				<h4>Cancellation policy</h4>
-				<div class="form-group">
-					<label class="container_check">
-						I accept terms and conditions and general policy.
-						<input type="checkbox">
-						<span class="checkmark"></span>
-					</label>
-				</div>
-				<a href="confirmation.html" class="btn_1 green medium">Book now</a>
-			</div>
-
-		</div>
+			@* <div class="col-lg-8 add_bottom_15">*@
+			
+			@*</div> *@
 		<aside class="col-lg-4">
 			<div class="box_style_1">
 				<h3 class="inner">- Summary -</h3>
@@ -238,6 +199,7 @@
 								Payment Date
 							</td>
 							<td class="text-end">
+								<input type="date" id="card_number" name="card_number" class="form-control">
 							</td>
 						</tr>
 						
@@ -246,10 +208,11 @@
 								Payment Type
 							</td>
 							<td class="text-end">
-								<img src="img/cards.png" width="200" height="40" alt="Cards" class="cards">
-								<img src="img/cards.png" width="200" height="40" alt="Cards" class="cards">
+								<img src="~/img/slides/kpay.jpg" width="50" height="10" alt="Kpay" class="Kpay"/>
+								<img src="~/img/slides/wave.jpg" width="200" height="40" alt="Wave" class="Wave"/>
 							</td>
 						</tr>
+
 						<tr>
 							<td style="text-align:center;">
 								Amount
@@ -266,9 +229,21 @@
 
 		</aside>
 
+		<div id="policy">
+			<h4>Cancellation policy</h4>
+			<div class="form-group">
+				<label class="container_check">
+					I accept terms and conditions and general policy.
+					<input type="checkbox">
+					<span class="checkmark"></span>
+				</label>
+			</div>
+			<a href="confirmation.html" class="btn_1 green medium">Book now</a>
+		</div>
+
 
 	</div>
 	<!--End row -->
 </div>
 <!--End container -->
-	</main>
+</main>

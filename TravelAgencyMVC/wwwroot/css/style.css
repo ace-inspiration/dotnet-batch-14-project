@@ -1879,9 +1879,11 @@ a#filters_col_bt .icon_set_1_icon-65 {
 .table td, .table th {
     border-top: none;
 }
+
+
 .table.table_summary td {
 	border-top: 1px solid #ededed;
-	width: 50%;
+	width: 100%;
 }
 
 .table.table_summary tr.total {

@@ -51,16 +51,16 @@ public class AdminController : Controller
         var payment = await _paymentService.GetPayments();
         var travelPackages = await _travelPackageService.Execute();
         var userResponse = await _userListService.Execute();
-        var travelers = await _travelersListService.GetTravelers();
+        var travelerdata = await _travelersListService.Travelerdatas();
         var booking = await _bookingService.GetBookings();
 
         var Model = new AdminDashboardViewModel
         {
             Bookings = bookings,
             Payments = payments,
-            Travelers = travelers,
+            Travelers = travelerdata,
             Users = userResponse,
-            TravelPackages = travelPackages,
+            TravelPackages = travelPackages
         };
         ViewBag.ActiveTab = tab;
 

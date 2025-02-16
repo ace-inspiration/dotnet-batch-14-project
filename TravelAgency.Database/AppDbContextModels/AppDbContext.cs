@@ -24,6 +24,7 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<Traveler> Travelers { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Booking>(entity =>
@@ -39,6 +40,10 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("booking_date");
+            entity.Property(e => e.InvoiceNumber)
+                .HasMaxLength(15)
+                .IsUnicode(false)
+                .HasColumnName("invoice_number");
             entity.Property(e => e.NumberOfTravelers).HasColumnName("number_of_travelers");
             entity.Property(e => e.Status)
                 .HasMaxLength(15)
