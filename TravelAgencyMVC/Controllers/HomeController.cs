@@ -4,29 +4,16 @@ using System.Diagnostics;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgencyMVC.Models;
 
-namespace TravelAgencyMVC.Controllers;
 
-[Authorize]
-public class HomeController : Controller
-{
-    
-    private readonly TravelPackageService _travelPackageService;
-
-   public HomeController (TravelPackageService travelPackageService)
-    {
-        _travelPackageService = travelPackageService;
-    }
 namespace TravelAgencyMVC.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
         private readonly TravelPackageService _travelPackageService;
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, TravelPackageService travelPackageService)
+        public HomeController(TravelPackageService travelPackageService)
         {
-            _logger = logger;
             _travelPackageService = travelPackageService;
         }
 
@@ -41,25 +28,26 @@ namespace TravelAgencyMVC.Controllers
             return View();
         }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
-    public IActionResult AccessDenied()
-    {
-        return View();
-    }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    }
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
 
-    public IActionResult Packages ()
-    {
-        var lst = _travelPackageService.Execute();
-        return View("Packages", lst);
+        public async Task<IActionResult> Packages()
+        {
+            var lst = await _travelPackageService.Execute();
+            return View("Packages", lst);
+        }
     }
 }
