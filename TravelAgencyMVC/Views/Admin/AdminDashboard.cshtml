@@ -297,6 +297,7 @@
                 <tr>
                     <th>No.</th>
                     <th>Title</th>
+                    <th>Image </th>
                     <th>Destination</th>
                     <th>Price</th>
                     <th>Duration</th>
@@ -310,6 +311,9 @@
                     <tr>
                         <td>@(++no)</td>
                         <td>@package.Title</td>
+                        <td>
+                            <img src="@package.Image" alt="Package Image" width="80" height="50" style="object-fit: cover; border-radius: 5px;">
+                        </td>
                         <td>@package.Destination</td>
                         <td>@package.Price</td>
                         <td>@package.Duration <span>days</span></td>
