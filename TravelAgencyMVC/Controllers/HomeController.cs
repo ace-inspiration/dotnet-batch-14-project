@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 using TravelAgency.Domain.Features.TravelPackages;
@@ -65,7 +66,16 @@ public class HomeController : Controller
         return View("BookingHistory",lst);
     }
 
-    public async Task<IActionResult> Payment()
+    //public async Task<IActionResult> Payment(string id)
+    //{
+    //    var item = await _travelPackageService.GetTravelPackagById(id);
+        
+    //    return View("Payment",item);
+    //}   
+
+    //After finishing of creating booking we will user above method but for now we just use follwing method
+
+    public IActionResult Payment ()
     {
         return View("Payment");
     }
