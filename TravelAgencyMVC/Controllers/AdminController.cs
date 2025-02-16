@@ -52,7 +52,7 @@ public class AdminController : Controller
         var travelPackages = await _travelPackageService.Execute();
         var userResponse = await _userListService.Execute();
         var travelerdata = await _travelersListService.Travelerdatas();
-        var booking = await _bookingService.GetBookings();
+        var booking = await _bookingService.Execute();
 
         var Model = new AdminDashboardViewModel
         {

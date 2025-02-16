@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgencyMVC.Models;
 
@@ -13,11 +14,13 @@ namespace TravelAgencyMVC.Controllers;
 public class HomeController : Controller
 {
     private readonly TravelPackageService _travelPackageService;
+    private readonly BookingService _bookingService;
     
 
-    public HomeController(TravelPackageService travelPackageService)
+    public HomeController(TravelPackageService travelPackageService,BookingService bookingService)
     {
         _travelPackageService = travelPackageService;
+        _bookingService = bookingService;
     }
 
     public IActionResult Index()
@@ -59,17 +62,26 @@ public class HomeController : Controller
         var item = await _travelPackageService.GetTravelPackagById(id);
         return View("PackageDetail", item);
     }
-    
+
     public async Task<IActionResult> BookingHistory()
     {
-        var lst = await _travelPackageService.Execute();
-        return View("BookingHistory",lst);
+        var booking_lst = await _bookingService.Execute();
+        var package_lst = await _travelPackageService.Execute();
+
+        var viewModel = new BookingHistoryViewModel
+        {
+            Bookings = booking_lst,
+            Packages = package_lst
+        };
+
+        return View(viewModel);
     }
+
 
     //public async Task<IActionResult> Payment(string id)
     //{
-    //    var item = await _travelPackageService.GetTravelPackagById(id);
-        
+    //    var item = await _travelPackageService.GetTravelPackagById(id); 
+
     //    return View("Payment",item);
     //}   
 

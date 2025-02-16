@@ -32,7 +32,7 @@ public class BookingsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBookings()
     {
-        var response = await _booking.GetBookings();
+        var response = await _booking.Execute();
         return response.Count > 0 ? StatusCode(200, response) : StatusCode(404, response);
     }
 
