@@ -27,6 +27,11 @@ namespace TravelAgency.Domain.Features.TravelPackages
             return travelPackages;
         }
 
+        public async Task<TravelPackage> GetTravelPackagById(string id)
+        {
+            return (await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id))!;
+        }
+
         public async Task<TravelPackageResponseModel> CreateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
         {
             string? photoPath = null;

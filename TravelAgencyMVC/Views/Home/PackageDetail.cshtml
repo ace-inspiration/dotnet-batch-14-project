@@ -1,0 +1,282 @@
+﻿@model TravelPackage;
+
+
+<section class="parallax-window" data-parallax="scroll" data-image-src="@Model.Image"
+		 data-natural-width="1400" data-natural-height="470" style="object-fit: cover;">
+	<div class="parallax-content-2">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8">
+					<h1>@Model.Title</h1>
+					
+				
+				</div>
+				<div class="col-md-4">
+					<div id="price_single_main">
+						from/per person <span><sup>$</sup>@Model.Price</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- End section -->
+
+<main style="margin-bottom: 406.282px;">
+	<div id="position">
+		<div class="container">
+			<ul>
+				<li>
+					<a href="./single_tour_files/single_tour.html">Home</a>
+				</li>
+				<li>
+					<a href="./single_tour_files/single_tour.html">Category</a>
+				</li>
+				<li>Page active</li>
+			</ul>
+		</div>
+	</div>
+	<!-- End Position -->
+
+	<div class="collapse show" id="collapseMap">
+	</div>
+	<!-- End Map -->
+
+	<div class="container pt-3 pb-5">
+
+		<div class="row">
+
+			<div class="col-lg-8" id="single_tour_desc">
+				<h1><b>Travel Package Title</b></h1>
+
+				<p class="d-block d-lg-none">
+					<a class="btn_map" data-bs-toggle="collapse"
+					   href="file:///C:/Users/ACER/Downloads/citytours/citytours/single_tour.html#collapseMap"
+					   aria-expanded="true" aria-controls="collapseMap" data-text-swap="Hide map"
+					   data-text-original="View on map">View on map</a>
+				</p>
+				<!-- Map button for tablets/mobiles -->
+
+				<h2>Description</h2>
+				<br>
+				<div class="row">
+
+					<div class="col-lg-9">
+						<h4>@Model.Title</h4>
+						<p>
+							@Model.Description
+						</p>
+						<h4>What's include</h4>
+						<p>
+							@Model.Inclusions
+						</p>
+						<div class="row">
+							<div class="col-md-6">
+								<ul class="list_ok">
+									<li>Flight Bookings – Domestic & international airline tickets.</li>
+									<li>Hotel Accommodations – From budget to luxury stays.</li>
+									<li>Transportation – Airport transfers, rental cars, or tour buses.</li>
+									<li>Guided Tours & Sightseeing – City tours, nature excursions, historical site visits.</li>
+									<li>Meal Plans – Breakfast, half-board, or all-inclusive options.</li>
+									<li>Travel Insurance – Coverage for medical emergencies, trip cancellations, and lost baggage.</li>
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<ul class="list_ok">
+									<li>
+										Visa Assistance – Help with travel visas and documentation.
+									</li>
+									<li>Adventure Activities – Scuba diving, safaris, skiing, and more.</li>
+									<li>Cruise & Ferry Tickets – River cruises, island hopping, or luxury cruises.</li>
+									<li>
+										Customized Itineraries – Tailored experiences based on traveler preferences.
+									</li>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<hr>
+
+
+
+				<hr>
+
+
+			</div>
+			<!--End  single_tour_desc-->
+
+			<aside class="col-lg-4">
+
+				<div class="box_style_1 expose" style="z-index: 4;">
+					<h3 class="inner">- Booking -</h3>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label><i class="icon-calendar-7"></i> Date</label>
+								<input class="date-pick form-control" type="text">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<label><i class=" icon-clock"></i> Time</label>
+								<input class="time-pick form-control" value="12:00 AM" type="text">
+							</div>
+						</div>
+						<form id="bookingForm">
+							<div class="form-group">
+								<label for="travelerName">Traveler Name:</label>
+								<input type="text" id="travelerName" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label for="travelerAge">Age:</label>
+								<input type="number" id="travelerAge" class="form-control" required>
+							</div>
+							<div class="form-group">
+								<label for="travelerGender">Gender:</label>
+								<select id="travelerGender" class="form-control" required>
+									<option value="Male">Male</option>
+									<option value="Female">Female</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+							<div class="form-group mt-3">
+								<label>Travelers:</label>
+								<div id="travelerList" class="mb-3">
+									<!-- Traveler list will be shown here -->
+								</div>
+							</div>
+							<button type="button" class="btn btn-success" id="addTravelerBtn">Add Traveler</button>
+						</form>
+					</div>
+
+					<br>
+					<table class="table table_summary">
+						<tbody>
+							<tr>
+								<td>Number of Traveller</td>
+								<td class="text-end">
+									2
+								</td>
+							</tr>
+
+							<tr>
+								<td>
+									Total amount
+								</td>
+								<td class="text-end">
+									3x $52
+								</td>
+							</tr>
+							<tr class="total">
+								<td>
+									Total cost
+								</td>
+								<td class="text-end">
+									$154
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<a class="btn_full" href="file:///C:/Users/ACER/Downloads/citytours/citytours/cart.html">
+						Book
+						now
+					</a>
+
+				</div>
+				<!--/box_style_1 -->
+
+
+
+			</aside>
+		</div>
+		<!--End row -->
+	</div>
+	<!--End container -->
+
+	<div id="overlay" style="display: block;"></div>
+	<!-- Mask on input focus -->
+
+</main>
+<!-- End main -->
+
+
+@section scripts {
+	<script>
+
+				let travelers = [];
+		document.getElementById('addTravelerBtn').addEventListener('click', function() {
+			const travelerName = document.getElementById('travelerName').value;
+			const travelerAge = document.getElementById('travelerAge').value;
+			const travelerGender = document.getElementById('travelerGender').value;
+
+			if (!travelerName || !travelerAge || !travelerGender) {
+				alert("Please fill out all traveler fields");
+				return;
+			}
+			const traveler = {
+				name: travelerName,
+				age: parseInt(travelerAge),
+				gender: travelerGender
+			};
+			travelers.push(traveler);
+			document.getElementById('travelerName').value = '';
+			document.getElementById('travelerAge').value = '';
+			document.getElementById('travelerGender').value = 'Male';
+			displayTravelerList();
+		});
+
+				function displayTravelerList() {
+			const travelerListDiv = document.getElementById('travelerList');
+			travelerListDiv.innerHTML = '';
+
+			if (travelers.length === 0) {
+				travelerListDiv.innerHTML = '<p>No travelers added yet.</p>';
+				return;
+			}
+
+			const table = document.createElement('table');
+			table.classList.add('table', 'table-bordered', 'mt-2');
+
+			table.innerHTML = `
+				<thead class="thead-light">
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Age</th>
+						<th>Gender</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody id="travelerTableBody"></tbody>
+			`;
+
+			const tbody = table.querySelector('#travelerTableBody');
+
+		
+			travelers.forEach((traveler, index) => {
+				const row = document.createElement('tr');
+				row.innerHTML = `
+					<td>${index + 1}</td>
+					<td>${traveler.name}</td>
+					<td>${traveler.age}</td>
+					<td>${traveler.gender}</td>
+					<td>
+						<button class="btn btn-danger btn-sm" onclick="removeTraveler(${index})">Remove</button>
+					</td>
+				`;
+				tbody.appendChild(row);
+			});
+
+			travelerListDiv.appendChild(table);
+		}
+
+
+				function removeTraveler(index) {
+			travelers.splice(index, 1);  
+			displayTravelerList();  
+		}
+	</script>
+}
