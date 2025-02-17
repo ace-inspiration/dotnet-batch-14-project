@@ -39,7 +39,8 @@ public class LoginService
 				UserId = user.Id,
 				Name = user.Name,
 				Email = user.Email,
-				ExpireTime = DateTime.Now.AddMinutes(5),
+                PhoneNumber = user.Phone,
+                ExpireTime = DateTime.Now.AddMinutes(5),
 				Role = user.Role,
 			};
 

@@ -302,7 +302,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <h6 class="mb-0">John Doe</h6>
+                                                    <h6 class="mb-0">@User.FindFirst("Name")</h6>
                                                     <small class="text-muted">Admin</small>
                                                 </div>
                                             </div>
@@ -331,7 +331,6 @@
                             <!--/ User -->
                         </ul>
                     </div>
-
                 </nav>
                 <!-- Profile Information Dialog Box -->
                 <div id="profileInfoModal" class="modal fade profile-modal" tabindex="-1" aria-hidden="true">
@@ -344,19 +343,19 @@
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Name</label>
-                                    <p class="form-control-static">John Doe</p>
+                                    <p class="form-control-static">@User.FindFirst("Name")</p>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Email</label>
-                                    <p class="form-control-static">john.doe@example.com</p>
+                                    <p class="form-control-static">@User.FindFirst("Email")?.Value</p>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Role</label>
-                                    <p class="form-control-static">Admin</p>
+                                    <p class="form-control-static">@User.FindFirst("Role")?.Value</p>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Phone</label>
-                                    <p class="form-control-static">+1 234 567 890</p>
+                                    <p class="form-control-static">@User.FindFirst("Phone")?.Value</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -375,28 +374,28 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form action="/Login/UpdateProfile/@User.FindFirst("UserId")?.Value" method="post">
                                     <div class="mb-3">
                                         <label for="profileName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="profileName" value="John Doe">
+                                        <input type="text" class="form-control" id="profileName" name="Name" value="@User.FindFirst("Name")?.Value">
                                     </div>
                                     <div class="mb-3">
                                         <label for="profileEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="profileEmail" value="john.doe@example.com">
+                                        <input type="email" class="form-control" id="profileEmail" name="Email" value="@User.FindFirst("Email")?.Value">
                                     </div>
                                     <div class="mb-3">
                                         <label for="profilePhone" class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="profilePhone" value="+1 234 567 890">
+                                        <input type="text" class="form-control" id="profilePhone" name="Phone" value="@User.FindFirst("Phone")?.Value">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="profileRole" class="form-label">Role</label>
-                                        <input type="text" class="form-control" id="profileRole" value="Admin" disabled>
+                                        <label for="profilePassword" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="profilePassword" name="PasswordHash">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary" id="btnSave" style="width:100px;">Save changes</button>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
                             </div>
                         </div>
                     </div>
@@ -485,6 +484,7 @@
             positionModal('settingsModal');
             settingsModal.show();
         }
+
     </script>
 
     @await RenderSectionAsync("scripts", required: false)

@@ -10,6 +10,58 @@
 
     <link href="~/css/style.css" rel="stylesheet">
     <link href="~/css/vendors.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the modal */
+        .profile-modal .modal-dialog {
+            position: fixed;
+            margin: 0;
+            width: 300px;
+            height: 400px;
+        }
+
+        .profile-modal .modal-content {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            background-color: #f8f9fa; /* White-gray background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-modal .modal-header {
+            border-bottom: 1px solid #dee2e6;
+            padding: 10px 15px;
+        }
+
+        .profile-modal .modal-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .profile-modal .modal-body {
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .profile-modal .modal-footer {
+            border-top: 1px solid #dee2e6;
+            padding: 10px 15px;
+        }
+
+        .profile-modal .btn-close {
+            font-size: 12px;
+        }
+
+        .profile-modal .form-control-static {
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .profile-modal .form-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #6c757d;
+        }
+    </style>
 
     <!-- SPECIFIC CSS -->
     <link href="~/css/vegas.min.css" rel="stylesheet">
@@ -68,6 +120,48 @@
                             <li class="submenu">
                                 <a href="/home/Payment" class="show-submenu">Payment </a>
                             </li>
+                            <li class="nav-item dropdown" id="profileIconContainer">
+                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <i class="ti ti-user-circle" style="font-size: 40px;"></i> <!-- Adjust size as needed -->
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item mt-0" href="javascript:void(0);" onclick="showProfileInfo()">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0 me-2">
+                                                    <div class="avatar avatar-online">
+                                                        <i class="ti ti-user-circle ti-xxl"></i> <!-- Replaced image with an icon -->
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <h6 class="mb-0">@User.FindFirst("Name")</h6>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="showProfileInfo()">
+                                            <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="javascript:void(0);" onclick="showSettings()">
+                                            <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="d-grid px-2 pt-2 pb-1">
+                                            <a class="btn btn-sm btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                                                <small class="align-middle">Logout</small>
+                                                <i class="ti ti-logout ms-2 ti-14px"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </div><!-- End main-menu -->
                     <ul id="top_tools">
@@ -78,7 +172,75 @@
                 </nav>
             </div>
         </div><!-- container -->
-    </header>   
+    </header>
+    <!-- Profile Information Dialog Box -->
+    <div id="profileInfoModal" class="modal fade profile-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Profile Information</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <p class="form-control-static">@User.FindFirst("Name")</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <p class="form-control-static">@User.FindFirst("Email")?.Value</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <p class="form-control-static">@User.FindFirst("Role")?.Value</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <p class="form-control-static">@User.FindFirst("Phone")?.Value</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Dialog Box -->
+    <div id="settingsModal" class="modal fade profile-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/Login/UpdateProfile/@User.FindFirst("UserId")?.Value" method="post">
+                        <div class="mb-3">
+                            <label for="profileName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="profileName" name="Name" value="@User.FindFirst("Name")?.Value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="profileEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="profileEmail" name="Email" value="@User.FindFirst("Email")?.Value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="profilePhone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="profilePhone" name="Phone" value="@User.FindFirst("Phone")?.Value">
+                        </div>
+                        <div class="mb-3">
+                            <label for="profilePassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="profilePassword" name="PasswordHash">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" id="btnSave" style="width:100px;">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     @RenderBody()   
     <footer class="revealed">
         <div class="container">
@@ -169,6 +331,28 @@
                     animationDuration: 30000
             });
         });
+        function positionModal(modalId) {
+            const profileIcon = document.getElementById('profileIconContainer');
+            const modalDialog = document.querySelector(`#${modalId} .modal-dialog`);
+
+            if (profileIcon && modalDialog) {
+                const iconRect = profileIcon.getBoundingClientRect();
+                modalDialog.style.top = `${iconRect.bottom + window.scrollY + 5}px`; // 5px gap below the icon
+                modalDialog.style.left = `${iconRect.right - 300 + window.scrollX}px`; // Align with the right edge of the icon
+            }
+        }
+
+        function showProfileInfo() {
+            const profileInfoModal = new bootstrap.Modal(document.getElementById('profileInfoModal'));
+            positionModal('profileInfoModal');
+            profileInfoModal.show();
+        }
+
+        function showSettings() {
+            const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+            positionModal('settingsModal');
+            settingsModal.show();
+        }
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("scripts", required: false)

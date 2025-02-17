@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.ActivateTravelPackage;
 using TravelAgency.Domain.Features.BookingFeatures;
@@ -46,6 +47,10 @@ public class AdminController : Controller
     }
     public async Task<IActionResult> AdminDashboard(string tab = "bookings")
     {
+        //string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+
+        //var user = await _userListService.GetuserbyId(userId);
+
         var bookings = await _bookingService.GetBookingData();
         var payments = await _paymentService.GetPaymentData();
         var payment = await _paymentService.GetPayments();
