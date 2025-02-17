@@ -63,6 +63,5 @@ namespace TravelAgency.Domain.Features.UserRegister
             string hashedPassword = Convert.ToBase64String(hashedBytes);
             return hashedPassword;
         }
-
     }
 }
