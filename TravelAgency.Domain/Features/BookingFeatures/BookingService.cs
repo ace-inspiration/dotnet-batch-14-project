@@ -84,7 +84,7 @@ namespace TravelAgency.Domain.Features.BookingFeatures
                 new BookingResponseModel { Success = false, Message = "Booking creation failed", Data = null };
         }
 
-        public async Task<List<Booking>> GetBookings()
+        public async Task<List<Booking>> Execute()
         {
             return await _db.Bookings.ToListAsync();
         }
