@@ -74,8 +74,8 @@
                     <tbody>
                         @foreach (var booking in Model.Bookings)
                         {
-                            var package = Model.Packages.FirstOrDefault(p => p.Id == booking.UserId);
-                            <!-- Assuming PackageId is in Booking -->
+                            var package = Model.Packages.FirstOrDefault(p => p.Id == booking.TravelPackageId);
+                           
                             <tr>
                                 <td>@(package != null ? package.Title : "N/A")</td>
                                 <td><img src="@(package != null ? package.Image : "default.jpg")" alt="Image" class="img-thumbnail" style="width: 80px; height: 80px;"></td>

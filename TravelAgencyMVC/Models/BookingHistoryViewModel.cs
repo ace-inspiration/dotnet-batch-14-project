@@ -4,8 +4,8 @@ namespace TravelAgencyMVC.Models
 {
     public class BookingHistoryViewModel
     {
-        public IEnumerable<Booking> Bookings { get; set; }
-        public IEnumerable<TravelPackage> Packages { get; set; }
+        public List<Booking> Bookings { get; set; }
+        public List<TravelPackage> Packages { get; set; }
 
         
     }

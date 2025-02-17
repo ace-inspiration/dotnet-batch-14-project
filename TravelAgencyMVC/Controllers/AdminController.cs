@@ -77,7 +77,7 @@ public class AdminController : Controller
         {
             success = result.Success,
             message = result.Message,
-            redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
+            redirectUrl = Url.Action("AdminDashboard", new { tab = "insertpackages" })
         });
     }
 
