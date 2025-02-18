@@ -1,4 +1,7 @@
 ﻿@model TravelPackage;
+@{
+	
+}
 
 
 <section class="parallax-window" data-parallax="scroll" data-image-src="@Model.Image"
@@ -49,12 +52,7 @@
 			<div class="col-lg-8" id="single_tour_desc">
 				<h1><b>Travel Package Title</b></h1>
 
-				<p class="d-block d-lg-none">
-					<a class="btn_map" data-bs-toggle="collapse"
-					   href="file:///C:/Users/ACER/Downloads/citytours/citytours/single_tour.html#collapseMap"
-					   aria-expanded="true" aria-controls="collapseMap" data-text-swap="Hide map"
-					   data-text-original="View on map">View on map</a>
-				</p>
+				
 				<!-- Map button for tablets/mobiles -->
 
 				<h2>Description</h2>
@@ -110,19 +108,15 @@
 
 			<aside class="col-lg-4">
 
-				<div class="box_style_1 expose" style="z-index: 4;">
+				<div class="box_style_1 expose" style="z-index: 3;">
 					<h3 class="inner">- Booking -</h3>
 					<div class="row">
+						<input type="hidden" id="packageId" value="@Model.Id" />
+						<input type="hidden" id="userId" value="@User.FindFirst("UserId")?.Value" />
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label><i class="icon-calendar-7"></i> Date</label>
-								<input class="date-pick form-control" type="text">
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label><i class=" icon-clock"></i> Time</label>
-								<input class="time-pick form-control" value="12:00 AM" type="text">
+								<input class="date-pick form-control" id="startDate" type="date">
 							</div>
 						</div>
 						<form id="bookingForm">
@@ -148,7 +142,7 @@
 									<!-- Traveler list will be shown here -->
 								</div>
 							</div>
-							<button type="button" class="btn btn-success" id="addTravelerBtn">Add Traveler</button>
+							<button type="button" class="btn btn-success" id="addTravelerBtn" >Add Traveler</button>
 						</form>
 					</div>
 
@@ -180,10 +174,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<a class="btn_full" href="file:///C:/Users/ACER/Downloads/citytours/citytours/cart.html">
-						Book
-						now
-					</a>
+					<button class="btn_full" id="bookNowBtn"> Book now </button>
 
 				</div>
 				<!--/box_style_1 -->
@@ -196,30 +187,29 @@
 	</div>
 	<!--End container -->
 
-	<div id="overlay" style="display: block;"></div>
-	<!-- Mask on input focus -->
-
 </main>
 <!-- End main -->
 
 
 @section scripts {
 	<script>
-
+				let requestPayload = {};
 				let travelers = [];
+
 		document.getElementById('addTravelerBtn').addEventListener('click', function() {
 			const travelerName = document.getElementById('travelerName').value;
 			const travelerAge = document.getElementById('travelerAge').value;
 			const travelerGender = document.getElementById('travelerGender').value;
 
-			if (!travelerName || !travelerAge || !travelerGender) {
+			if (!travelerName || !travelerAge || !travelerGender || !startDate ){
 				alert("Please fill out all traveler fields");
 				return;
 			}
+
 			const traveler = {
-				name: travelerName,
-				age: parseInt(travelerAge),
-				gender: travelerGender
+				Name: travelerName,
+				Age: parseInt(travelerAge),
+				Gender: travelerGender
 			};
 			travelers.push(traveler);
 			document.getElementById('travelerName').value = '';
@@ -260,9 +250,9 @@
 				const row = document.createElement('tr');
 				row.innerHTML = `
 					<td>${index + 1}</td>
-					<td>${traveler.name}</td>
-					<td>${traveler.age}</td>
-					<td>${traveler.gender}</td>
+					<td>${traveler.Name}</td>
+					<td>${traveler.Age}</td>
+					<td>${traveler.Gender}</td>
 					<td>
 						<button class="btn btn-danger btn-sm" onclick="removeTraveler(${index})">Remove</button>
 					</td>
@@ -278,5 +268,73 @@
 			travelers.splice(index, 1);  
 			displayTravelerList();  
 		}
+
+		document.getElementById('bookNowBtn').addEventListener('click', () => {
+
+		// Get packageId from the hidden field
+			const packageId = document.getElementById('packageId').value;
+			const userId = document.getElementById('userId').value;
+			const startDate = document.getElementById('startDate').value;
+			// console.log("hffg");
+
+			if(!startDate){
+				Swal.fire({
+					title: "Start Date need to be filled!",
+					icon: "warning",
+				});
+				return;
+			}
+
+			if(travelers.length == 0){
+				Swal.fire({
+					title: "Please add at least 1 traveler!",
+					icon: "warning",
+				});
+				return;
+			}
+
+			requestPayload = {
+				UserId: userId,
+				TravelStartdate: startDate,
+				TravelPackageId: packageId,
+				Travelers: travelers
+			}
+
+			Swal.fire({
+				title: "Are you sure you want to book this package?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: '#28a745',
+				cancelButtonColor: '#6c757d',
+				confirmButtonText: `Yes, Book Now!`
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// Send data to the server
+					fetch('/Home/CreateBooking', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(requestPayload),
+					})
+					.then(response => response.json())
+					.then(data => {
+						if (data.success) {
+							alert('Booking saved successfully!');
+							window.location.href = data.redirectUrl;
+						} else {
+							alert('Error saving booking.');
+						}
+					})
+					.catch(error => {
+						Swal.fire({
+								title: "Error!",
+								text: "An unexpected error occurred. Please try again later.",
+								icon: "error",
+							});
+					});
+				}
+			});
+		});
 	</script>
 }
