@@ -89,6 +89,17 @@ public class HomeController : Controller
         return View("BookingHistory", lst);
     }
 
+    public async Task<IActionResult> CreateBooking([FromBody] BookingRequestModel requestModel)
+    {
+        var response = await _bookingService.Execute(requestModel);
+        return Json(new
+        {
+            success = response.Success,
+            message = response.Message,
+            redirectUrl = Url.Action("BookingHistory", "Home")
+        });
+    }
+
 
 
 
