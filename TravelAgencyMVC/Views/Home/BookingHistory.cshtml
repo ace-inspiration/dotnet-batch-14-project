@@ -144,9 +144,22 @@
                                     <td>@booking.BookingDate.ToString("dd-MMM-yyyy")</td>
                                     <td><strong>@booking.TotalPrice.ToString("C")</strong></td>
                                     <td class="@(booking.Status == "Confirmed" ? "text-success" : "text-danger")">@booking.Status</td>
+                                    <td>
+                                        @if (booking.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <a href="@Url.Action("Payment", "Booking", new { bookingId = booking.Id })" class="btn btn-success" style="width: 100px;">
+                                                Payment
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-secondary" style="width: 100px;" disabled>Payment</button>
+                                        }
+                                    </td>
+
                                     <td class="options">
                                         <button class="btn btn-outline-danger btn-sm"><i class="icon-trash"></i></button>
-                                        <button class="btn btn-outline-warning btn-sm"><i class="icon-ccw-2"></i></button>
+                                        
                                     </td>
                                 </tr>
                             }
