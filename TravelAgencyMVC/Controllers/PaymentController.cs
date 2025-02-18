@@ -33,12 +33,6 @@ namespace TravelAgencyMVC.Controllers
 
 
 
-		// GET: Payment/Create
-		[ActionName("Create")]
-		public IActionResult CreatePayment()
-		{
-			return View("CreatePayment");
-		}
 
 		// POST: Payment/Create
 		[HttpPost]

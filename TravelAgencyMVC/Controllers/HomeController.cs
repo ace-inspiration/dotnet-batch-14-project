@@ -5,6 +5,7 @@ using Microsoft.VisualBasic;
 using System.Diagnostics;
 using System.Security.Claims;
 using TravelAgency.Domain.Features.BookingFeatures;
+using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgencyMVC.Models;
 
@@ -18,12 +19,14 @@ public class HomeController : Controller
 {
     private readonly TravelPackageService _travelPackageService;
     private readonly BookingService _bookingService;
+    private readonly PaymentService _paymentService;
     
 
-    public HomeController(TravelPackageService travelPackageService,BookingService bookingService)
+    public HomeController(TravelPackageService travelPackageService,BookingService bookingService, PaymentService paymentService)
     {
         _travelPackageService = travelPackageService;
         _bookingService = bookingService;
+        _paymentService = paymentService;
     }
 
     public IActionResult Index()
@@ -66,45 +69,43 @@ public class HomeController : Controller
         return View("PackageDetail", item);
     }
 
-    //public async Task<IActionResult> BookingHistory()
-    //{
-    //    var booking_lst = await _bookingService.Execute();
-    //    var package_lst = await _travelPackageService.Execute();
-
-    //    var viewModel = new BookingHistoryViewModel
-    //    {
-    //        Bookings = booking_lst,
-    //        Packages = package_lst
-    //    };
-
-    //    return View(viewModel);
-    //}
 
     public async Task<IActionResult> BookingHistory()
     {
         var userId = User.FindFirstValue("UserId");
-        Console.WriteLine($"UserId: {userId}");
+   
         var lst = await _bookingService.GetBookingDataByUserId(userId);
-        Console.WriteLine($"Booking Count: {lst.Count}");
+        
         return View("BookingHistory", lst);
     }
 
 
-
-
-    //public async Task<IActionResult> Payment(string id)
-    //{
-    //    var item = await _travelPackageService.GetTravelPackagById(id); 
-
-    //    return View("Payment",item);
-    //}   
-
-    //After finishing of creating booking we will user above method but for now we just use follwing method
-
-    public IActionResult Payment ()
+    [HttpGet]
+    public async Task<IActionResult> DeleteBooking(string bookingId)
     {
-        return View("Payment");
+        if (string.IsNullOrEmpty(bookingId))
+        {
+            return NotFound();
+        }
+
+        // Call your service to delete the booking
+        var result = await _bookingService.DeleteBookingHistory(bookingId);
+
+       
+
+        // After deletion, redirect to the booking history page
+        return RedirectToAction("BookingHistory");
     }
+
+
+
+    public async Task<IActionResult> Payment(string bookingId)
+    {
+        var item = await _bookingService.GetBookingDataByBookingId(bookingId);
+        Console.Write(item);
+        return View("Payment",item);
+    }
+
 
 }
 
