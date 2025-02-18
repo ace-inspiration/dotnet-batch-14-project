@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
+using System.Security.Claims;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgencyMVC.Models;
+
+
 
 
 namespace TravelAgencyMVC.Controllers;
@@ -63,19 +66,30 @@ public class HomeController : Controller
         return View("PackageDetail", item);
     }
 
+    //public async Task<IActionResult> BookingHistory()
+    //{
+    //    var booking_lst = await _bookingService.Execute();
+    //    var package_lst = await _travelPackageService.Execute();
+
+    //    var viewModel = new BookingHistoryViewModel
+    //    {
+    //        Bookings = booking_lst,
+    //        Packages = package_lst
+    //    };
+
+    //    return View(viewModel);
+    //}
+
     public async Task<IActionResult> BookingHistory()
     {
-        var booking_lst = await _bookingService.Execute();
-        var package_lst = await _travelPackageService.Execute();
-
-        var viewModel = new BookingHistoryViewModel
-        {
-            Bookings = booking_lst,
-            Packages = package_lst
-        };
-
-        return View(viewModel);
+        var userId = User.FindFirstValue("UserId");
+        Console.WriteLine($"UserId: {userId}");
+        var lst = await _bookingService.GetBookingDataByUserId(userId);
+        Console.WriteLine($"Booking Count: {lst.Count}");
+        return View("BookingHistory", lst);
     }
+
+
 
 
     //public async Task<IActionResult> Payment(string id)

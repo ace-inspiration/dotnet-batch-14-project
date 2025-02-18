@@ -30,7 +30,7 @@ namespace TravelAgency.Domain.Features.UserLists
             return user!;
         }
 
-        public async Task<User> UpdateUser (User user)
+        public async Task<User> UpdateUser(User user)
         {
             var userToUpdate = await _db.Users.Where(x => x.Id == user.Id).FirstOrDefaultAsync();
             if (userToUpdate == null)
