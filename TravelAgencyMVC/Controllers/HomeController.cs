@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.VisualBasic;
 using System.Diagnostics;
 using System.Security.Claims;
+using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.BookingFeatures;
 using TravelAgency.Domain.Features.PaymentFeature;
 using TravelAgency.Domain.Features.TravelPackages;
@@ -117,6 +118,13 @@ public class HomeController : Controller
         return View("Payment",item);
     }
 
+
+   public async Task<IActionResult> PaymentHistory (string bookingId)
+    {
+        var item = await _bookingService.GetBookingDataByBookingId(bookingId);
+        Console.Write(item);
+        return View("PaymentHistory", item);
+    }
 
 }
 

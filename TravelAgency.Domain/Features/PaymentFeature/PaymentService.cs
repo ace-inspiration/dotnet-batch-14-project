@@ -22,9 +22,8 @@ public class PaymentService
     {           
 
         var booking = await _db.Bookings.AsNoTracking().FirstOrDefaultAsync(b => b.Id == requestModel.BookingId);
-        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync( u => u.Id == requestModel.UserId);
-
-        if (booking == null || user == null)
+       
+        if (booking == null )
         {
             return new PaymentResponseModel
             {
@@ -44,28 +43,20 @@ public class PaymentService
             };
         }
 
-        if (requestModel.Amount != booking.TotalPrice)
-        {
-            return new PaymentResponseModel
-            {
-                IsSuccess = false,
-                Message = $"Payment amount must be exactly {booking.TotalPrice}."
-            };
-        }
-
+       
         var payment = new Payment()
         {
             Id = Guid.NewGuid().ToString(),
-            UserId = requestModel.UserId,
+            UserId = booking.UserId,
             BookingId = requestModel.BookingId,
-            Amount = requestModel.Amount,
+            Amount = booking.TotalPrice,
             PaymentDate = DateTime.UtcNow,
             PaymentType = requestModel.paymentType,
             PaymentStatus = "Confirmed"
         };
 
-        booking.Status = "Completed";
-        _db.Bookings.Update(booking);
+        booking.Status = "Paymented";
+         _db.Bookings.Update(booking);
         await _db.Payments.AddAsync(payment);
         var result = await _db.SaveChangesAsync();
 

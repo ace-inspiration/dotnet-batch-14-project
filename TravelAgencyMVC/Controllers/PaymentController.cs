@@ -48,7 +48,7 @@ namespace TravelAgencyMVC.Controllers
 				}
 				ModelState.AddModelError("", response.Message);
 			}
-			return View(model);
+			return RedirectToAction("BookingHistory","Home");
 		}
 
 

@@ -2,9 +2,7 @@
 
 <section id="hero_2" class="background-image" data-background="url(../img/slides/beach1.jpg)">
     <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
-        <div class="intro_title">
-            <h1>Place your order</h1>
-        </div>
+      
     </div>
 </section>
 
@@ -43,6 +41,11 @@
                                         @if (booking.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
                                         {
                                             <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" style="width: 100px;">Payment</button>
+                                        }
+                                        else if (booking.Status.Equals("Paymented", StringComparison.OrdinalIgnoreCase)) {
+                                            <button class="btn btn-success payment-btn" style="width: 100px;"><a href="/home/PaymentHistory/@booking.Id"> Hisotry</a></button>
+
+                                            
                                         }
                                         else
                                         {
