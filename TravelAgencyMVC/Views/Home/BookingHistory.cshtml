@@ -43,9 +43,8 @@
                                             <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" style="width: 100px;">Payment</button>
                                         }
                                         else if (booking.Status.Equals("Paymented", StringComparison.OrdinalIgnoreCase)) {
-                                            <button class="btn btn-success payment-btn" style="width: 100px;"><a href="/home/PaymentHistory/@booking.Id"> Hisotry</a></button>
 
-                                            
+                                            <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" style="width: 100px;">View</button>
                                         }
                                         else
                                         {
@@ -80,22 +79,19 @@
 
     <script>
         $(document).ready(function () {
-            // Payment Confirmation
-            $(".payment-btn").click(function () {
-                var bookingId = $(this).data("booking-id");
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "Do you want to proceed to payment?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Yes, proceed!",
-                    cancelButtonText: "No, cancel"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.href = "/Home/Payment?bookingId=" + bookingId;
-                    }
-                });
-            });
+                 // Payment Button Click (Without Confirmation for "Paymented")
+        $(".payment-btn").click(function () {
+            var bookingId = $(this).data("booking-id");
+            var buttonText = $(this).text().trim();
+
+            if (buttonText === "View") {
+                // If the button is "View", just redirect
+                window.location.href = "/home/PaymentHistory?bookingId=" + bookingId;
+            } else {
+                // If the button is "Payment", redirect to Payment directly
+                window.location.href = "/Home/Payment?bookingId=" + bookingId;
+            }
+        });
 
             // Delete Confirmation
                   $(".delete-btn").click(function () {
