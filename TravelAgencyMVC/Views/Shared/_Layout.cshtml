@@ -61,6 +61,14 @@
             font-weight: 500;
             color: #6c757d;
         }
+        .dropdown-toggle::after{
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: flex;
+            flex-direction: column;
+        }
     </style>
 
     <!-- SPECIFIC CSS -->
@@ -92,9 +100,9 @@
                         <h1><a href="index.html" title="City tours travel template">City Tours travel template</a></h1>
                     </div>
                 </div>
-                <nav class="col-9">
+                <nav class="col-9 ">
                     <a class="cmn-toggle-switch cmn-toggle-switch__htx open_close" href="javascript:void(0);"><span>Menu mobile</span></a>
-                    <div class="main-menu">
+                    <div class="main-menu  d-lg-flex justify-content-between">
                         <div id="header_menu">
                             <img src="~/img/logo_sticky.png" width="160" height="34" alt="City tours">
                         </div>
@@ -117,56 +125,53 @@
                             <li class="submenu">
                                 <a href="/home/BookingHistory" class="show-submenu">BookingHistory </a>
                             </li>
-                            
-                            <li class="nav-item dropdown" id="profileIconContainer">
-                                <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
-                                    <div class="avatar avatar-online">
-                                        <i class="ti ti-user-circle" style="font-size: 40px;"></i> <!-- Adjust size as needed -->
-                                    </div>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item mt-0" href="javascript:void(0);" onclick="showProfileInfo()">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0 me-2">
-                                                    <div class="avatar avatar-online">
-                                                        <i class="ti ti-user-circle ti-xxl"></i> <!-- Replaced image with an icon -->
-                                                    </div>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <h6 class="mb-0">@User.FindFirst("Name")</h6>
-                                                    <small class="text-muted">Admin</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="showProfileInfo()">
-                                            <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="javascript:void(0);" onclick="showSettings()">
-                                            <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <div class="d-grid px-2 pt-2 pb-1">
-                                            <a class="btn btn-sm btn-danger d-flex" href="/Logout">
-                                                <small class="align-middle">Logout</small>
-                                                <i class="ti ti-logout ms-2 ti-14px"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
                         </ul>
+                        <div id="profileIconContainer">
+                            <span class="text-black">@User.FindFirst("Name").Value</span>
+                            <a class="dropdown-toggle cursor-pointer text-black" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu" id="ddDiv">
+                                <li>
+                                    <a class="dropdown-item mt-0" href="javascript:void(0);" onclick="showProfileInfo()">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-shrink-0 me-2 text-black">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
+                                                </svg>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0 text-black">@User.FindFirst("Name").Value</h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" onclick="showProfileInfo()">
+                                        <span class="align-middle">My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="javascript:void(0);" onclick="showSettings()">
+                                        <span class="align-middle">Settings</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="d-grid px-2 pt-2 pb-1">
+                                        <a class="btn btn-sm btn-danger d-flex" href="/Logout">
+                                            <small class="align-middle">Logout</small>
+                                            <i class="ti ti-logout ms-2 ti-14px"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div><!-- End main-menu -->
-                    <ul id="top_tools">
-                        <li>
-                            <a href="javascript:void(0);" class="search-overlay-menu-btn"><i class="icon_search"></i></a>
-                        </li>                        
-                    </ul>
+                        
                 </nav>
             </div>
         </div><!-- container -->
@@ -188,10 +193,6 @@
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <p class="form-control-static">@User.FindFirst("Email")?.Value</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Role</label>
-                        <p class="form-control-static">@User.FindFirst("Role")?.Value</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Phone</label>
@@ -343,18 +344,23 @@
 
         function showProfileInfo() {
             const profileInfoModal = new bootstrap.Modal(document.getElementById('profileInfoModal'));
+            const dropDownDiv = document.getElementById('ddDiv');
+            dropDownDiv.classList.remove('show');
             positionModal('profileInfoModal');
             profileInfoModal.show();
         }
 
         function showSettings() {
             const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+            const dropDownDiv = document.getElementById('ddDiv');
+            dropDownDiv.classList.remove('show');
             positionModal('settingsModal');
             settingsModal.show();
         }
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>
