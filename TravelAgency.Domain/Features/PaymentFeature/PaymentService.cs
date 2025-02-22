@@ -55,7 +55,7 @@ public class PaymentService
             PaymentStatus = "Confirmed"
         };
 
-        booking.Status = "Paymented";
+        booking.Status = "Paid";
          _db.Bookings.Update(booking);
         await _db.Payments.AddAsync(payment);
         var result = await _db.SaveChangesAsync();

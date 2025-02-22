@@ -1,6 +1,4 @@
-﻿
-
-@model bookdata
+﻿@model bookdata
 
 <style>
     * {
@@ -10,16 +8,12 @@
         font-family: Arial, sans-serif;
     }
 
-
-
     .container1 {
         display: flex;
-        
         background-color: white;
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-       
     }
 
     .left-section {
@@ -53,15 +47,12 @@
         background: white;
     }
 
-    table,
-    th,
-    td {
+    table, th, td {
         border-top: 1px solid #ccc;
         border-bottom: 1px solid #ccc;
     }
 
-    td,
-    th {
+    td, th {
         padding: 10px;
         text-align: left;
         border-right: 1px solid black;
@@ -79,6 +70,19 @@
         gap: 10px;
         margin-top: 15px;
     }
+
+        .payment-icons a {
+            display: inline-block;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 5px;
+            transition: 0.3s;
+        }
+
+            .payment-icons a.selected {
+                border: 2px solid #4a7caf;
+                background-color: rgba(74, 124, 175, 0.1);
+            }
 
     .buttons {
         display: flex;
@@ -103,73 +107,61 @@
     .cancel-btn {
         background-color: #ddd;
     }
-
-    .payment-icons img {
-        width: 50px;
-        height: 50px;
-       
-        margin: 0 5px;
-    }
 </style>
-
 
 <section id="hero_2" class="background-image" data-background="url(../img/slides/beach1.jpg)">
     <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
-        
-        <!-- End intro-title -->
     </div>
-    <!-- End opacity-mask-->
 </section>
 
 <main>
-
-<div class="container1">
-    <div class="left-section" style="margin-left: 50px;">
+    <div class="container1">
+        <div class="left-section" style="margin-left: 50px;">
             <h2>@Model.TravelPackage.Title</h2>
-        <p>@Model.TravelPackage.Description</p>
-        <hr>
+            <p>@Model.TravelPackage.Description</p>
+            <hr>
             <img src="@Model.TravelPackage.Image" alt="Travel Image" style="width: 500px;height: 300px;margin-left: 3px;">
-    </div>
-    <div class="summary">
-        <h2>Summary</h2>
-        <table>
-            <tr>
-                <td><strong>Username</strong></td>
-                <td>@Model.User.Name</td>
-            </tr>
-            <tr>
-                <td><strong>Number of Travelers</strong></td>
-                <td>@Model.NumberOfTravelers</td>
-            </tr>
-            <tr>
-                <td><strong>Total Price</strong></td>
-                <td>@Model.TotalPrice</td>
-            </tr>
-            <tr>
-                <td><strong>Booking Date</strong></td>
+        </div>
+        <div class="summary">
+            <h2>Summary</h2>
+            <table>
+                <tr>
+                    <td><strong>Username</strong></td>
+                    <td>@Model.User.Name</td>
+                </tr>
+                <tr>
+                    <td><strong>Number of Travelers</strong></td>
+                    <td>@Model.NumberOfTravelers</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Price</strong></td>
+                    <td>@Model.TotalPrice</td>
+                </tr>
+                <tr>
+                    <td><strong>Booking Date</strong></td>
                     <td>@Model.BookingDate.ToString("dd/MM/yyyy")</td>
-            </tr>
-            <tr>
-                <td><strong>Travel Start Date</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Travel Start Date</strong></td>
                     <td>@Model.TravelStartdate?.ToString("dd/MM/yyyy")</td>
-            </tr>
-            <tr>
-                <td><strong>Travel End Date</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Travel End Date</strong></td>
                     <td>@Model.TravelEnddate?.ToString("dd/MM/yyyy")</td>
-            </tr>
-        </table>
+                </tr>
+            </table>
             <form asp-controller="Payment" asp-action="Save" method="post">
                 <input type="hidden" name="BookingId" value="@Model.Id" />
                 <input type="hidden" id="paymentType" name="paymentType" value="" />
 
                 <div class="payment-icons">
-                    <a href="#" onclick="selectPaymentType('Kpay')">
+                    <a href="#" onclick="selectPaymentType(event, 'Kpay', this)">
                         <img src="~/img/slides/kpay.jpg" alt="KBZ Pay" style="height: 55px; width:55px;">
                     </a>
-                    <a href="#" onclick="selectPaymentType('Wave')">
+                    <a href="#" onclick="selectPaymentType(event, 'Wave', this)">
                         <img src="~/img/slides/wave.png" alt="Wave Pay" style="height: 43px; width:45px; margin-top:5px; border-radius: 4px;">
                     </a>
-                    <a href="#" onclick="selectPaymentType('PayPay')">
+                    <a href="#" onclick="selectPaymentType(event, 'PayPay', this)">
                         <img src="~/img/slides/paypay.jpg" alt="PayPal" style="height: 55px; width:55px;">
                     </a>
                 </div>
@@ -179,15 +171,26 @@
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
             </form>
+        </div>
     </div>
-</div>
 </main>
 
 @section scripts {
-
     <script>
-        function selectPaymentType(type) {
+        function selectPaymentType(event, type, element) {
+            event.preventDefault(); // Prevent page from jumping on clicking <a>
+
             document.getElementById('paymentType').value = type;
+
+            // Remove 'selected' class from all icons
+            document.querySelectorAll('.payment-icons a').forEach(icon => {
+                icon.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked icon
+            element.classList.add('selected');
         }
+
+
     </script>
 }

@@ -34,25 +34,27 @@ namespace TravelAgencyMVC.Controllers
 
 
 
-		// POST: Payment/Create
-		[HttpPost]
-		[ActionName("Save")]
-		public async Task<IActionResult> SavePayment(PaymentRequestModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				var response = await _paymentService.Execute(model);
-				if (!response.IsSuccess)
-				{
-					return RedirectToAction(nameof(Index));
-				}
-				ModelState.AddModelError("", response.Message);
-			}
-			return RedirectToAction("BookingHistory","Home");
-		}
+        // POST: Payment/Create
+        [HttpPost]
+        [ActionName("Save")]
+        public async Task<IActionResult> SavePayment(PaymentRequestModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var response = await _paymentService.Execute(model);
+                if (!response.IsSuccess)
+                {
+                    ModelState.AddModelError("", response.Message);
+                    return RedirectToAction(nameof(Index));
+                }
+
+               
+                TempData["PaymentSuccess"] = "Your payment was successful!";
+            }
+            return RedirectToAction("BookingHistory", "Home");
+        }
 
 
-		
-	}
+    }
 }
 
