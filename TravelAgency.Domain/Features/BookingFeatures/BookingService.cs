@@ -37,9 +37,9 @@ public class BookingService
         {
             lastInvoiceNumber = parsedNumber;
         }
-
         string invoiceNumber = (lastInvoiceNumber + 1).ToString("D3"); // Format as 3 digits (e.g., 001, 002, etc.)
-
+        int tripDuration = (booking.TravelEnddate.Value - booking.TravelStartdate.Value).Days;
+        decimal totalPrice = tripDuration * travelPackage.Price * booking.Travelers.Count;
         // Create the booking
         var Travelerlst = booking.Travelers;
         var Book = new Booking
@@ -48,16 +48,21 @@ public class BookingService
             UserId = booking.UserId,
             TravelPackageId = booking.TravelPackageId,
             NumberOfTravelers = Travelerlst.Count,
-            TotalPrice = travelPackage.Price * Travelerlst.Count,
+            TotalPrice =totalPrice,
             BookingDate = DateTime.Now,
             TravelStartdate = booking.TravelStartdate,
-            TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
+            TravelEnddate = booking.TravelEnddate,
+            //TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
             InvoiceNumber = invoiceNumber, // Assign the generated invoice number
             Status = "Pending"
+            
         };
 
         // Add the booking to the database
         _db.Bookings.Add(Book);
+
+        travelPackage.Count++;
+        _db.TravelPackages.Update(travelPackage);
         var result = await _db.SaveChangesAsync();
 
         // Add travelers to the database
@@ -80,7 +85,7 @@ public class BookingService
         }
 
         // Return the response
-        return result == 1 ?
+        return result == 2 ?
             new BookingResponseModel { Success = true, Message = "Booking created successfully", Data = Book } :
             new BookingResponseModel { Success = false, Message = "Booking creation failed", Data = null };
     }
@@ -118,34 +123,8 @@ public class BookingService
     }
     public async Task<List<bookdata>> GetBookingDataByUserId(string userId)
     {
-        var bookings = await _db.Bookings.AsNoTracking()
-                                         .Where(b => b.UserId == userId)
-                                         .ToListAsync();
-
-        var users = await _db.Users.AsNoTracking().ToListAsync(); // <-- Add this
-        var travelPackages = await _db.TravelPackages.AsNoTracking().ToListAsync();
-
-        var bookingData = bookings.Select(booking =>
-        {
-            var user = users.FirstOrDefault(u => u.Id == booking.UserId); // <-- Add this
-            var travelPackage = travelPackages.FirstOrDefault(p => p.Id == booking.TravelPackageId);
-
-            return new bookdata
-            {
-                Id = booking.Id,
-                User = user, 
-                TravelPackage = travelPackage,
-                NumberOfTravelers = booking.NumberOfTravelers,
-                TotalPrice = booking.TotalPrice,
-                BookingDate = booking.BookingDate,
-                TravelStartdate = booking.TravelStartdate,
-                TravelEnddate = booking.TravelEnddate,
-                Status = booking.Status,
-                InvoiceNumber = booking.InvoiceNumber
-            };
-        }).ToList();
-
-        return bookingData;
+        var bookdata = await GetBookingData();
+        return bookdata.Where(x => x.User.Id == userId).ToList();
     }
 
 

@@ -23,5 +23,7 @@ public partial class TravelPackage
 
     public string? Image { get; set; }
 
+    public int Count { get; set; } = 0;
+
     public string Status { get; set; } = null!;
 }

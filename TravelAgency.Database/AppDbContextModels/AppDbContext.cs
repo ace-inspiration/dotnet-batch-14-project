@@ -114,6 +114,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.CancellationPolicy)
                 .HasColumnType("text")
                 .HasColumnName("cancellation_policy");
+            entity.Property(e => e.Count).HasColumnName("count");
             entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasColumnName("description");
