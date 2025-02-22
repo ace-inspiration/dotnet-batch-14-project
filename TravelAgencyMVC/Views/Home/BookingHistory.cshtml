@@ -35,7 +35,8 @@
                                     </td>
                                     <td>@booking.NumberOfTravelers</td>
                                     <td>@booking.BookingDate.ToString("dd-MMM-yyyy")</td>
-                                    <td><strong>@booking.TotalPrice.ToString("C")</strong></td>
+                                    <td><strong>@booking.TotalPrice.ToString() MMK</strong></td>
+
                                     <td class="@(booking.Status == "Confirmed" ? "text-success" : "text-danger")">@booking.Status</td>
                                     <td>
                                         @if (booking.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
@@ -44,7 +45,7 @@
                                         }
                                         else if (booking.Status.Equals("Paymented", StringComparison.OrdinalIgnoreCase)) {
 
-                                            <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" style="width: 100px;">View</button>
+                                            <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 100px;">View</button>
                                         }
                                         else
                                         {
@@ -61,6 +62,26 @@
                             }
                         </tbody>
                     </table>
+                </div>
+                <!-- Scrollable modal -->
+                <div class="modal-dialog modal-dialog-scrollable">
+                    ...
+                
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ...
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
                 </div>
             }
             else
