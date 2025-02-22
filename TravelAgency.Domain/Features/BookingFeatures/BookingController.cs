@@ -106,4 +106,22 @@ public class BookingsController : ControllerBase
         }
     }
 
+    [HttpGet("GetBookingData/{UserId}")]
+    public async Task<IActionResult> GetBookingDataByUserId(string UserId)
+    {
+        try
+        {
+            var bookingData = await _booking.GetBookingDataByUserId(UserId);
+            if (bookingData == null)
+            {
+                return NotFound("Booking data not found.");
+            }
+            return Ok(bookingData);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 }
