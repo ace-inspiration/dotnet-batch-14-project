@@ -30,15 +30,15 @@ public class HomeController : Controller
         _paymentService = paymentService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         if (User.IsInRole("admin"))
         {
             return RedirectToAction("AdminDashboard", "Admin");
         }
-
+        var lst = await _travelPackageService.GetPopularTravelPackage();
         ViewBag.UserName = User.Identity.Name;
-        return View();
+        return View(lst);
     }
 
     public IActionResult Privacy()
