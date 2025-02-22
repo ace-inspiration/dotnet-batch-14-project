@@ -118,34 +118,8 @@ public class BookingService
     }
     public async Task<List<bookdata>> GetBookingDataByUserId(string userId)
     {
-        var bookings = await _db.Bookings.AsNoTracking()
-                                         .Where(b => b.UserId == userId)
-                                         .ToListAsync();
-
-        var users = await _db.Users.AsNoTracking().ToListAsync(); // <-- Add this
-        var travelPackages = await _db.TravelPackages.AsNoTracking().ToListAsync();
-
-        var bookingData = bookings.Select(booking =>
-        {
-            var user = users.FirstOrDefault(u => u.Id == booking.UserId); // <-- Add this
-            var travelPackage = travelPackages.FirstOrDefault(p => p.Id == booking.TravelPackageId);
-
-            return new bookdata
-            {
-                Id = booking.Id,
-                User = user, 
-                TravelPackage = travelPackage,
-                NumberOfTravelers = booking.NumberOfTravelers,
-                TotalPrice = booking.TotalPrice,
-                BookingDate = booking.BookingDate,
-                TravelStartdate = booking.TravelStartdate,
-                TravelEnddate = booking.TravelEnddate,
-                Status = booking.Status,
-                InvoiceNumber = booking.InvoiceNumber
-            };
-        }).ToList();
-
-        return bookingData;
+        var bookdata = await GetBookingData();
+        return bookdata.Where(x => x.User.Id == userId).ToList();
     }
 
 
