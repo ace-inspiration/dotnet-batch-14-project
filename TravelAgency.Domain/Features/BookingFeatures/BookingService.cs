@@ -37,9 +37,9 @@ public class BookingService
         {
             lastInvoiceNumber = parsedNumber;
         }
-
         string invoiceNumber = (lastInvoiceNumber + 1).ToString("D3"); // Format as 3 digits (e.g., 001, 002, etc.)
-
+        int tripDuration = (booking.TravelEnddate.Value - booking.TravelStartdate.Value).Days;
+        decimal totalPrice = tripDuration * travelPackage.Price * booking.Travelers.Count;
         // Create the booking
         var Travelerlst = booking.Travelers;
         var Book = new Booking
@@ -48,10 +48,11 @@ public class BookingService
             UserId = booking.UserId,
             TravelPackageId = booking.TravelPackageId,
             NumberOfTravelers = Travelerlst.Count,
-            TotalPrice = travelPackage.Price * Travelerlst.Count,
+            TotalPrice =totalPrice,
             BookingDate = DateTime.Now,
             TravelStartdate = booking.TravelStartdate,
-            TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
+            TravelEnddate = booking.TravelEnddate,
+            //TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
             InvoiceNumber = invoiceNumber, // Assign the generated invoice number
             Status = "Pending"
             

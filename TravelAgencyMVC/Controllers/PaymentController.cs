@@ -42,7 +42,7 @@ namespace TravelAgencyMVC.Controllers
 			if (ModelState.IsValid)
 			{
 				var response = await _paymentService.Execute(model);
-				if (response.IsSuccess)
+				if (!response.IsSuccess)
 				{
 					return RedirectToAction(nameof(Index));
 				}

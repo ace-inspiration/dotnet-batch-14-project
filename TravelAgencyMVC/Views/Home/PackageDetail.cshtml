@@ -1,6 +1,6 @@
 ﻿@model TravelPackage;
 @{
-	
+
 }
 
 
@@ -11,8 +11,8 @@
 			<div class="row">
 				<div class="col-md-8">
 					<h1>@Model.Title</h1>
-					
-				
+
+
 				</div>
 				<div class="col-md-4">
 					<div id="price_single_main">
@@ -52,7 +52,7 @@
 			<div class="col-lg-8" id="single_tour_desc">
 				<h1><b>Travel Package Title</b></h1>
 
-				
+
 				<!-- Map button for tablets/mobiles -->
 
 				<h2>Description</h2>
@@ -115,8 +115,12 @@
 						<input type="hidden" id="userId" value="@User.FindFirst("UserId")?.Value" />
 						<div class="col-sm-6">
 							<div class="form-group">
-								<label><i class="icon-calendar-7"></i> Date</label>
+								<label><i class="icon-calendar-7"></i>Start Date</label>
 								<input class="date-pick form-control" id="startDate" type="date">
+							</div>
+							<div class="form-group">
+								<label><i class="icon-calendar-7"></i>End Date</label>
+								<input class="date-pick form-control" id="endDate" type="date">
 							</div>
 						</div>
 						<form id="bookingForm">
@@ -142,7 +146,7 @@
 									<!-- Traveler list will be shown here -->
 								</div>
 							</div>
-							<button type="button" class="btn btn-success" id="addTravelerBtn" >Add Traveler</button>
+							<button type="button" class="btn btn-success" id="addTravelerBtn">Add Traveler</button>
 						</form>
 					</div>
 
@@ -150,37 +154,28 @@
 					<table class="table table_summary">
 						<tbody>
 							<tr>
-								<td>Number of Traveller</td>
-								<td class="text-end">
-									2
-								</td>
+								<td>Number of Travelers</td>
+								<td class="text-end" id="numTravelers">0</td>
 							</tr>
-
 							<tr>
-								<td>
-									Total amount
-								</td>
-								<td class="text-end">
-									3x $52
-								</td>
+								<td>Duration (days)</td>
+								<td class="text-end" id="durationDays">0</td>
+							</tr>
+							<tr>
+								<td>Total Amount</td>
+								<td class="text-end" id="totalAmount">$0</td>
 							</tr>
 							<tr class="total">
-								<td>
-									Total cost
-								</td>
-								<td class="text-end">
-									$154
-								</td>
+								<td>Total Cost</td>
+								<td class="text-end" id="totalCost">$0</td>
 							</tr>
 						</tbody>
 					</table>
-					<button class="btn_full" id="bookNowBtn"> Book now </button>
+					<button class="btn_full" id="bookNowBtn">Book now</button>
+
 
 				</div>
 				<!--/box_style_1 -->
-
-
-
 			</aside>
 		</div>
 		<!--End row -->
@@ -189,10 +184,32 @@
 
 </main>
 <!-- End main -->
-
-
 @section scripts {
+
 	<script>
+
+				function updateBookingSummary() {
+			const numTravelers = travelers.length;
+			const packageAmount = parseFloat(@Model.Price) || 0;
+			const startDate = new Date(document.getElementById('startDate').value);
+			const endDate = new Date(document.getElementById('endDate').value);
+
+			const duration = (startDate && endDate && endDate > startDate)
+				? Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24))
+				: 0;
+
+			const totalAmount = numTravelers * packageAmount * duration;
+
+			document.getElementById('numTravelers').textContent = numTravelers;
+			document.getElementById('durationDays').textContent = duration;
+			document.getElementById('totalAmount').textContent = `$${totalAmount.toFixed(2)}`;
+			document.getElementById('totalCost').textContent = `$${totalAmount.toFixed(2)}`;
+		}
+
+		// Update when adding/removing travelers or changing dates
+		document.getElementById('addTravelerBtn').addEventListener('click', updateBookingSummary);
+		document.getElementById('startDate').addEventListener('change', updateBookingSummary);
+		document.getElementById('endDate').addEventListener('change', updateBookingSummary);
 				let requestPayload = {};
 				let travelers = [];
 
@@ -215,6 +232,7 @@
 			document.getElementById('travelerName').value = '';
 			document.getElementById('travelerAge').value = '';
 			document.getElementById('travelerGender').value = 'Male';
+				updateBookingSummary()
 			displayTravelerList();
 		});
 
@@ -245,7 +263,7 @@
 
 			const tbody = table.querySelector('#travelerTableBody');
 
-		
+
 			travelers.forEach((traveler, index) => {
 				const row = document.createElement('tr');
 				row.innerHTML = `
@@ -259,14 +277,16 @@
 				`;
 				tbody.appendChild(row);
 			});
+		
 
 			travelerListDiv.appendChild(table);
 		}
 
 
 				function removeTraveler(index) {
-			travelers.splice(index, 1);  
-			displayTravelerList();  
+			travelers.splice(index, 1);
+			updateBookingSummary()
+			displayTravelerList();
 		}
 
 		document.getElementById('bookNowBtn').addEventListener('click', () => {
@@ -275,6 +295,7 @@
 			const packageId = document.getElementById('packageId').value;
 			const userId = document.getElementById('userId').value;
 			const startDate = document.getElementById('startDate').value;
+			const endDate = document.getElementById('endDate').value;
 			// console.log("hffg");
 
 			if(!startDate){
@@ -284,7 +305,13 @@
 				});
 				return;
 			}
-
+						if(!endDate){
+				Swal.fire({
+					title: "End Date need to be filled!",
+					icon: "warning",
+				});
+				return;
+			}
 			if(travelers.length == 0){
 				Swal.fire({
 					title: "Please add at least 1 traveler!",
@@ -296,6 +323,7 @@
 			requestPayload = {
 				UserId: userId,
 				TravelStartdate: startDate,
+				TravelEnddate: endDate,
 				TravelPackageId: packageId,
 				Travelers: travelers
 			}
@@ -320,7 +348,6 @@
 					.then(response => response.json())
 					.then(data => {
 						if (data.success) {
-							alert('Booking saved successfully!');
 							window.location.href = data.redirectUrl;
 						} else {
 							alert('Error saving booking.');
@@ -336,5 +363,8 @@
 				}
 			});
 		});
+
+
+
 	</script>
 }
