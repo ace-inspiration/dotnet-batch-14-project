@@ -54,10 +54,14 @@ public class BookingService
             TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
             InvoiceNumber = invoiceNumber, // Assign the generated invoice number
             Status = "Pending"
+            
         };
 
         // Add the booking to the database
         _db.Bookings.Add(Book);
+
+        travelPackage.Count++;
+        _db.TravelPackages.Update(travelPackage);
         var result = await _db.SaveChangesAsync();
 
         // Add travelers to the database
@@ -80,7 +84,7 @@ public class BookingService
         }
 
         // Return the response
-        return result == 1 ?
+        return result == 2 ?
             new BookingResponseModel { Success = true, Message = "Booking created successfully", Data = Book } :
             new BookingResponseModel { Success = false, Message = "Booking creation failed", Data = null };
     }

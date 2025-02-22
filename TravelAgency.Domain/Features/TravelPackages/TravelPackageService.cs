@@ -72,5 +72,15 @@ namespace TravelAgency.Domain.Features.TravelPackages
                 ? new TravelPackageResponseModel { Success = true, Message = "Travel package created successfully", Data = trvelpackage }
                 : new TravelPackageResponseModel { Success = false, Message = "Travel package creation failed", Data = null };
         }
+    public async Task<List<TravelPackage>> GetPopularTravelPackage()
+    {
+        var lst = await _db.TravelPackages
+                    .OrderByDescending(tp => tp.Count)
+                    .Take(5)
+                    .AsNoTracking()
+                    .ToListAsync();
+            return lst;
+        }
     }
+
 }
