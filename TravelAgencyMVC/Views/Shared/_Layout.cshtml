@@ -70,6 +70,42 @@
             display: flex;
             flex-direction: column;
         }
+
+        /* Change navbar item color on scroll */
+        .navbar-scrolled {
+            background-color: white !important;
+        }
+
+            .navbar-scrolled a {
+                color: black !important;
+            }
+
+            .navbar-scrolled .dropdown-toggle svg  {
+                fill: black !important;
+            }
+
+            .navbar-scrolled #profileIconContainer span {
+                color: black !important;
+            }
+
+
+        /* Ensure profile name and icon alignment */
+        #profileIconContainer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+        }
+
+            #profileIconContainer span {
+                font-weight: bold;
+                
+            }
+
+        /* Make dropdown text black */
+        .dropdown-menu a {
+            color: black !important;
+        }
     </style>
 
     <!-- SPECIFIC CSS -->
@@ -126,8 +162,8 @@
                             </li>
                         </ul>
                         <div id="profileIconContainer">
-                            <span class="text-black">@User.FindFirst("Name").Value</span>
-                            <a class="dropdown-toggle cursor-pointer text-black" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="text-white">@User.FindFirst("Name").Value</span>
+                            <a class="dropdown-toggle cursor-pointer text-white" data-bs-toggle="dropdown" aria-expanded="false">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
                                     <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
@@ -356,6 +392,15 @@
             positionModal('settingsModal');
             settingsModal.show();
         }
+
+               window.addEventListener("scroll", function () {
+            let header = document.querySelector("header");
+            if (window.scrollY > 5) {
+                header.classList.add("navbar-scrolled");
+            } else {
+                header.classList.remove("navbar-scrolled");
+            }
+        });
     </script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

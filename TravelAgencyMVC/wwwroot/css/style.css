@@ -542,7 +542,9 @@ header#plain ul#top_links :hover a{ color:#333; }
 
 /* Header  colored*/
 header#colored.sticky{background-color:#e04f67;padding-bottom:0; border-bottom:2px solid #e04f67}
-header#colored.sticky ul#top_tools a {color:#fff;}
+	header#colored.sticky ul#top_tools a, #user_name {
+		color: #fff;
+	}
 
 
 .dropdown-cart .dropdown-menu{
