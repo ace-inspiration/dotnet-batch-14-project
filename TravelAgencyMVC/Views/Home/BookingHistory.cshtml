@@ -61,16 +61,24 @@
                                             <button class="btn btn-warning payment-btn" data-booking-id="@booking.Id"  style="width: 100px;">View</button>
                                         }
 
-                                       
-                                        else
+
+                                        @if (booking.Status.Equals("Success", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <button class="btn btn-secondary" style="width: 100px;" disabled>Complete</button>
+                                        }
+                                        else if (booking.Status.Equals("Primary", StringComparison.OrdinalIgnoreCase))
                                         {
                                             <button class="btn btn-secondary" style="width: 100px;" disabled>Payment</button>
                                         }
+
+                                       
+                                        
                                     </td>
 
                                     
                                     <td class="options">
                                         @if (booking.Status.Equals("Success", StringComparison.OrdinalIgnoreCase)) {
+
                                             <button class="btn btn-outline-secondary btn-sm delete-btn" data-booking-id="@booking.Id" disabled>
                                                 <i class="icon-trash" ></i>
                                             </button>
