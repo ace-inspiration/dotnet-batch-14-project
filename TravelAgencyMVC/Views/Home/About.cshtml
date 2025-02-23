@@ -2,12 +2,11 @@
     ViewBag.Title = "About Us";
 }
 
-
-<section class="parallax-window" data-parallax="scroll" data-image-src="../img/slides/beach.jpg" data-natural-width="1400" data-natural-height="470">
+<section class="parallax-window" data-parallax="scroll" data-image-src="../img/slides/bg-myanmar.jpg" data-natural-width="1400" data-natural-height="470">
     <div class="parallax-content-1 opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
         <div class="animated fadeInDown">
-            <h1>Paris tours</h1>
-            <p>Cursus neque cursus curae ante scelerisque vehicula</p>
+            <h1>About Us</h1>
+            <p>.Net Developers</p>
         </div>
     </div>
 </section>
@@ -15,7 +14,9 @@
 <main>
     <div id="carousel-about">
         <div class="owl-carousel owl-theme">
-            <div class="owl-slide cover" style="background-image: url(img/slides/about-bg.jpg);">
+            <div class="owl-slide cover">
+                <!-- Adding an img tag instead of background-image -->
+                <img src="~/img/slides/bg-myanmar.jpg" alt="About Us Image" class="img-fluid w-100">
                 <div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.5)">
                     <div class="container">
                         <div class="row justify-content-center">
@@ -35,6 +36,7 @@
         <div id="icon_drag_mobile"></div>
     </div>
     <!--/carousel-->
+
     <div class="container margin_60">
         <div class="main_title">
             <h2>Who <span>We Are</span></h2>
@@ -42,7 +44,8 @@
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <img src="img/about-us.jpg" class="img-fluid" alt="About Us">
+                <!-- Adding img tag for another image -->
+                <img src="../img/about-us.jpg" class="img-fluid" alt="About Us">
             </div>
             <div class="col-lg-6">
                 <h3>Our Mission</h3>
