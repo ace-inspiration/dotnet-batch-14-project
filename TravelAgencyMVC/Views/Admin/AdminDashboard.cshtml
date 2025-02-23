@@ -136,7 +136,7 @@
                         <td>@booking.TotalPrice</td>
                         <td>@booking.Status</td>
                         <td>
-                            @if (booking.Status.Equals("Pending", StringComparison.OrdinalIgnoreCase))
+                            @if (booking.Status.Equals("Primary", StringComparison.OrdinalIgnoreCase))
                             {
                                 <a href="javascript:void(0);" class="btn btn-success"
                                    onclick="confirmAction('@Url.Action("ConfirmBooking", "Admin", new { bookingId = booking.Id })', 'verify', '@booking.Id', 'booking')">

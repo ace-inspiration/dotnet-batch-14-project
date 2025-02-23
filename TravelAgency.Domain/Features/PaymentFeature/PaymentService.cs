@@ -33,7 +33,7 @@ public class PaymentService
             };   
         }
 
-        if (booking.Status != "Confirmed")
+        if (booking.Status != "Confirm")
         {
             return new PaymentResponseModel
             {
@@ -88,7 +88,7 @@ public class PaymentService
             };
         }
         payment.PaymentStatus = "Complete";
-        booking.Status = "Completed";
+        booking.Status = "Success";
         _db.Bookings.Update(booking);
         _db.Payments.Update(payment);
         var result = await _db.SaveChangesAsync();

@@ -54,8 +54,8 @@ public class BookingService
             TravelEnddate = booking.TravelEnddate,
             //TravelEnddate = booking.TravelStartdate?.AddDays(travelPackage.Duration),
             InvoiceNumber = invoiceNumber, // Assign the generated invoice number
-            Status = "Pending"
-            
+            Status = "Primary"
+
         };
 
         // Add the booking to the database
@@ -202,7 +202,7 @@ public class BookingService
             model.Message = "Booking not found!";
             return model;
         }
-        booking.Status = "Confirmed";
+        booking.Status = "Confirm";
         _db.Bookings.Update(booking);
         var result = await _db.SaveChangesAsync();
         return new BookingResponseModel

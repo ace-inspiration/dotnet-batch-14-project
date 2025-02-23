@@ -41,15 +41,17 @@
 
                                     <td>
                                         <span class="badge
-        @(booking.Status == "Pending" ? "text-bg-danger" :
-          (booking.Status == "Confirmed" ? "text-bg-success" :
-           (booking.Status == "Paid" ? "text-bg-success" : "text-bg-secondary")) )">
+        @(booking.Status == "Primary" ? "text-bg-danger" :
+          (booking.Status == "Confirm" ? "text-bg-success" :
+          (booking.Status == "Success" ? "text-bg-success" :
+
+           (booking.Status == "Paid" ? "text-bg-warning" : "text-bg-secondary"))) )">
                                             @booking.Status
                                         </span>
                                     </td>
 
                                     <td>
-                                        @if (booking.Status.Equals("Confirmed", StringComparison.OrdinalIgnoreCase))
+                                        @if (booking.Status.Equals("Confirm", StringComparison.OrdinalIgnoreCase))
                                         {
                                             <button class="btn btn-success payment-btn" data-booking-id="@booking.Id" style="width: 100px;">Payment</button>
                                         }
@@ -65,10 +67,19 @@
                                             <button class="btn btn-secondary" style="width: 100px;" disabled>Payment</button>
                                         }
                                     </td>
+
+                                    
                                     <td class="options">
-                                        <button class="btn btn-outline-danger btn-sm delete-btn" data-booking-id="@booking.Id">
-                                            <i class="icon-trash"></i>
-                                        </button>
+                                        @if (booking.Status.Equals("Success", StringComparison.OrdinalIgnoreCase)) {
+                                            <button class="btn btn-outline-secondary btn-sm delete-btn" data-booking-id="@booking.Id" disabled>
+                                                <i class="icon-trash" ></i>
+                                            </button>
+                                        } else {
+                                            <button class="btn btn-outline-danger btn-sm delete-btn" data-booking-id="@booking.Id">
+                                                <i class="icon-trash"></i>
+                                            </button>
+                                        }
+                                        
                                     </td>
 
                                 </tr>
