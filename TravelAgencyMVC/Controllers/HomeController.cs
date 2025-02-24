@@ -57,11 +57,19 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public async Task<IActionResult> Packages()
+    public async Task<IActionResult> Packages(int page = 1)
     {
+        int pageSize = 5;
         var lst = await _travelPackageService.Execute();
-        return View("Packages", lst);
+        var pagedList = lst.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        ViewBag.CurrentPage = page;
+        ViewBag.TotalPages = (int)Math.Ceiling(lst.Count / (double)pageSize);
+
+        return View("Packages", pagedList);
     }
+
+
+
 
     public async Task<IActionResult> PackageDetail(string id)
     {
