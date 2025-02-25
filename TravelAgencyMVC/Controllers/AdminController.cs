@@ -13,7 +13,7 @@ using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers;
-
+ 
 [Authorize(Roles = "admin")]
 public class AdminController : Controller
 {
