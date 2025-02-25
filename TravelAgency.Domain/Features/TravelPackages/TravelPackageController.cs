@@ -41,7 +41,20 @@ namespace TravelAgency.API.Controllers
                 Data = response
             });
         }
-
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTravelPackage(string id, [FromForm] TravelPackageRequestModel travelPackage, IFormFile? photo)
+        {
+            try
+            {
+                travelPackage.Id = id; // Ensure ID matches route parameter
+                var response = await _travelPackageService.UpdateTravelPackage(travelPackage, photo);
+                return response.Success ? Ok(response) : NotFound(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Success = false, Message = ex.Message });
+            }
+        }
         [HttpPost("travel-packages")]
         public async Task<IActionResult> AddTravelPackage([FromForm] TravelPackageRequestModel travelPackage, IFormFile? photo)
         {

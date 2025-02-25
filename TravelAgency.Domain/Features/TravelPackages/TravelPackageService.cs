@@ -31,6 +31,62 @@ namespace TravelAgency.Domain.Features.TravelPackages
         {
             return (await _db.TravelPackages.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id))!;
         }
+        public async Task<TravelPackageResponseModel> UpdateTravelPackage(TravelPackageRequestModel requestModel, IFormFile? photo)
+        {
+            var item = await _db.TravelPackages.FirstOrDefaultAsync(x => x.Id == requestModel.Id);
+            if (item == null)
+            {
+                return new TravelPackageResponseModel { Success = false, Message = "Travel Package not found", Data = null };
+            }
+
+            // Update fields if provided
+            if (!string.IsNullOrEmpty(requestModel.Title))
+                item.Title = requestModel.Title;
+            if (!string.IsNullOrEmpty(requestModel.Destination))
+                item.Destination = requestModel.Destination;
+            if (!string.IsNullOrEmpty(requestModel.Inclusions))
+                item.Inclusions = requestModel.Inclusions;
+            if (!string.IsNullOrEmpty(requestModel.CancellationPolicy))
+                item.CancellationPolicy = requestModel.CancellationPolicy;
+            if (!string.IsNullOrEmpty(requestModel.Description))
+                item.Description = requestModel.Description;
+            if (requestModel.Price > 0)
+                item.Price = requestModel.Price;
+            if (requestModel.Duration > 0)
+                item.Duration = requestModel.Duration;
+            if (!string.IsNullOrEmpty(requestModel.Status))
+                item.Status = requestModel.Status;
+
+            // Handle image update if a new photo is provided
+            if (photo != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"), "images");
+                Directory.CreateDirectory(uploadsFolder);
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await photo.CopyToAsync(fileStream);
+                }
+
+                // Delete old image (optional, if needed)
+                if (!string.IsNullOrEmpty(item.Image))
+                {
+                    string oldImagePath = Path.Combine(uploadsFolder, Path.GetFileName(item.Image));
+                    if (File.Exists(oldImagePath))
+                    {
+                        File.Delete(oldImagePath);
+                    }
+                }
+
+                item.Image = "/images/" + uniqueFileName;
+            }
+            _db.Entry(item).State = EntityState.Modified;
+            await _db.SaveChangesAsync();
+            return new TravelPackageResponseModel { Success = true, Message = "Travel Package updated successfully", Data = item };
+        }
 
         public async Task<TravelPackageResponseModel> CreateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
         {
