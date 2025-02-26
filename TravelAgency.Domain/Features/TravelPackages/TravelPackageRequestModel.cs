@@ -25,6 +25,8 @@ namespace TravelAgency.Domain.Features.TravelPackages
         public string? CancellationPolicy { get; set; }
 
         public string Status { get; set; } = null!;
+
+        public string? ImageUrl { get; set; }
     }
     
 }
