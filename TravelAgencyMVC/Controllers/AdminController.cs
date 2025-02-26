@@ -86,6 +86,39 @@ public class AdminController : Controller
         });
     }
 
+    [HttpGet("Admin/EditTravelPackage/{id}")]
+
+    public async Task<IActionResult> EditTravelPackage(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return BadRequest("ID is required.");
+        }
+
+        var travelPackage = await _travelPackageService.GetTravelPackagById(id);
+        if (travelPackage == null)
+        {
+            return NotFound();
+        }
+        return View("EditTravelPackage", travelPackage);
+    }
+
+
+    [HttpPatch]
+
+    [ActionName("UpdateTravelPackage")]
+
+    public async Task<IActionResult> UpdateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
+    {
+        var result = await _travelPackageService.UpdateTravelPackage(model, photo);
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
+        });
+    }
+
 
     [ActionName("ActivateTravelPackage")]
     public async Task<IActionResult> ActivateTravelPackage(string id)

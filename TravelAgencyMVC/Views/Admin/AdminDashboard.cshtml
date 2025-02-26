@@ -326,6 +326,9 @@
                         <td>@package.Duration <span>days</span></td>
                         <td>@package.Status </td>
                         <td>
+                            <a href="/Admin/EditTravelPackage/@package.Id" class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
                             @if (package.Status == "Activate")
                             {
                                 <a href="javascript:void(0);" class="btn btn-danger btn-sm"
@@ -341,11 +344,14 @@
                                 </a>
                             }
                         </td>
+
                     </tr>
                 }
             </tbody>
         </table>
     </div>
+
+
     <!-- Insert Packages Form -->
     <div id="insertpackagesForm" class="table-section"
          style="@(ViewBag.ActiveTab == "insertpackages" ? "display: block" : "display: none")">
@@ -414,6 +420,9 @@
             </div>
         </form>
     </div>
+    
+   
+
     
     
 </div>
@@ -494,7 +503,7 @@
 			})
 			.catch(error => console.error("Error:", error));
 		});
-
+        
 		document.getElementById("cancelButton").addEventListener("click", function() {
 			document.getElementById("insertPackageForm").reset();
 		});
