@@ -42,7 +42,7 @@ public class UserRegisterService
             Email = requestModel.Email,
             PasswordHash = hashPassword,
             Phone = requestModel.Phone,
-            Role = "user"
+            Role = "User"
         };
 
         await _db.Users.AddAsync(user);

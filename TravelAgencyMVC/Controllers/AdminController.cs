@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Security.Claims;
 using TravelAgency.Database.AppDbContextModels;
 using TravelAgency.Domain.Features.ActivateTravelPackage;
@@ -13,7 +14,7 @@ using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers;
-
+ 
 [Authorize(Roles = "admin")]
 public class AdminController : Controller
 {
@@ -168,6 +169,58 @@ public class AdminController : Controller
         });
     }
 
+    [HttpGet]
+    [ActionName("EditTravelPackage")]
+    public async Task<IActionResult> EditTravelPackage(string id)
+    {
+        var travelPackage = await _travelPackageService.GetTravelPackagById(id);
+        if (travelPackage == null)
+        {
+            return NotFound();
+        }
+
+        var model = new TravelPackageRequestModel
+        {
+            Id = travelPackage.Id,
+            Title = travelPackage.Title,
+            Destination = travelPackage.Destination,
+            Price = travelPackage.Price,
+            Inclusions = travelPackage.Inclusions,
+            CancellationPolicy = travelPackage.CancellationPolicy,
+            Description = travelPackage.Description,
+            Status = travelPackage.Status,
+            ImageUrl = travelPackage.Image
+        };
+
+        TempData["EditPackage"] = JsonConvert.SerializeObject(model); // Store data temporarily
+        return RedirectToAction("AdminDashboard", new { tab = "Editpackages" });
+    }
+
+
+    [HttpPost]
+    [ActionName("UpdateTravelPackage")]
+    public async Task<IActionResult> UpdateTravelPackage(TravelPackageRequestModel model, IFormFile? photo)
+    {
+        TravelPackageResponseModel result;
+
+        if (string.IsNullOrEmpty(model.Id))
+        {
+            // Create new package
+            result = await _travelPackageService.CreateTravelPackage(model, photo);
+        }
+        else
+        {
+            // Update existing package
+            result = await _travelPackageService.UpdateTravelPackage(model, photo);
+        }
+
+        return Json(new
+        {
+            success = result.Success,
+            message = result.Message,
+            redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
+        });
+    }
 
 
 }
