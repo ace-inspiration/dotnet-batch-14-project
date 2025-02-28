@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Shared", "Trav
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{A998314B-244E-4A80-961F-F99F8B2EA0C0}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\Downloads\script_1.sql = ..\..\..\Downloads\script_1.sql
+		..\Users\Sann Lynn Htun\Downloads\script.sql = ..\Users\Sann Lynn Htun\Downloads\script.sql
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgencyMVC", "TravelAgencyMVC\TravelAgencyMVC.csproj", "{F1E2356A-0812-440C-A7B7-AD8B4C846F58}"
