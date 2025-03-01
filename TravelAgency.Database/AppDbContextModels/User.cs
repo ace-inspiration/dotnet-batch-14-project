@@ -16,7 +16,7 @@ public partial class User
     public string Phone { get; set; } = null!;
 
     public string Role { get; set; } = null!;
-    public string Status { get; set; } 
-    public string OTP { get; set; } 
+    public string? Status { get; set; } 
+    public string? OTP { get; set; } 
     public DateTime OTP_Expiry { get; set; }
 }
