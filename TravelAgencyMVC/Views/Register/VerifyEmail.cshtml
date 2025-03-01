@@ -1,1 +1,37 @@
-﻿
+﻿@{
+    ViewBag.Title = "Verify OTP";
+    Layout = "_Login_Layout";
+}
+
+<div class="login_container d-flex justify-content-center align-items-center">
+    <div class="loginDiv">
+        <h2 class="login_text">Verify OTP</h2>
+
+        @if (!string.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+
+        <form method="post" action="@Url.Action("VerifyEmail", "Register")">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-2">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+
+            <div class="mb-2">
+                <label class="form-label">OTP Code</label>
+                <input type="text" name="otp" class="form-control" placeholder="Enter the OTP code" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Verify</button>
+
+            <div class="mt-2 text-center">
+                <span>
+                    Didn't receive an OTP? <a class="text-primary" href="#">Resend OTP</a>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
