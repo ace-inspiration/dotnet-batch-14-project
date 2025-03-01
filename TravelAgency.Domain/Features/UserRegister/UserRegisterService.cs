@@ -99,7 +99,7 @@ public class UserRegisterService
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("nnyi37389@gmail.com");
             mail.To.Add(toEmail);
-            mail.Subject = "Your OTP Code From (Thar Nyi)";
+            mail.Subject = "Your OTP Code From (TravelAgency)";
             mail.Body = $"Your OTP code is: {otpCode}. It will expire in 5 minutes.";
             mail.IsBodyHtml = false;
 
