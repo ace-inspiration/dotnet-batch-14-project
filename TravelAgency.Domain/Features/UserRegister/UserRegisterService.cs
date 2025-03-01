@@ -123,8 +123,10 @@ public class UserRegisterService
     {
         UserRegisterResponseModel model = new UserRegisterResponseModel();
         var user = await _db.Users
-            .Where(u => u.Email == email && u.OTP == otp && u.OTP_Expiry > DateTime.UtcNow)
-            .FirstOrDefaultAsync();
+     .Where(u => u.Email == email)
+     .OrderByDescending(u => u.OTP_Expiry)  
+     .FirstOrDefaultAsync();
+
         if (user == null)
         {
             model.IsSuccess = false;
