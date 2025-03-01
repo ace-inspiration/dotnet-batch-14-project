@@ -118,4 +118,34 @@ public class UserRegisterService
             return false;
         }
     }
+
+    public async Task<UserRegisterResponseModel> VerifyEmail(string email, string otp)
+    {
+        UserRegisterResponseModel model = new UserRegisterResponseModel();
+        var user = await _db.Users
+            .Where(u => u.Email == email && u.OTP == otp && u.OTP_Expiry > DateTime.UtcNow)
+            .FirstOrDefaultAsync();
+        if (user == null)
+        {
+            model.IsSuccess = false;
+            model.Message = "Invalid OTP or OTP expired.";
+            return model;
+        }
+        user.Status = "Y";
+        user.OTP = null;
+        user.OTP_Expiry = DateTime.UtcNow;
+        _db.Users.Update(user);
+        int result = await _db.SaveChangesAsync();
+        if (result > 0)
+        {
+            model.IsSuccess = true;
+            model.Message = "OTP Confirmed. User Activated.";
+        }
+        else
+        {
+            model.IsSuccess = false;
+            model.Message = "OTP Confirmation Failed.";
+        }
+        return model;
+    }
 }

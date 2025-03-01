@@ -40,4 +40,18 @@ public class RegisterController : Controller
             return View("Register", requestModel);
         }
     }
+
+    public async Task<IActionResult> VerifyEmail(string email, string otp)
+    {
+        var result = await _registerService.VerifyEmail(email, otp);
+        if (result.IsSuccess)
+        {
+            return RedirectToAction("Index", "Login");
+        }
+        else
+        {
+            ViewBag.Error = "Email verification failed. Please try again.";
+            return View("VerifyEmail");
+        }
+    }
 }
