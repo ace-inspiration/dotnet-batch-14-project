@@ -21,23 +21,51 @@ public class RegisterController : Controller
     [HttpPost]
     public async Task<IActionResult> Register(UserRegisterRequestModel requestModel)
     {
-        if (string.IsNullOrWhiteSpace(requestModel.Name) || string.IsNullOrWhiteSpace(requestModel.Email) || string.IsNullOrWhiteSpace(requestModel.Password))
+        if (!ModelState.IsValid)
         {
             ViewBag.Error = "All fields are required!";
             return View("Register", requestModel);
         }
 
-       
         var result = await _registerService.Execute(requestModel);
 
         if (result.IsSuccess)
         {
+            return RedirectToAction("VerifyEmail", new { email = requestModel.Email });
+        }
+
+        ViewBag.Error = "Registration failed. Please try again.";
+        return View("Register", requestModel);
+    }
+
+    [HttpGet]
+    public IActionResult VerifyEmail(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Email = email;
+        return View("VerifyEmail");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> VerifyEmail(string email, string otp)
+    {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(otp))
+        {
+            ViewBag.Error = "Email and OTP are required!";
+            return View("VerifyEmail");
+        }
+
+        var result = await _registerService.VerifyEmail(email, otp);
+        if (result.IsSuccess)
+        {
             return RedirectToAction("Index", "Login");
         }
-        else
-        {
-            ViewBag.Error = "Registration failed. Please try again.";
-            return View("Register", requestModel);
-        }
+
+        ViewBag.Error = "Email verification failed. Please try again.";
+        return View("VerifyEmail");
     }
 }

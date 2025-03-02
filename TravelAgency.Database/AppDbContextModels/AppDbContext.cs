@@ -60,7 +60,7 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(36)
                 .IsUnicode(false)
                 .HasColumnName("travel_package_id");
-            entity.Property(e => e.TravelStartdate)
+            entity.Property(e => e.TravelStartdate)       
                 .HasColumnType("datetime")
                 .HasColumnName("travel_startdate");
             entity.Property(e => e.UserId)

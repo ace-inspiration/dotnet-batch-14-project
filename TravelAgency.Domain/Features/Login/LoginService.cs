@@ -26,7 +26,14 @@ public class LoginService
 				return responseModel;
 			}
 
-			var passwordHash = DevCode.HashPassword(requestModel.Password);
+			if(user.Status == "N")
+            {
+                responseModel.Success = false;
+                responseModel.Message = "User not verified.";
+                return responseModel;
+            }
+
+            var passwordHash = DevCode.HashPassword(requestModel.Password);
 			if (!string.Equals(passwordHash, user.PasswordHash))
 			{
 				responseModel.Success = false;
@@ -42,6 +49,7 @@ public class LoginService
                 PhoneNumber = user.Phone,
                 ExpireTime = DateTime.Now.AddMinutes(5),
 				Role = user.Role,
+				
 			};
 
 			var token = loginTokenModel.ToJson().ToEncrypt();
