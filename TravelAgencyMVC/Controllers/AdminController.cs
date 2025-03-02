@@ -189,7 +189,5 @@ public class AdminController : Controller
             redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
         });
     }
-
-
 }
 

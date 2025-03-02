@@ -12,9 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Shared", "TravelAgency.Shared\TravelAgency.Shared.csproj", "{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{A998314B-244E-4A80-961F-F99F8B2EA0C0}"
-	ProjectSection(SolutionItems) = preProject
-		script.sql = script.sql
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgencyMVC", "TravelAgencyMVC\TravelAgencyMVC.csproj", "{F1E2356A-0812-440C-A7B7-AD8B4C846F58}"
 EndProject
