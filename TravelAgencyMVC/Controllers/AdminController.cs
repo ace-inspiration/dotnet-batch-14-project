@@ -15,7 +15,7 @@ using TravelAgencyMVC.Models;
 
 namespace TravelAgencyMVC.Controllers;
  
-[Authorize(Roles = "admin")]
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly BookingService _bookingService;
@@ -189,7 +189,5 @@ public class AdminController : Controller
             redirectUrl = Url.Action("AdminDashboard", new { tab = "packages" })
         });
     }
-
-
 }
 

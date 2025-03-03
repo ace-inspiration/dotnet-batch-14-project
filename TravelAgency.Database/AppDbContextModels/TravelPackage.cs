@@ -19,7 +19,7 @@ public partial class TravelPackage
 
     public string? Inclusions { get; set; }
 
-    public string? CancellationPolicy { get; set; }
+    public string? Cancellation_Policy { get; set; }
 
     public string? Image { get; set; }
 

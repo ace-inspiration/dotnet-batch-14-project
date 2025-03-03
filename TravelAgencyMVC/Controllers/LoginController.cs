@@ -83,7 +83,7 @@ namespace TravelAgencyMVC.Controllers
 
 
 
-            if (model.Role == "admin")
+            if (model.Role == "Admin")
             {
                 return RedirectToAction("AdminDashboard", "Admin");
             }

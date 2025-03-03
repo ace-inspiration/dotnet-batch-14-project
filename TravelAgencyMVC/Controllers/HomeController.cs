@@ -32,7 +32,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.IsInRole("admin"))
+        if (User.IsInRole("Admin"))
         {
             return RedirectToAction("AdminDashboard", "Admin");
         }
