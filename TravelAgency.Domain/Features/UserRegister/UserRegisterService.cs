@@ -97,7 +97,7 @@ public class UserRegisterService
         try
         {
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("nnyi37389@gmail.com");
+            mail.From = new MailAddress("acetravelagency.net@gmail.com");
             mail.To.Add(toEmail);
             mail.Subject = "Your OTP Code from TravelAgency";
 
