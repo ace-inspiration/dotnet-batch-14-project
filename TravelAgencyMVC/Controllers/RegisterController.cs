@@ -67,6 +67,20 @@ public class RegisterController : Controller
         }
 
 
+        ViewBag.Email = email;
+
+        if (result.Message.Contains("Invalid OTP"))
+        {
+            TempData["Error"] = "Incorrect OTP. Please try again.";
+            return View("VerifyEmail");  
+        }
+
+        if (result.Message.Contains("OTP expired"))
+        {
+            TempData["Error"] = "OTP expired. Please register again.";
+            return RedirectToAction("Index", "Register");  
+        }
+
         TempData["Error"] = "Email verification failed. Incorrect OTP or expired code.";
         return View("VerifyEmail");
     }
