@@ -56,7 +56,7 @@ public class UserRegisterService
 
         if (result > 0)
         {
-            bool emailSent = SendOTPEmail(user.Email, otpCode);
+            bool emailSent = SendOTPEmail(user.Email,  user.Name, otpCode);
             if (!emailSent)
             {
                 model.IsSuccess = false;
@@ -92,16 +92,31 @@ public class UserRegisterService
         return random.Next(100000, 999999).ToString();
     }
 
-    private static bool SendOTPEmail(string toEmail, string otpCode)
+    private static bool SendOTPEmail(string toEmail, string userName, string otpCode)
     {
         try
         {
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress("nnyi37389@gmail.com");
             mail.To.Add(toEmail);
-            mail.Subject = "Your OTP Code From (TravelAgency)";
-            mail.Body = $"Your OTP code is: {otpCode}. It will expire in 5 minutes.";
-            mail.IsBodyHtml = false;
+            mail.Subject = "Your OTP Code from TravelAgency";
+
+            // 📌 HTML Email Body
+            string htmlBody = $@"
+            <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 10px; max-width: 500px; margin: auto; background-color: #f9f9f9;'>
+                <h2 style='color: #007bff; text-align: center;'>Your OTP Code</h2>
+                <p style='font-size: 16px; color: #333;'>Dear <strong>{userName}</strong>,</p>
+                <p style='font-size: 16px; color: #333;'>Your One-Time Password (OTP) for verification is:</p>
+                <p style='font-size: 24px; font-weight: bold; color: #28a745; text-align: center; padding: 10px; border: 2px dashed #28a745; display: inline-block;'>{otpCode}</p>
+                <p style='font-size: 14px; color: #ff0000; text-align: center;'>This OTP will expire in 5 minutes.</p>
+                <p style='font-size: 16px; color: #333;'>If you did not request this code, please ignore this email.</p>
+                <br>
+                <p style='font-size: 14px; color: #666; text-align: center;'>Best regards,</p>
+                <p style='font-size: 14px; color: #666; text-align: center;'><strong>TravelAgency Team</strong></p>
+            </div>";
+
+            mail.Body = htmlBody;
+            mail.IsBodyHtml = true;  // ✅ Enable HTML formatting
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
             {

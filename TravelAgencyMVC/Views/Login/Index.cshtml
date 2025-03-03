@@ -37,3 +37,21 @@
         </div>
     </div>
 
+                    @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = "@TempData["Success"]";
+            if (successMessage) {
+                Swal.fire({
+                    title: "Success!",
+                    text: successMessage,
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    </script>
+
+                    }

@@ -62,10 +62,13 @@ public class RegisterController : Controller
         var result = await _registerService.VerifyEmail(email, otp);
         if (result.IsSuccess)
         {
+            TempData["Success"] = "OTP verified successfully! You can now log in.";
             return RedirectToAction("Index", "Login");
         }
 
-        ViewBag.Error = "Email verification failed. Please try again.";
+
+        TempData["Error"] = "Email verification failed. Incorrect OTP or expired code.";
         return View("VerifyEmail");
     }
+
 }
