@@ -111,38 +111,54 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(36)
                 .IsUnicode(false)
                 .HasColumnName("id");
-            entity.Property(e => e.CancellationPolicy)
-                .HasColumnType("text")
-                .HasColumnName("cancellation_policy");
-            entity.Property(e => e.Count).HasColumnName("count");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
-            entity.Property(e => e.Destination)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("destination");
-            entity.Property(e => e.Duration).HasColumnName("duration");
-            entity.Property(e => e.Image)
+
+            entity.Property(e => e.Title)
                 .HasMaxLength(255)
                 .IsUnicode(false)
-                .HasColumnName("image");
-            entity.Property(e => e.Inclusions)
-                .HasColumnType("text")
-                .HasColumnName("inclusions");
+                .HasColumnName("title");
+
+            entity.Property(e => e.Destination)
+                .HasMaxLength(1000) // Fixed: Matched database schema
+                .IsUnicode(false)
+                .HasColumnName("destination");
+
+            entity.Property(e => e.Description)
+                .HasMaxLength(1000) // Fixed: Matched database schema
+                .IsUnicode(false)
+                .HasColumnName("description");
+
             entity.Property(e => e.Price)
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
+
+            entity.Property(e => e.Duration)
+                .HasColumnName("duration");
+
+            entity.Property(e => e.Inclusions)
+                .HasMaxLength(1000) // Fixed: Matched database schema
+                .IsUnicode(false)
+                .HasColumnName("inclusions");
+
+            entity.Property(e => e.Cancellation_Policy)
+                .HasMaxLength(1000) // Fixed: Changed from text to varchar(1000)
+                .IsUnicode(false)
+                .HasColumnName("cancellation_policy");
+
             entity.Property(e => e.Status)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .HasDefaultValueSql("('activate')")
                 .HasColumnName("status");
-            entity.Property(e => e.Title)
-                .HasMaxLength(255)
+
+            entity.Property(e => e.Image)
+                .HasColumnType("varchar(MAX)") // Fixed: Matched database schema
                 .IsUnicode(false)
-                .HasColumnName("title");
+                .HasColumnName("image");
+
+            entity.Property(e => e.Count)
+                .HasColumnName("count");
         });
+
 
         modelBuilder.Entity<Traveler>(entity =>
         {

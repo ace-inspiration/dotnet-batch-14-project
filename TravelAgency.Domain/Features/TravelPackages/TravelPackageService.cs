@@ -47,7 +47,7 @@ namespace TravelAgency.Domain.Features.TravelPackages
             if (!string.IsNullOrEmpty(requestModel.Inclusions))
                 item.Inclusions = requestModel.Inclusions;
             if (!string.IsNullOrEmpty(requestModel.CancellationPolicy))
-                item.CancellationPolicy = requestModel.CancellationPolicy;
+                item.Cancellation_Policy = requestModel.CancellationPolicy;
             if (!string.IsNullOrEmpty(requestModel.Description))
                 item.Description = requestModel.Description;
             if (requestModel.Price > 0)
@@ -114,7 +114,7 @@ namespace TravelAgency.Domain.Features.TravelPackages
                 Id = Guid.NewGuid().ToString(),
                 Title = model.Title,
                 Inclusions = model.Inclusions,
-                CancellationPolicy = model.CancellationPolicy,
+                Cancellation_Policy = model.CancellationPolicy,
                 Description = model.Description,
                 Price = model.Price,
                 Destination = model.Destination,

@@ -154,7 +154,7 @@ public class AdminController : Controller
             Destination = travelPackage.Destination,
             Price = travelPackage.Price,
             Inclusions = travelPackage.Inclusions,
-            CancellationPolicy = travelPackage.CancellationPolicy,
+            CancellationPolicy = travelPackage.Cancellation_Policy,
             Description = travelPackage.Description,
             Status = travelPackage.Status,
             ImageUrl = travelPackage.Image
