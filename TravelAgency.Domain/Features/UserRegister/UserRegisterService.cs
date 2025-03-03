@@ -101,7 +101,7 @@ public class UserRegisterService
             mail.To.Add(toEmail);
             mail.Subject = "Your OTP Code from TravelAgency";
 
-            // 📌 HTML Email Body
+        
             string htmlBody = $@"
             <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; border-radius: 10px; max-width: 500px; margin: auto; background-color: #f9f9f9;'>
                 <h2 style='color: #007bff; text-align: center;'>Your OTP Code</h2>
@@ -116,7 +116,7 @@ public class UserRegisterService
             </div>";
 
             mail.Body = htmlBody;
-            mail.IsBodyHtml = true;  // ✅ Enable HTML formatting
+            mail.IsBodyHtml = true; 
 
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
             {
