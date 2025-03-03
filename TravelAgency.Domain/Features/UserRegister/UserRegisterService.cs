@@ -106,7 +106,7 @@ public class UserRegisterService
             SmtpClient smtpClient = new SmtpClient("smtp.gmail.com")
             {
                 Port = 587,
-                Credentials = new NetworkCredential("nnyi37389@gmail.com", "jbrq aqmv ukix sfdv"),
+                Credentials = new NetworkCredential("acetravelagency.net@gmail.com", "tkdm txbp kkaa lagm"),
                 EnableSsl = true
             };
 
