@@ -163,11 +163,11 @@
 							</tr>
 							<tr>
 								<td>Total Amount</td>
-								<td class="text-end" id="totalAmount">$0</td>
+								<td class="text-end" id="totalAmount">0MMK</td>
 							</tr>
 							<tr class="total">
 								<td>Total Cost</td>
-								<td class="text-end" id="totalCost">$0</td>
+								<td class="text-end" id="totalCost">0MMK</td>
 							</tr>
 						</tbody>
 					</table>
@@ -200,10 +200,13 @@
 
 			const totalAmount = numTravelers * packageAmount * duration;
 
+			// Format with thousand separator
+			const formattedTotal = totalAmount.toLocaleString('en-US');
+
 			document.getElementById('numTravelers').textContent = numTravelers;
 			document.getElementById('durationDays').textContent = duration;
-			document.getElementById('totalAmount').textContent = `$${totalAmount.toFixed(2)}`;
-			document.getElementById('totalCost').textContent = `$${totalAmount.toFixed(2)}`;
+			document.getElementById('totalAmount').textContent = `${formattedTotal} MMK`;
+			document.getElementById('totalCost').textContent = `${formattedTotal} MMK`;
 		}
 
 		// Update when adding/removing travelers or changing dates
@@ -283,11 +286,29 @@
 		}
 
 
-				function removeTraveler(index) {
-			travelers.splice(index, 1);
-			updateBookingSummary()
-			displayTravelerList();
+		function removeTraveler(index) {
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#d33",
+				cancelButtonColor: "#3085d6",
+				confirmButtonText: "Yes, remove it!"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					travelers.splice(index, 1);
+					updateBookingSummary();
+					displayTravelerList();
+					Swal.fire(
+						"Deleted!",
+						"Traveler has been removed.",
+						"success"
+					);
+				}
+			});
 		}
+
 
 		document.getElementById('bookNowBtn').addEventListener('click', () => {
 

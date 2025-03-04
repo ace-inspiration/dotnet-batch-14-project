@@ -111,7 +111,7 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(36)
                 .IsUnicode(false)
                 .HasColumnName("id");
-            entity.Property(e => e.CancellationPolicy)
+            entity.Property(e => e.Cancellation_Policy)
                 .HasColumnType("text")
                 .HasColumnName("cancellation_policy");
             entity.Property(e => e.Count).HasColumnName("count");

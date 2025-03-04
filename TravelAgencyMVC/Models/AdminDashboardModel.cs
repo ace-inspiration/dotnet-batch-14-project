@@ -14,6 +14,9 @@ public class AdminDashboardViewModel
     public List<Travelerdata> Travelers { get; set; }
     public List<User> Users { get; set; }
     public List<TravelPackage> TravelPackages { get; set; }
+    public HomeModel ?homeModel { get; set; }
 }
+
+
 
 
