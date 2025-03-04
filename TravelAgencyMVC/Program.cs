@@ -17,7 +17,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 // Add authorization services
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("admin"));
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
 });
 var app = builder.Build();
 

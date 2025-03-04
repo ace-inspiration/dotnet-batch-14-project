@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Database", "TravelAgency.Database\TravelAgency.Database.csproj", "{04CCFD30-195B-4AD6-9A88-A4923CD4A63B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Database", "TravelAgency.Database\TravelAgency.Database.csproj", "{04CCFD30-195B-4AD6-9A88-A4923CD4A63B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Domain", "TravelAgency.Domain\TravelAgency.Domain.csproj", "{D947BA7C-9B99-4473-A4A4-2743F0EC3A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Domain", "TravelAgency.Domain\TravelAgency.Domain.csproj", "{D947BA7C-9B99-4473-A4A4-2743F0EC3A61}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Api", "TravelAgency.Api\TravelAgency.Api.csproj", "{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Api", "TravelAgency.Api\TravelAgency.Api.csproj", "{28A16051-18EB-4B01-B7BE-F7E5A6BA6925}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgency.Shared", "TravelAgency.Shared\TravelAgency.Shared.csproj", "{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgency.Shared", "TravelAgency.Shared\TravelAgency.Shared.csproj", "{F33E9D84-B248-4CF4-B1FA-9A38A37E0EE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{A998314B-244E-4A80-961F-F99F8B2EA0C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelAgencyMVC", "TravelAgencyMVC\TravelAgencyMVC.csproj", "{F1E2356A-0812-440C-A7B7-AD8B4C846F58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelAgencyMVC", "TravelAgencyMVC\TravelAgencyMVC.csproj", "{F1E2356A-0812-440C-A7B7-AD8B4C846F58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,5 +44,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96E921DE-71C1-4E4D-AF28-D922611D6AC0}
 	EndGlobalSection
 EndGlobal

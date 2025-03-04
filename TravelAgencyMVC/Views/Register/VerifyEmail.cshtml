@@ -21,6 +21,7 @@
             </div>
 
 
+
             <div class="mb-2">
                 <label class="form-label">OTP Code</label>
                 <input type="text" name="otp" class="form-control" placeholder="Enter the OTP code" required>
@@ -36,3 +37,23 @@
         </form>
     </div>
 </div>
+
+
+             @section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var errorMessage = "@TempData["Error"]";
+            if (errorMessage) {
+                Swal.fire({
+                    title: "Error!",
+                    text: errorMessage,
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    </script>
+
+             }

@@ -16,7 +16,7 @@ using HomeModel = TravelAgency.Domain.Features.BookingFeatures.HomeModel;
 
 namespace TravelAgencyMVC.Controllers;
  
-[Authorize(Roles = "admin")]
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly BookingService _bookingService;
