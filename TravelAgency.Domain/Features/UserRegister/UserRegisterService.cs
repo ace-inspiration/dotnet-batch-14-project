@@ -48,7 +48,7 @@ public class UserRegisterService
             Role = "User",
             Status = "N",
             OTP = otpCode,
-            OTP_Expiry = DateTime.UtcNow.AddMinutes(2)
+            OTP_Expiry = DateTime.UtcNow.AddMinutes(5)
         };
 
       
@@ -114,7 +114,7 @@ public class UserRegisterService
                 <p style='font-size: 16px; color: #333;'>Your One-Time Password (OTP) for verification is:</p>
                 <p style='font-size: 24px; font-weight: bold; color: #28a745; text-align: center; padding: 10px; border: 2px dashed #28a745; display: inline-block;'>{otpCode}</p>
                 <p style='font-size: 14px; color: #ff0000; text-align: center;'>This OTP will expire in 5 minutes.</p>
-                <p style='font-size: 16px; color: #333;'>If you did not request this code, please register again after 5 minutes.</p>
+               
                 <br>
                 <p style='font-size: 14px; color: #666; text-align: center;'>Best regards,</p>
                 <p style='font-size: 14px; color: #666; text-align: center;'><strong>TravelAgency Team</strong></p>
