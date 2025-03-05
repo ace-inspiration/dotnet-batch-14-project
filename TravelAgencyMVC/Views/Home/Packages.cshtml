@@ -1,5 +1,5 @@
 ﻿@model List<TravelPackage>
-
+@using System.Globalization
 
 
 <section class="parallax-window" data-parallax="scroll" data-image-src="../img/slides/beach.jpg" data-natural-width="1400" data-natural-height="470">
@@ -64,8 +64,7 @@
 									<div class="col-lg-4 col-md-4 position-relative">
 										<div class="ribbon_3 popular">
 											<span>@package.Status</span>
-										</div>
-										
+										</div>										
 										<div class="img_list">
 											<a href="single_tour.html">
 												<img src="@package.Image" alt="@package.Title">
@@ -76,9 +75,8 @@
 									<div class="col-lg-6 col-md-6">
 										<div class="tour_list_desc">
 											<div class="rating">
-												<h2>Package Title</h2>
+											<h2><strong>@package.Title</strong></h2>
 											</div>
-											<h3><strong>@package.Title</strong> tour</h3>
 											<p>@package.Description</p>
 											<ul class="add_info">
 												<li>
@@ -99,14 +97,17 @@
 										</div>
 									</div>
 									<div class="col-lg-2 col-md-2">
-										<div class="price_list">
-											<div>
-											<span class="fs-3">@package.Price  MMK</span><small>*Per person</small>
-												<p>
+									<div class="price_list">
+										<div>
+											<span class="fs-3">
+												@string.Format(new CultureInfo("en-US"), "{0:N0} MMK", package.Price)
+											</span>
+											<small>*Per person</small>
+											<p>
 												<a href="/Home/PackageDetail/@package.Id" class="btn_1">Details</a>
-												</p>
-											</div>
+											</p>
 										</div>
+									</div>
 									</div>
 								</div>
 							</div>

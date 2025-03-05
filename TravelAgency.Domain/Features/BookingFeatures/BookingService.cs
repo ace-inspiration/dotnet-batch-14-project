@@ -229,4 +229,49 @@ public class BookingService
             Message = "Deleting successful", 
             Data = null };
     }
+
+    public async Task<HomeModel> GetHomeData()
+    {
+        var today = DateTime.Today;
+        var lastSunday = today.AddDays(-(int)today.DayOfWeek); // Ensure start from Sunday
+        var last7Days = Enumerable.Range(0, 7).Select(i => lastSunday.AddDays(i)).ToList();
+
+        // Fetch Booking Counts (Group by Date)
+        var bookingCounts = await _db.Bookings
+            .Where(b => b.BookingDate >= last7Days.First() && b.BookingDate <= last7Days.Last())
+            .GroupBy(b => b.BookingDate.Date)
+            .Select(g => new { Date = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(g => g.Date, g => g.Count);
+
+        // Fetch Payment Counts (Group by Date)
+        var paymentCounts = await _db.Payments
+            .Where(p => p.PaymentDate >= last7Days.First() && p.PaymentDate <= last7Days.Last())
+            .GroupBy(p => p.PaymentDate.Date)
+            .Select(g => new { Date = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(g => g.Date, g => g.Count);
+
+        var homeData = new HomeModel
+        {
+            countallbooking = await _db.Bookings.CountAsync(),
+            countallpayment = await _db.Payments.CountAsync(),
+            countalltraveler = await _db.Travelers.CountAsync(),
+            countalluser = await _db.Users.CountAsync(),
+            countalltravelPackage = await _db.TravelPackages.CountAsync(),
+            countverifybooking = await _db.Bookings.CountAsync(b => b.Status == "Primary"),
+            countverifiedbooking = await _db.Bookings.CountAsync(b => b.Status == "Success"),
+            countverifypayment = await _db.Payments.CountAsync(p => p.PaymentStatus == "Confirmed"),
+            countverifiedpayment = await _db.Payments.CountAsync(p => p.PaymentStatus == "Complete"),
+            countcompletepayment = await _db.Payments.CountAsync(p => p.PaymentStatus == "Complete"),
+            counttodaybookingPackage = await _db.Bookings.CountAsync(b => b.BookingDate.Date == today),
+            counttodayBooking = await _db.Bookings.CountAsync(b => b.BookingDate.Date == today),
+            counttodayPayment = await _db.Payments.CountAsync(p => p.PaymentDate.Date == today),
+
+            // Ensure Data is Ordered from Sunday to Saturday
+            bookingweekdata = last7Days.Select(date => bookingCounts.ContainsKey(date) ? bookingCounts[date] : 0).ToArray(),
+            paymentweekdata = last7Days.Select(date => paymentCounts.ContainsKey(date) ? paymentCounts[date] : 0).ToArray()
+        };
+
+        return homeData;
+    }
+
 }

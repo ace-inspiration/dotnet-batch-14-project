@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using TravelAgency.Database.AppDbContextModels;
 
 namespace TravelAgency.Domain.Features.UserRegister;
@@ -144,7 +141,7 @@ public class UserRegisterService
         UserRegisterResponseModel model = new UserRegisterResponseModel();
         var user = await _db.Users
      .Where(u => u.Email == email)
-     .OrderByDescending(u => u.OTP_Expiry)  
+     .OrderByDescending(u => u.OTP_Expiry)
      .FirstOrDefaultAsync();
 
         if (user == null || user.OTP != otp)

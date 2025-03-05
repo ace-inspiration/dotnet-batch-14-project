@@ -2,6 +2,8 @@
 	ViewBag.Title = "Home";
 
 }
+
+							@using System.Globalization
  @model List<TravelPackage>
 <main>
 	<div id="carousel-home">
@@ -81,8 +83,10 @@
 							<a href="/Home/PackageDetail/@item.Id">
 								<img src="@item.Image" style="" class="img-fluid" alt="image">
 								<div class="short_info">
-									<i class="icon_set_1_icon-44"></i>Historic Buildings<span class="price">@item.Price MMK</span>
+									<i class="icon_set_1_icon-44"></i>Historic Buildings
+									<span class="price">@string.Format(new CultureInfo("en-US"), "{0:N0} MMK", item.Price)</span>
 								</div>
+
 							</a>
 						</div>
 						<div class="tour_title">

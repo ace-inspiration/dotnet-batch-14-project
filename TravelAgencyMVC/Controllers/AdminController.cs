@@ -12,6 +12,7 @@ using TravelAgency.Domain.Features.TravelPackages;
 using TravelAgency.Domain.Features.UserLists;
 using TravelAgencyMVC.Filters;
 using TravelAgencyMVC.Models;
+using HomeModel = TravelAgency.Domain.Features.BookingFeatures.HomeModel;
 
 namespace TravelAgencyMVC.Controllers;
  
@@ -46,13 +47,15 @@ public class AdminController : Controller
         _userListService = userListService;
         _db = db;
     }
-    public async Task<IActionResult> AdminDashboard(string tab = "bookings")
+    public async Task<IActionResult> AdminDashboard(string tab = "home")
     {
         //string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
 
         //var user = await _userListService.GetuserbyId(userId);
 
         var bookings = await _bookingService.GetBookingData();
+        var homedata = await _bookingService.GetHomeData();
+
         var payments = await _paymentService.GetPaymentData();
         var payment = await _paymentService.GetPayments();
         var travelPackages = await _travelPackageService.Execute();
@@ -66,7 +69,9 @@ public class AdminController : Controller
             Payments = payments,
             Travelers = travelerdata,
             Users = userResponse,
-            TravelPackages = travelPackages
+            TravelPackages = travelPackages,
+            homeModel = homedata
+
         };
         ViewBag.ActiveTab = tab;
 
