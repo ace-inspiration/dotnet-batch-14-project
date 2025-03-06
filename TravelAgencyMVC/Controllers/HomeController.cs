@@ -140,6 +140,12 @@ public class HomeController : Controller
     {
         return View("About");
     }
+
+    public async Task<IActionResult> PaymentHistories()
+    {
+        var lst = await _paymentService.GetPayments();
+        return View("PaymentHistories", lst);
+    }
 }
 
 
