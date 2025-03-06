@@ -1,0 +1,69 @@
+﻿
+
+@model List<Payment>
+
+<section id="hero_2" class="background-image" data-background="url(../img/slides/beach1.jpg)">
+    <div class="opacity-mask" data-opacity-mask="rgba(0, 0, 0, 0.6)">
+    </div>
+</section>
+
+<main>
+    <div class="container pt-3 pt-5">
+        <div class="row">
+            @if (Model.Count != 0)
+            {
+                <div>
+                    <table class="table table-striped cart-list add_bottom_30">
+                        <thead>
+                            <tr>
+                               
+                                <th>Payment Type</th>
+                                <th>Transaction Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in Model)
+                            {
+                                <tr>
+                                   
+                                    <td>@payment.PaymentType</td>
+                                    <td>@payment.PaymentDate.ToString("dd-MMM-yyyy")</td>
+                                    <td><strong>@payment.Amount.ToString() MMK</strong></td>
+                                    <td>
+                                        <span class="badge @(payment.PaymentStatus == "Pending" ? "text-bg-warning" : "text-bg-success")">
+                                            @payment.PaymentStatus
+                                        </span>
+                                    </td>
+                                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div>
+                    <h2 class="text-center text-danger">No Payment History Found!</h2>
+                </div>
+            }
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".payment-btn").click(function () {
+                var paymentId = $(this).data("payment-id");
+                window.location.href = "/Home/MakePayment?paymentId=" + paymentId;
+            });
+        });
+    </script>
+}
