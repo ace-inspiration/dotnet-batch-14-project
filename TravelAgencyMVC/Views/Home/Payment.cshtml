@@ -167,13 +167,17 @@
                 </div>
 
                 <div class="buttons" style="margin-top: 15px;">
-                    <button type="submit" class="btn btn-success">Payment</button>
+                   
+                    <button type="button" class="btn btn-success" onclick="confirmPayment()">Payment</button>
+
+
                     <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 </main>
+
 
 @section scripts {
     <script>
@@ -190,7 +194,24 @@
             // Add 'selected' class to the clicked icon
             element.classList.add('selected');
         }
-
+      
+  
+        function confirmPayment() {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Do you want to proceed with the payment?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, pay now!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.querySelector("form").submit();
+                }
+            });
+        }
+ 
 
     </script>
 }
