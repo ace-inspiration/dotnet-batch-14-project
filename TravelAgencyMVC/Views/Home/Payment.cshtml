@@ -150,7 +150,8 @@
                     <td>@Model.TravelEnddate?.ToString("dd/MM/yyyy")</td>
                 </tr>
             </table>
-            <form asp-controller="Payment" asp-action="Save" method="post">
+            <form id="paymentForm" asp-controller="Payment" asp-action="Save" method="post">
+
                 <input type="hidden" name="BookingId" value="@Model.Id" />
                 <input type="hidden" id="paymentType" name="paymentType" value="" />
 
@@ -168,7 +169,7 @@
 
                 <div class="buttons" style="margin-top: 15px;">
                    
-                    <button type="submit" class="btn btn-success" onclick="confirmPayment()">Payment</button>
+                    <button type="button" class="btn btn-success" onclick="confirmPayment()">Payment</button>
 
 
                     <button type="button" class="btn btn-secondary">Cancel</button>
@@ -207,7 +208,8 @@
                 confirmButtonText: "Yes, pay now!"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.querySelector("form").submit();
+                   document.getElementById("paymentForm").submit();
+
                 }
             });
         }
